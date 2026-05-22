@@ -86,8 +86,18 @@ if not os.path.exists(static_dir):
     os.makedirs(static_dir)
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
+# Intentar usar el path persistente en output/legal con fallback robusto
 legal_dir = os.path.join(BASE_DIR, "output", "legal")
-if not os.path.exists(legal_dir):
+try:
+    os.makedirs(legal_dir, exist_ok=True)
+    # Probar escritura para verificar permisos reales
+    test_file = os.path.join(legal_dir, ".write_test")
+    with open(test_file, "w") as f:
+        f.write("test")
+    os.remove(test_file)
+except Exception as e:
+    logger.error(f"El directorio persistente {legal_dir} no es escribible ({e}). Usando fallback en /tmp/legal")
+    legal_dir = "/tmp/legal"
     os.makedirs(legal_dir, exist_ok=True)
 
 db_path = os.path.join(legal_dir, "users_db.json")
@@ -118,8 +128,11 @@ if not os.path.exists(db_path):
             "profile_id": "INV-ARIS-001"
         }
     ]
-    with open(db_path, "w", encoding="utf-8") as f:
-        json.dump(default_users, f, indent=4, ensure_ascii=False)
+    try:
+        with open(db_path, "w", encoding="utf-8") as f:
+            json.dump(default_users, f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        logger.error(f"Error escribiendo users_db.json: {e}")
 
 keys_path = os.path.join(legal_dir, "access_keys.json")
 if not os.path.exists(keys_path):
@@ -137,8 +150,11 @@ if not os.path.exists(keys_path):
             "created_at": "2026-05-22T12:00:00Z"
         }
     ]
-    with open(keys_path, "w", encoding="utf-8") as f:
-        json.dump(default_keys, f, indent=4, ensure_ascii=False)
+    try:
+        with open(keys_path, "w", encoding="utf-8") as f:
+            json.dump(default_keys, f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        logger.error(f"Error escribiendo access_keys.json: {e}")
 
 # Variables de Estado en memoria (Session-based multi-user state)
 class AppState:
@@ -238,7 +254,6 @@ class LoginRequest(BaseModel):
 @app.post("/api/login")
 async def api_login(data: LoginRequest):
     """Procesa el inicio de sesión contra el archivo local users_db.json."""
-    db_path = os.path.join(BASE_DIR, "output", "legal", "users_db.json")
     if os.path.exists(db_path):
         try:
             with open(db_path, "r", encoding="utf-8") as f:
@@ -297,7 +312,6 @@ class RegisterRequest(BaseModel):
 @app.post("/api/register")
 async def api_register(data: RegisterRequest):
     """Registra un nuevo investigador validando y quemando una clave provisional."""
-    keys_path = os.path.join(BASE_DIR, "output", "legal", "access_keys.json")
     if os.path.exists(keys_path):
         try:
             with open(keys_path, "r", encoding="utf-8") as f:
@@ -313,7 +327,6 @@ async def api_register(data: RegisterRequest):
     if key_obj["used"]:
         raise HTTPException(status_code=400, detail="Esta clave provisional ya ha sido utilizada.")
 
-    db_path = os.path.join(BASE_DIR, "output", "legal", "users_db.json")
     if os.path.exists(db_path):
         try:
             with open(db_path, "r", encoding="utf-8") as f:
@@ -492,7 +505,7 @@ async def view_compliance(request: Request):
     
     # Cargar registros del cloud mock database
     cloud_records = []
-    local_legal_dir = os.path.join(BASE_DIR, "output", "legal")
+    local_legal_dir = legal_dir
     mock_db_path = os.path.join(local_legal_dir, "cloud_database_mock.json")
     if os.path.exists(mock_db_path):
         try:
@@ -555,7 +568,7 @@ async def api_admin_signed_deeds(request: Request):
     if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
         raise HTTPException(status_code=403, detail="No autorizado")
 
-    local_legal_dir = os.path.join(BASE_DIR, "output", "legal")
+    local_legal_dir = legal_dir
     mock_db_path = os.path.join(local_legal_dir, "cloud_database_mock.json")
     cloud_records = []
     if os.path.exists(mock_db_path):
@@ -598,7 +611,6 @@ async def api_admin_list_keys(request: Request):
     if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
         raise HTTPException(status_code=403, detail="No autorizado")
 
-    keys_path = os.path.join(BASE_DIR, "output", "legal", "access_keys.json")
     keys = []
     if os.path.exists(keys_path):
         try:
@@ -625,8 +637,6 @@ async def api_admin_generate_key(data: KeyGenRequest, request: Request):
         new_key = data.custom_key.strip().upper()
     else:
         new_key = "TEMP-" + "".join(random.choices(string.ascii_uppercase + string.digits, k=5))
-
-    keys_path = os.path.join(BASE_DIR, "output", "legal", "access_keys.json")
     keys = []
     if os.path.exists(keys_path):
         try:

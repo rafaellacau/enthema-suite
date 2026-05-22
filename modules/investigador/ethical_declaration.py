@@ -301,7 +301,16 @@ def archive_signed_legal_act(profile, project_title: str, qr_svg: str, db_qual_h
     CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
     SUITE_ROOT = os.path.dirname(os.path.dirname(CURRENT_DIR))
     output_dir = os.path.join(SUITE_ROOT, "output", "legal", user_dir_name)
-    if not os.path.exists(output_dir):
+    try:
+        os.makedirs(output_dir, exist_ok=True)
+        # Verificar si es escribible
+        test_file = os.path.join(output_dir, ".write_test")
+        with open(test_file, "w") as f:
+            f.write("test")
+        os.remove(test_file)
+    except Exception:
+        # Fallback a /tmp/legal
+        output_dir = os.path.join("/tmp/legal", user_dir_name)
         os.makedirs(output_dir, exist_ok=True)
         
     filename = f"ACTA_FIRMADA_{hash_proyecto}.html"
