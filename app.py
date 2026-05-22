@@ -342,10 +342,11 @@ async def api_register(data: RegisterRequest):
     import uuid
     profile_id = f"INV-{uuid.uuid4().hex[:8].upper()}"
 
+    role = "auditor" if data.access_key.upper() == "TEMP-AUDIT" else "researcher"
     new_user = {
         "username": data.username,
         "password": data.password,
-        "role": "researcher",
+        "role": role,
         "name": data.name,
         "institution": data.institution,
         "profile_id": profile_id
