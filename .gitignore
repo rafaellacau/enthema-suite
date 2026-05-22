@@ -1,0 +1,31 @@
+# Entorno Virtual
+venv/
+.venv/
+env/
+ENV/
+
+# Python Cache y Compilados
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Bitácoras de desarrollo
+*.log
+.system_generated/
+tasks/
+scratch/
+
+# Datos y firmas persistentes locales
+output/legal/users_db.json
+output/legal/access_keys.json
+output/legal/cloud_database_mock.json
+output/legal/user_*/
+
+# IDEs y configuración local
+.vscode/
+.idea/
+.gemini/
+.DS_Store

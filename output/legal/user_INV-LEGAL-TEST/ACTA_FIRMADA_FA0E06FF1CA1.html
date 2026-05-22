@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acta de Declaración Ética y Descargo de Responsabilidad - FA0E06FF1CA1</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+        
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(17, 24, 39, 0.9);
+            --border-color: rgba(99, 102, 241, 0.15);
+            --neon-blue: #3b82f6;
+            --neon-purple: #8b5cf6;
+            --neon-green: #10b981;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .legal-document {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 800px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 50px rgba(99, 102, 241, 0.05);
+            position: relative;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, var(--neon-purple) 0%, var(--neon-blue) 100%);
+            color: white;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 15px 0 10px 0;
+            background: linear-gradient(to right, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .doc-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--neon-blue);
+            margin-bottom: 5px;
+        }
+        
+        .preamble-box {
+            background: rgba(139, 92, 246, 0.03);
+            border-left: 4px solid var(--neon-purple);
+            padding: 20px;
+            border-radius: 4px 8px 8px 4px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: justify;
+            color: #d1d5db;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section h3 {
+            color: var(--neon-blue);
+            font-size: 1.15rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            padding-bottom: 6px;
+            margin-top: 0;
+        }
+        
+        .section p, .section li {
+            font-size: 0.92rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            text-align: justify;
+        }
+        
+        .consorcio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .grid-item {
+            font-size: 0.88rem;
+        }
+        
+        .grid-item strong {
+            color: var(--text-primary);
+        }
+        
+        .grid-item span {
+            color: var(--text-secondary);
+            display: block;
+            margin-top: 3px;
+        }
+        
+        .signatures-container {
+            margin-top: 40px;
+            border-top: 2px solid rgba(255, 255, 255, 0.05);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .signature-details {
+            max-width: 60%;
+        }
+        
+        .sig-badge {
+            color: var(--neon-green);
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .sig-badge::before {
+            content: '●';
+            color: var(--neon-green);
+            margin-right: 6px;
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        .signee-name {
+            font-size: 1.3rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: white;
+            border-bottom: 1.5px dashed var(--neon-green);
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+        
+        .qr-box {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .qr-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-note {
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+        }
+        
+        .code-box {
+            background: #07090e;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            border-radius: 6px;
+            color: var(--neon-purple);
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="legal-document">
+        <div class="header">
+            <span class="badge">Acta de Cumplimiento Legal</span>
+            <h1>ACTA DE DECLARACIÓN ÉTICA Y DESCARGO DE RESPONSABILIDAD DE SIMULACIÓN PILOTO CIENTÍFICA</h1>
+            <div class="doc-meta">ID PROYECTO: FA0E06FF1CA1 | VERSIÓN: Enthema Suite V2.5-GOLD-SIM-IMPUTED</div>
+            <div class="doc-meta" style="color: var(--text-secondary);">FECHA DE COMPILACIÓN: 2026-05-22 14:17:34 (Local)</div>
+        </div>
+        
+        <div class="preamble-box">
+            [🛡️ AVISO LEGAL Y ÉTICO DE USO DE DATOS SINTÉTICOS Y SIMULACIÓN]<br>El presente expediente metodológico declara formalmente el uso de un simulacro científico piloto de alta fidelidad. Certifica explícitamente que al encontrarse el investigador en etapa inicial de 'Ideación', las bitácoras cualitativas de campo, entrevistas con actores, bases de datos cuantitativas experimentales y variables de muestreo han sido autogeneradas procedimentalmente por Enthema Suite. <br><br>El investigador declara bajo fe de juramento y responsabilidad personal y legal única que estos datos son de naturaleza sintética, creados exclusivamente para validar consistencias lógicas en el diseño experimental. El investigador asume el 100% de la responsabilidad civil, penal y académica derivada de cualquier intento de postulación científica fraudulenta, declaración falsa de empiria, o falsificación académica in vivo ante organismos de co-financiamiento (MESCYT, FONDOCYT, BID, Banco Mundial) o agencias de patentes. Enthema Suite y sus desarrolladores quedan totalmente eximidos de cualquier responsabilidad legal por mal uso.
+        </div>
+        
+        <div class="section">
+            <h3>📂 1. Información del Consorcio y Auditoría de Proyecto</h3>
+            <div class="consorcio-grid">
+                <div class="grid-item">
+                    <strong>TÍTULO DEL PROYECTO:</strong>
+                    <span>Diseño de Prótesis Paramétrica</span>
+                </div>
+                <div class="grid-item">
+                    <strong>INVESTIGADOR PRINCIPAL (LÍDER):</strong>
+                    <span>Dr. Francisco González (INTEC)</span>
+                </div>
+                <div class="grid-item">
+                    <strong>ORCID VINCULADO:</strong>
+                    <span style="font-family: 'JetBrains Mono', monospace;">0000-0002-1823-4567</span>
+                </div>
+                <div class="grid-item">
+                    <strong>OBJETIVO DE PUBLICACIÓN / DIFUSIÓN:</strong>
+                    <span>ONAPI</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>🔗 2. Firmas Digitales de Bases de Datos Empíricas (Lineage Hashes)</h3>
+            <p>Se asocian las siguientes firmas SHA-256 inalterables que resuelven la integridad de los datasets que fundamentan los solvers de la suite:</p>
+            <div class="code-box">
+                HASH BASE CUALITATIVA (GT): GT-QUAL-HASH-12345<br>
+                HASH BASE CUANTITATIVA: GT-QUANT-HASH-67890
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>🔬 3. Declaración de Simulacro y Cumplimiento de Normas</h3>
+            <p>Las siguientes secciones normativas han sido integradas formalmente en el expediente de investigación científica y se consideran vinculantes para el equipo:</p>
+            <div style="font-size: 0.9rem; color: var(--text-secondary); padding-left: 15px; border-left: 2px solid rgba(255, 255, 255, 0.05);">
+                <strong>A. Sobre la simulación empírica:</strong><br>
+                Se ratifica que todos los datos experimentales corresponden a una modelación piloto digital en la suite. El investigador declara que no se manufacturará ningún implante protésico experimental ni se realizarán pruebas biomecánicas o clínicas en seres humanos sin contar previamente con el dictamen de aprobación formal del Comité Nacional de Bioética (CONABIOS) y de la Dirección de Medicamentos locales.<br><br>
+                <strong>B. Sobre biodiversidad dominicana:</strong><br>
+                Toda recolección y uso de biomasa de macroalgas costeras (sargazo) o recursos biológicos nativos se compromete a respetar los convenios de la Ley General sobre Medio Ambiente y el Protocolo de Nagoya sobre acceso a recursos genéticos.
+            </div>
+        </div>
+
+        <div class="signatures-container">
+            <div class="signature-details">
+                <div class="sig-badge">FIRMADO ELECTRÓNICAMENTE CON VALIDEZ JURÍDICA</div>
+                <div class="signee-name">Dr. Francisco González (Firmado Digitalmente)</div>
+                <div style="margin-top: 10px; font-size: 0.85rem; color: var(--text-secondary);">
+                    <strong>Firma:</strong> Consorcio Enthema Suite V2.5 Gold Persistencia<br>
+                    <strong>Timestamp UTC:</strong> 2026-05-22T18:17:34.015425Z<br>
+                    <strong>IP Registro:</strong> 172.56.21.90 (Conexión Segura Encriptada SSL)
+                </div>
+            </div>
+            
+            <div class="qr-box">
+                <svg>mock qr</svg>
+                <div class="qr-label">AUDITAR ACTA: FA0E06FF1CA1</div>
+            </div>
+        </div>
+        
+        <div class="footer-note">
+            Este documento digital cuenta con persistencia y auditoría criptográfica en la red de Enthema Cloud Database.<br>
+            Cualquier alteración en los contenidos de este HTML o en las firmas de bases de datos anula la validez legal del acta de inmediato.
+        </div>
+    </div>
+
+</body>
+</html>

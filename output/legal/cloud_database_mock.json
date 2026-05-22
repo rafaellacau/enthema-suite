@@ -1,0 +1,40 @@
+[
+    {
+        "_id": "f8c9b9d8-8a36-40ab-b045-fe990590a83b",
+        "timestamp_utc": "2026-05-22T18:17:34.015425Z",
+        "hash_proyecto": "FA0E06FF1CA1",
+        "simulation_version": "V2.5-GOLD-SIM-IMPUTED",
+        "investigator": {
+            "id": "INV-LEGAL-TEST",
+            "name": "Dr. Francisco González",
+            "institution": "INTEC",
+            "orcid": "0000-0002-1823-4567",
+            "epistemologic_stance": "Constructivista",
+            "research_maturity_stage": "Ideación",
+            "target_publication_objective": "ONAPI"
+        },
+        "project_title": "Diseño de Prótesis Paramétrica",
+        "database_signatures": {
+            "qualitative_sha256": "GT-QUAL-HASH-12345",
+            "quantitative_sha256": "GT-QUANT-HASH-67890"
+        },
+        "signed_terms_checklist": {
+            "academic_immunity": true,
+            "no_live_testing_without_conabios": true,
+            "nagoya_protocol_compliance": true,
+            "simulation_only_disclosure": true
+        },
+        "electronic_signature": {
+            "printed_name": "Dr. Francisco González (Firmado Digitalmente)",
+            "accepted": true,
+            "timestamp": "2026-05-22T18:17:34.015425Z",
+            "verification_qr_svg_base64": ""
+        },
+        "connection_metadata": {
+            "ssl_active": true,
+            "client_ip": "172.56.21.90",
+            "cloud_sync_provider": "MongoDB Atlas / Supabase PostgREST"
+        },
+        "raw_html_deed_length": 12023
+    }
+]

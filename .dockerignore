@@ -1,0 +1,33 @@
+# Entornos virtuales locales
+venv/
+.venv/
+env/
+ENV/
+
+# Python cache y compilados
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Bitácoras y tareas de desarrollo
+*.log
+.system_generated/
+tasks/
+scratch/
+
+# Datos persistentes de desarrollo local
+output/legal/users_db.json
+output/legal/access_keys.json
+output/legal/cloud_database_mock.json
+output/legal/user_*/
+
+# Git y configuración del editor
+.git
+.gitignore
+.github
+.vscode/
+.idea/
+.gemini/
