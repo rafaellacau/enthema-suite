@@ -377,12 +377,12 @@ async def health_check():
 @app.get("/", response_class=HTMLResponse)
 @app.head("/")
 async def view_general_onboarding(request: Request):
-    """Renderiza la pantalla de Onboarding General (Hub)."""
+    """Renderiza la pantalla de Onboarding General (Hub) o el Login si no está autenticado."""
     if request.method == "HEAD":
         return HTMLResponse(status_code=200)
     state = get_session_or_redirect(request)
     if state is None:
-        return RedirectResponse(url="/login", status_code=303)
+        return templates.TemplateResponse("login.html", {"request": request})
     return templates.TemplateResponse("general_onboarding.html", get_base_context(request, state))
 
 @app.get("/onboarding/investigador", response_class=HTMLResponse)
