@@ -674,7 +674,7 @@ def archive_signed_legal_act(profile, project_title: str, qr_svg: str, db_qual_h
     # Persistir localmente la colección de base de datos en la nube simulada
     CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
     SUITE_ROOT = os.path.dirname(os.path.dirname(CURRENT_DIR))
-    cloud_db_file = os.path.join(SUITE_ROOT, "output", "legal", "cloud_database_mock.json")
+    cloud_db_file = os.path.join(os.path.dirname(output_dir), "cloud_database_mock.json")
     records_list = []
     if os.path.exists(cloud_db_file):
         try:
