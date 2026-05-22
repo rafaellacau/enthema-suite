@@ -221,8 +221,11 @@ def get_base_context(req: Request, state: AppState) -> dict:
 # ==========================================
 
 @app.get("/login", response_class=HTMLResponse)
+@app.head("/login")
 async def view_login(request: Request):
     """Renderiza el login premium glassmorphic."""
+    if request.method == "HEAD":
+        return HTMLResponse(status_code=200)
     session_id = request.cookies.get("session_id")
     if session_id and session_id in sessions:
         return RedirectResponse(url="/", status_code=303)
@@ -365,9 +368,18 @@ async def api_logout(request: Request):
 # MÓDULOS Y VISTAS DE SOLUCIONES (CON SEGURIDAD)
 # ==========================================
 
+@app.get("/health")
+@app.head("/health")
+async def health_check():
+    """Endpoint simple de salud sin templates para verificar estado del contenedor."""
+    return {"status": "healthy"}
+
 @app.get("/", response_class=HTMLResponse)
+@app.head("/")
 async def view_general_onboarding(request: Request):
     """Renderiza la pantalla de Onboarding General (Hub)."""
+    if request.method == "HEAD":
+        return HTMLResponse(status_code=200)
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
