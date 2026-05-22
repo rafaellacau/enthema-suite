@@ -714,6 +714,10 @@ class ProfileUpdateRequest(BaseModel):
     dois: Optional[List[str]] = None
     target_fund_usd: Optional[float] = 2500000.0
     discount_rate: Optional[float] = 0.10
+    core_research_lines: Optional[List[str]] = None
+    methodology_preferences: Optional[List[str]] = None
+    influences_authors: Optional[List[str]] = None
+    local_keywords: Optional[List[str]] = None
 
 @app.post("/api/profile")
 async def update_profile(data: ProfileUpdateRequest, request: Request):
@@ -733,16 +737,38 @@ async def update_profile(data: ProfileUpdateRequest, request: Request):
     if data.dois is not None:
         state.profile.dois = data.dois
         
-    if data.user_role == "investment_consultant":
-        state.profile.core_research_lines = ["ESG e Impacto Socioeconómico", "Viabilidad de Fondos Multilaterales"]
-        state.profile.methodology_preferences = ["Auditoría ESG", "Modelos de Feasibility Financiera"]
-        state.profile.influences_authors = ["IFC Performance Standards", "BID", "Banco Mundial"]
-        state.profile.local_keywords = ["esg", "finanzas", "retorno", "van", "tir"]
-    else:
-        state.profile.core_research_lines = ["Bioingeniería de Implantes porosos", "Regeneración celular"]
-        state.profile.methodology_preferences = ["Diseño de elementos finitos", "Análisis cuantitativo"]
-        state.profile.influences_authors = ["Gibson-Ashby", "Wolff"]
-        state.profile.local_keywords = ["titanio", "porosidad", "SLS"]
+    # Guardar campos enviados directamente
+    if data.core_research_lines is not None and len(data.core_research_lines) > 0:
+        state.profile.core_research_lines = data.core_research_lines
+    elif not state.profile.core_research_lines:
+        if data.user_role == "investment_consultant":
+            state.profile.core_research_lines = ["ESG e Impacto Socioeconómico", "Viabilidad de Fondos Multilaterales"]
+        else:
+            state.profile.core_research_lines = ["Bioingeniería de Implantes porosos", "Regeneración celular"]
+
+    if data.methodology_preferences is not None and len(data.methodology_preferences) > 0:
+        state.profile.methodology_preferences = data.methodology_preferences
+    elif not state.profile.methodology_preferences:
+        if data.user_role == "investment_consultant":
+            state.profile.methodology_preferences = ["Auditoría ESG", "Modelos de Feasibility Financiera"]
+        else:
+            state.profile.methodology_preferences = ["Diseño de elementos finitos", "Análisis cuantitativo"]
+
+    if data.influences_authors is not None and len(data.influences_authors) > 0:
+        state.profile.influences_authors = data.influences_authors
+    elif not state.profile.influences_authors:
+        if data.user_role == "investment_consultant":
+            state.profile.influences_authors = ["IFC Performance Standards", "BID", "Banco Mundial"]
+        else:
+            state.profile.influences_authors = ["Gibson-Ashby", "Wolff"]
+
+    if data.local_keywords is not None and len(data.local_keywords) > 0:
+        state.profile.local_keywords = data.local_keywords
+    elif not state.profile.local_keywords:
+        if data.user_role == "investment_consultant":
+            state.profile.local_keywords = ["esg", "finanzas", "retorno", "van", "tir"]
+        else:
+            state.profile.local_keywords = ["titanio", "porosidad", "SLS"]
         
     logger.info(f"Perfil actualizado para {state.profile.name}")
     return {"status": "success", "message": "Perfil actualizado exitosamente", "profile": state.profile}

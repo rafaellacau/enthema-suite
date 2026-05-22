@@ -483,93 +483,61 @@
 </div>
 <!-- Background Atmospheric Effect Script -->
 <script>
+        // Subtle ambient light adjustment logic could go here
+        console.log('Enthema Suite Precision Minimalism Interface Loaded');
         
-    // Active Navigation Logic for SideNavBar
-    const currentPath = window.location.pathname;
-    document.querySelectorAll('aside nav a').forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === currentPath || (currentPath === '/' && href === '/')) {
-            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-primary font-bold bg-primary-container/10 border-r-4 border-primary transition-all duration-150";
-        } else {
-            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200";
-        }
-    });
-    
-
-        // Auto-refresh telemetry simulation
-        setInterval(async () => {
-            try {
-                const res = await fetch('/api/model/abm', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ duration_months: 12, subsidy_amount: 150000 })
-                });
-                const data = await res.json();
-                if (data.status === 'success' && data.reactor_telemetry.length > 0) {
-                    const latest = data.reactor_telemetry[data.reactor_telemetry.length - 1];
-                    document.getElementById('temp-val').innerText = latest.temp;
-                    document.getElementById('press-val').innerText = latest.pres;
-                    document.getElementById('ph-val').innerText = latest.ph;
-                }
-            } catch (err) {
-                console.warn('Error refreshing telemetry:', err);
+        // Active Navigation Logic for SideNavBar
+        const currentPath = "Panel de Control"; // Simplified for this demo
+        document.querySelectorAll('aside nav a').forEach(link => {
+            const labelText = link.querySelector('span:not(.material-symbols-outlined)').innerText;
+            if (labelText === currentPath) {
+                link.classList.add('bg-primary-container/10', 'text-primary', 'font-bold', 'border-primary');
+                link.classList.remove('text-on-surface-variant');
             }
-        }, 5000);
+        });
     </script>
 <!-- Enthema AI Coach Right Sidebar -->
-<aside class="flex flex-col h-full py-4 w-64 bg-surface-container-lowest border-r border-outline-variant shadow-sm z-50">
-  <div class="px-6 mb-8 flex items-center gap-3">
-    <img alt="Logo Enthema Suite" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
+<aside class="fixed right-0 top-0 h-screen w-80 border-l border-outline-variant bg-surface-container-lowest flex flex-col z-40 shadow-lg text-left">
+  <!-- Coach Header -->
+  <div class="px-6 py-4 border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-3">
+    <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+      <span class="material-symbols-outlined text-[24px]">psychology</span>
+    </div>
     <div>
-      <h1 class="font-headline-lg text-primary font-bold tracking-tight text-[18px] leading-tight">Enthema Suite</h1>
-      <p class="font-label-md text-on-surface-variant text-[10px]">Precisión Técnica</p>
+      <h3 class="font-headline-md text-on-surface text-[15px] font-bold leading-tight text-primary">Enthema AI Coach</h3>
+      <p class="font-label-sm text-outline text-[10px]">ASISTENTE CIENTÍFICO OFFLINE</p>
     </div>
   </div>
-  <nav class="flex-grow space-y-1 px-4">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/dashboard">
-      <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-      <span class="font-label-md text-label-md">Panel de Control</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/">
-      <span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
-      <span class="font-label-md text-label-md">Proyectos (Onboarding)</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/data-analysis">
-      <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
-      <span class="font-label-md text-label-md">Análisis de Datos</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/modeling">
-      <span class="material-symbols-outlined" data-icon="biotech">biotech</span>
-      <span class="font-label-md text-label-md">Modelado Semántico</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/finance">
-      <span class="material-symbols-outlined" data-icon="payments">payments</span>
-      <span class="font-label-md text-label-md">Finanzas</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/reports">
-      <span class="material-symbols-outlined" data-icon="description">description</span>
-      <span class="font-label-md text-label-md">Informes</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/compliance">
-      <span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
-      <span class="font-label-md text-label-md">Cumplimiento</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/configuration">
-      <span class="material-symbols-outlined" data-icon="settings">settings</span>
-      <span class="font-label-md text-label-md">Configuración</span>
-    </a>
-    {% if profile.user_role in ['admin', 'auditor'] %}
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-secondary hover:bg-secondary-container/10 border-r-4 border-secondary transition-colors duration-200" href="/admin">
-      <span class="material-symbols-outlined" data-icon="shield">shield</span>
-      <span class="font-label-md text-label-md font-bold">Consola Auditoría</span>
-    </a>
-    {% endif %}
-  </nav>
-  <div class="px-4 py-2 border-t border-outline-variant">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-danger hover:bg-danger/10 transition-colors duration-200 cursor-pointer" onclick="logout()">
-      <span class="material-symbols-outlined" data-icon="logout">logout</span>
-      <span class="font-label-md text-label-md font-bold">Cerrar Sesión</span>
-    </a>
+
+  <!-- Chat History -->
+  <div id="coach-chat-history" class="flex-grow p-4 overflow-y-auto space-y-3 bg-surface-container-low/20 custom-scrollbar text-xs">
+    <!-- Welcome message -->
+    <div class="flex items-start gap-2 max-w-[85%] mb-2">
+      <div class="w-6 h-6 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-[14px]">smart_toy</span>
+      </div>
+      <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed">
+        Hola, soy su <strong>AI Coach</strong> técnico. Estoy listo para guiarle de forma segura sin costo de API ($0.00). ¿En qué área técnica o solver financiero desea profundizar hoy?
+      </div>
+    </div>
   </div>
+
+  <!-- Suggestions / Quick Links -->
+  <div class="px-4 py-2 bg-surface-container-low/40 border-t border-outline-variant/30">
+    <p class="text-[10px] font-bold text-primary uppercase mb-1">Consultas Sugeridas</p>
+    <div class="flex flex-wrap gap-1.5">
+      <button onclick="sendQuickQuery('¿Cómo funciona el reactor ABM?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🧬 Bio-reactor ABM</button>
+      <button onclick="sendQuickQuery('¿Cómo interpreto el Solver Financiero?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">💸 Solver TIR/VAN</button>
+      <button onclick="sendQuickQuery('¿Qué validez tiene el Sello del Acta?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🛡️ Cumplimiento Legal</button>
+    </div>
+  </div>
+
+  <!-- Chat Input Form -->
+  <form id="coach-chat-form" class="p-4 border-t border-outline-variant bg-surface-container-lowest flex items-center gap-2">
+    <input type="text" id="coach-query-input" placeholder="Pregunte algo al AI Coach..." class="flex-grow bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface" required autocomplete="off" />
+    <button type="submit" class="p-2 bg-primary text-white rounded-lg hover:opacity-90 transition-all shrink-0">
+      <span class="material-symbols-outlined text-[16px]">send</span>
+    </button>
+  </form>
 </aside>
 </body></html>

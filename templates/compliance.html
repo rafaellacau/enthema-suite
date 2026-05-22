@@ -556,7 +556,7 @@
         <div class="grid grid-cols-12 gap-4">
           <div class="col-span-12 md:col-span-8 space-y-1">
             <label class="block text-xs font-label-md text-primary font-bold">FIRMA ELECTRÓNICA (NOMBRE COMPLETO)</label>
-            <input type="text" id="signature_name" placeholder="Ej. Dr. Aris Thorne" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
+            <input type="text" id="signature_name" placeholder="Ej. Dr. Aris Thorne" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md text-on-surface" required />
           </div>
           
           <div class="col-span-12 md:col-span-4 flex items-end">
@@ -587,7 +587,7 @@
 <!-- Base de Datos Cloud Sync (NoSQL Firestore Mock) -->
 <section class="col-span-12 bg-surface-base border border-border-subtle rounded-xl p-8 shadow-sm space-y-4 text-left">
   <div class="border-b border-outline-variant pb-4">
-    <h3 class="font-headline-md text-on-surface text-[18px] flex items-center gap-2">
+    <h3 class="font-headline-md text-on-surface text-[18px] flex items-center gap-2 font-bold">
       <span class="material-symbols-outlined text-primary">cloud_sync</span> Historial de Base de Datos Cloud NoSQL (Firestore Sincronizada)
     </h3>
     <p class="font-body-md text-on-surface-variant">Registro inmutable de hashes científicos persistidos y replicados en la nube.</p>
@@ -595,7 +595,7 @@
   
   <div class="overflow-x-auto">
     <table class="w-full text-left">
-      <thead class="bg-surface-container-low border-b border-outline-variant text-[11px] font-label-sm uppercase tracking-wider text-on-surface-variant">
+      <thead class="bg-surface-container-low border-b border-outline-variant text-[11px] font-label-sm uppercase tracking-wider text-on-surface-variant font-bold">
         <tr>
           <th class="px-6 py-3">Marcador Temporal</th>
           <th class="px-6 py-3">ID Registro</th>
@@ -605,223 +605,7 @@
           <th class="px-6 py-3">Estado</th>
         </tr>
       </thead>
-      <tbody id="cloudRecordsTableBody" class="divide-y divide-outline-variant/30 text-xs font-body-md">
-        {% for record in cloud_records %}
-          <tr class="hover:bg-surface-container-low/50 transition-all">
-            <td class="px-6 py-3 text-outline">{{ record.timestamp }}</td>
-            <td class="px-6 py-3 font-label-sm text-primary">{{ record.id }}</td>
-            <td class="px-6 py-3 font-medium">{{ record.project_title }}</td>
-            <td class="px-6 py-3 text-outline select-all">{{ record.hash_sha256[:18] }}...</td>
-            <td class="px-6 py-3 text-on-surface-variant">{{ record.cloud_provider }}</td>
-            <td class="px-6 py-3">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-success/15 text-success uppercase">Sincronizado</span>
-            </td>
-          </tr>
-        {% else %}
-          <tr>
-            <td colspan="6" class="px-6 py-8 text-center text-on-surface-variant">Ningún acta firmada en este perfil. Firme arriba para sincronizar.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- Consentimiento Ético y Firma Digital del Proyecto -->
-<section class="col-span-12 bg-surface-base border border-border-subtle rounded-xl p-8 shadow-sm space-y-6 text-left">
-  <div class="border-b border-outline-variant pb-4">
-    <h3 class="font-headline-md text-on-surface text-[20px] flex items-center gap-2">
-      <span class="material-symbols-outlined text-primary">draw</span> Declaración de Consentimiento Ético y Nagoya Protocol
-    </h3>
-    <p class="font-body-md text-on-surface-variant">Firme electrónicamente para archivar el acta de cumplimiento en el servidor y sincronizar con la nube.</p>
-  </div>
-  
-  <div class="grid grid-cols-12 gap-6">
-    <div class="col-span-12 lg:col-span-7 space-y-4">
-      <div class="bg-surface-container-low p-5 rounded-lg border border-outline-variant/30 space-y-3">
-        <h4 class="font-bold text-on-surface text-sm">📜 Estatus de Cumplimiento Regulatorio</h4>
-        <ul class="space-y-2 text-xs text-on-surface-variant">
-          <li class="flex items-center justify-between">
-            <span>Protocolo de Nagoya (Acceso a Recursos Genéticos):</span>
-            <span class="px-2 py-0.5 bg-success/20 text-success rounded font-bold">{{ nagoya_protocol_badge }}</span>
-          </li>
-          <li class="flex items-center justify-between">
-            <span>Declaración de Consentimiento CONABIOS:</span>
-            <span class="px-2 py-0.5 bg-primary-container/20 text-primary rounded font-bold">{{ conabios_declaration }}</span>
-          </li>
-        </ul>
-      </div>
-      
-      <!-- Formulario de Firma -->
-      <form id="legalSignatureForm" class="space-y-4">
-        <div class="flex items-start gap-2">
-          <input type="checkbox" id="accept_terms" name="accept_terms" class="mt-1 border border-outline-variant rounded" required />
-          <label for="accept_terms" class="text-xs text-on-surface-variant select-none">
-            Confirmo que toda la información científica ingresada es verídica y cumple con los estándares éticos, del Protocolo de Nagoya y de conservación ecológica nacional.
-          </label>
-        </div>
-        
-        <div class="grid grid-cols-12 gap-4">
-          <div class="col-span-12 md:col-span-8 space-y-1">
-            <label class="block text-xs font-label-md text-primary font-bold">FIRMA ELECTRÓNICA (NOMBRE COMPLETO)</label>
-            <input type="text" id="signature_name" placeholder="Ej. Dr. Aris Thorne" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-          </div>
-          
-          <div class="col-span-12 md:col-span-4 flex items-end">
-            <button type="submit" class="w-full py-2 px-4 bg-primary text-white font-label-md rounded hover:opacity-90 transition-all flex items-center justify-center gap-2">
-              <span class="material-symbols-outlined text-[18px]">verified_user</span> Registrar Acta
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-    
-    <div class="col-span-12 lg:col-span-5 flex items-center justify-center">
-      <!-- Success signature status widget -->
-      <div id="sigResultWidget" class="hidden bg-success/5 border border-success/20 rounded-2xl p-6 text-center space-y-4 w-full">
-        <div class="inline-flex w-12 h-12 rounded-full bg-success/25 items-center justify-center text-success">
-          <span class="material-symbols-outlined text-3xl">verified</span>
-        </div>
-        <div>
-          <h4 class="font-bold text-success">Acta Archivada y Sincronizada</h4>
-          <p id="sig-hash" class="text-[11px] font-label-sm text-outline select-all"></p>
-        </div>
-        <div id="sig-qr-container" class="flex justify-center items-center p-2 bg-white rounded-lg inline-block w-28 h-28 mx-auto border border-outline-variant"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Base de Datos Cloud Sync (NoSQL Firestore Mock) -->
-<section class="col-span-12 bg-surface-base border border-border-subtle rounded-xl p-8 shadow-sm space-y-4 text-left">
-  <div class="border-b border-outline-variant pb-4">
-    <h3 class="font-headline-md text-on-surface text-[18px] flex items-center gap-2">
-      <span class="material-symbols-outlined text-primary">cloud_sync</span> Historial de Base de Datos Cloud NoSQL (Firestore Sincronizada)
-    </h3>
-    <p class="font-body-md text-on-surface-variant">Registro inmutable de hashes científicos persistidos y replicados en la nube.</p>
-  </div>
-  
-  <div class="overflow-x-auto">
-    <table class="w-full text-left">
-      <thead class="bg-surface-container-low border-b border-outline-variant text-[11px] font-label-sm uppercase tracking-wider text-on-surface-variant">
-        <tr>
-          <th class="px-6 py-3">Marcador Temporal</th>
-          <th class="px-6 py-3">ID Registro</th>
-          <th class="px-6 py-3">Proyecto / Título</th>
-          <th class="px-6 py-3">Hash Cifrado</th>
-          <th class="px-6 py-3">Proveedor</th>
-          <th class="px-6 py-3">Estado</th>
-        </tr>
-      </thead>
-      <tbody id="cloudRecordsTableBody" class="divide-y divide-outline-variant/30 text-xs font-body-md">
-        {% for record in cloud_records %}
-          <tr class="hover:bg-surface-container-low/50 transition-all">
-            <td class="px-6 py-3 text-outline">{{ record.timestamp }}</td>
-            <td class="px-6 py-3 font-label-sm text-primary">{{ record.id }}</td>
-            <td class="px-6 py-3 font-medium">{{ record.project_title }}</td>
-            <td class="px-6 py-3 text-outline select-all">{{ record.hash_sha256[:18] }}...</td>
-            <td class="px-6 py-3 text-on-surface-variant">{{ record.cloud_provider }}</td>
-            <td class="px-6 py-3">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-success/15 text-success uppercase">Sincronizado</span>
-            </td>
-          </tr>
-        {% else %}
-          <tr>
-            <td colspan="6" class="px-6 py-8 text-center text-on-surface-variant">Ningún acta firmada en este perfil. Firme arriba para sincronizar.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- Consentimiento Ético y Firma Digital del Proyecto -->
-<section class="col-span-12 bg-surface-base border border-border-subtle rounded-xl p-8 shadow-sm space-y-6 text-left">
-  <div class="border-b border-outline-variant pb-4">
-    <h3 class="font-headline-md text-on-surface text-[20px] flex items-center gap-2">
-      <span class="material-symbols-outlined text-primary">draw</span> Declaración de Consentimiento Ético y Nagoya Protocol
-    </h3>
-    <p class="font-body-md text-on-surface-variant">Firme electrónicamente para archivar el acta de cumplimiento en el servidor y sincronizar con la nube.</p>
-  </div>
-  
-  <div class="grid grid-cols-12 gap-6">
-    <div class="col-span-12 lg:col-span-7 space-y-4">
-      <div class="bg-surface-container-low p-5 rounded-lg border border-outline-variant/30 space-y-3">
-        <h4 class="font-bold text-on-surface text-sm">📜 Estatus de Cumplimiento Regulatorio</h4>
-        <ul class="space-y-2 text-xs text-on-surface-variant">
-          <li class="flex items-center justify-between">
-            <span>Protocolo de Nagoya (Acceso a Recursos Genéticos):</span>
-            <span class="px-2 py-0.5 bg-success/20 text-success rounded font-bold">{{ nagoya_protocol_badge }}</span>
-          </li>
-          <li class="flex items-center justify-between">
-            <span>Declaración de Consentimiento CONABIOS:</span>
-            <span class="px-2 py-0.5 bg-primary-container/20 text-primary rounded font-bold">{{ conabios_declaration }}</span>
-          </li>
-        </ul>
-      </div>
-      
-      <!-- Formulario de Firma -->
-      <form id="legalSignatureForm" class="space-y-4">
-        <div class="flex items-start gap-2">
-          <input type="checkbox" id="accept_terms" name="accept_terms" class="mt-1 border border-outline-variant rounded" required />
-          <label for="accept_terms" class="text-xs text-on-surface-variant select-none">
-            Confirmo que toda la información científica ingresada es verídica y cumple con los estándares éticos, del Protocolo de Nagoya y de conservación ecológica nacional.
-          </label>
-        </div>
-        
-        <div class="grid grid-cols-12 gap-4">
-          <div class="col-span-12 md:col-span-8 space-y-1">
-            <label class="block text-xs font-label-md text-primary font-bold">FIRMA ELECTRÓNICA (NOMBRE COMPLETO)</label>
-            <input type="text" id="signature_name" placeholder="Ej. Dr. Aris Thorne" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-          </div>
-          
-          <div class="col-span-12 md:col-span-4 flex items-end">
-            <button type="submit" class="w-full py-2 px-4 bg-primary text-white font-label-md rounded hover:opacity-90 transition-all flex items-center justify-center gap-2">
-              <span class="material-symbols-outlined text-[18px]">verified_user</span> Registrar Acta
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-    
-    <div class="col-span-12 lg:col-span-5 flex items-center justify-center">
-      <!-- Success signature status widget -->
-      <div id="sigResultWidget" class="hidden bg-success/5 border border-success/20 rounded-2xl p-6 text-center space-y-4 w-full">
-        <div class="inline-flex w-12 h-12 rounded-full bg-success/25 items-center justify-center text-success">
-          <span class="material-symbols-outlined text-3xl">verified</span>
-        </div>
-        <div>
-          <h4 class="font-bold text-success">Acta Archivada y Sincronizada</h4>
-          <p id="sig-hash" class="text-[11px] font-label-sm text-outline select-all"></p>
-        </div>
-        <div id="sig-qr-container" class="flex justify-center items-center p-2 bg-white rounded-lg inline-block w-28 h-28 mx-auto border border-outline-variant"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Base de Datos Cloud Sync (NoSQL Firestore Mock) -->
-<section class="col-span-12 bg-surface-base border border-border-subtle rounded-xl p-8 shadow-sm space-y-4 text-left">
-  <div class="border-b border-outline-variant pb-4">
-    <h3 class="font-headline-md text-on-surface text-[18px] flex items-center gap-2">
-      <span class="material-symbols-outlined text-primary">cloud_sync</span> Historial de Base de Datos Cloud NoSQL (Firestore Sincronizada)
-    </h3>
-    <p class="font-body-md text-on-surface-variant">Registro inmutable de hashes científicos persistidos y replicados en la nube.</p>
-  </div>
-  
-  <div class="overflow-x-auto">
-    <table class="w-full text-left">
-      <thead class="bg-surface-container-low border-b border-outline-variant text-[11px] font-label-sm uppercase tracking-wider text-on-surface-variant">
-        <tr>
-          <th class="px-6 py-3">Marcador Temporal</th>
-          <th class="px-6 py-3">ID Registro</th>
-          <th class="px-6 py-3">Proyecto / Título</th>
-          <th class="px-6 py-3">Hash Cifrado</th>
-          <th class="px-6 py-3">Proveedor</th>
-          <th class="px-6 py-3">Estado</th>
-        </tr>
-      </thead>
-      <tbody id="cloudRecordsTableBody" class="divide-y divide-outline-variant/30 text-xs font-body-md">
+      <tbody id="cloudRecordsTableBody" class="divide-y divide-outline-variant/30 text-xs font-body-md text-on-surface">
         {% for record in cloud_records %}
           <tr class="hover:bg-surface-container-low/50 transition-all">
             <td class="px-6 py-3 text-outline">{{ record.timestamp_utc }}</td>
@@ -891,71 +675,13 @@
 </button>
 </div>
 <script>
-        
-    // Active Navigation Logic for SideNavBar
-    const currentPath = window.location.pathname;
-    document.querySelectorAll('aside nav a').forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === currentPath || (currentPath === '/' && href === '/')) {
-            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-primary font-bold bg-primary-container/10 border-r-4 border-primary transition-all duration-150";
-        } else {
-            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200";
-        }
-    });
-    
-
-        document.getElementById('legalSignatureForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const payload = {
-                accept_terms: document.getElementById('accept_terms').checked,
-                signature_name: document.getElementById('signature_name').value
-            };
-
-            try {
-                const res = await fetch('/api/legal/sign', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const data = await res.json();
-                if (data.status === 'success') {
-                    // Show success widget
-                    document.getElementById('sigResultWidget').classList.remove('hidden');
-                    document.getElementById('sig-hash').innerText = 'HASH ACTA: ' + data.hash_proyecto;
-                    document.getElementById('sig-qr-container').innerHTML = data.cloud_record.qr_svg_mock || '<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#f8f9fa"/><path d="M10 10h20v20H10zM70 10h20v20H70zM10 70h20v20H10zM40 40h20v20H40z" fill="#1a73e8"/></svg>';
-                    
-                    // Add new sync row to the table
-                    const tbody = document.getElementById('cloudRecordsTableBody');
-                    const record = data.cloud_record;
-                    const newRow = document.createElement('tr');
-                    newRow.className = "hover:bg-surface-container-low/50 transition-all font-bold bg-success/5 animate-pulse";
-                    newRow.innerHTML = `
-                        <td class="px-6 py-3 text-outline">${record.timestamp_utc}</td>
-                        <td class="px-6 py-3 font-label-sm text-primary">${record._id}</td>
-                        <td class="px-6 py-3 font-medium">${record.project_title}</td>
-                        <td class="px-6 py-3 text-outline select-all">${record.hash_proyecto.substring(0, 18)}...</td>
-                        <td class="px-6 py-3 text-on-surface-variant">${record.connection_metadata.cloud_sync_provider}</td>
-                        <td class="px-6 py-3">
-                          <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-success/15 text-success uppercase">Sincronizado</span>
-                        </td>
-                    `;
-                    
-                    // Clear empty row if exists
-                    if (tbody.innerText.includes('Ningún acta firmada')) {
-                        tbody.innerHTML = '';
-                    }
-                    tbody.prepend(newRow);
-                    
-                    alert('✍️ Acta ética firmada con éxito! Registro sincronizado en la base de datos Firestore Cloud Mock.');
-                } else {
-                    alert('Error guardando firma: ' + data.message);
-                }
-            } catch (err) {
-                alert('Error de red: ' + err.message);
-            }
+        // Simple micro-interaction for the FAB
+        const fab = document.getElementById('main-fab');
+        fab.addEventListener('click', () => {
+            alert('Abriendo asistente de nueva radicación de patente...');
         });
 
-        // Smooth animations on load
+        // Add subtle animation on load
         document.addEventListener('DOMContentLoaded', () => {
             const panels = document.querySelectorAll('section');
             panels.forEach((panel, index) => {
@@ -970,59 +696,47 @@
         });
     </script>
 <!-- Enthema AI Coach Right Sidebar -->
-<aside class="fixed left-0 top-0 h-screen w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col py-4 z-50">
-  <div class="px-6 mb-8 flex items-center gap-3">
-    <img alt="Logo Enthema Suite" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
+<aside class="fixed right-0 top-0 h-screen w-80 border-l border-outline-variant bg-surface-container-lowest flex flex-col z-40 shadow-lg text-left">
+  <!-- Coach Header -->
+  <div class="px-6 py-4 border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-3">
+    <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+      <span class="material-symbols-outlined text-[24px]">psychology</span>
+    </div>
     <div>
-      <h1 class="font-headline-lg text-primary font-bold tracking-tight text-[18px] leading-tight">Enthema Suite</h1>
-      <p class="font-label-md text-on-surface-variant text-[10px]">Precisión Técnica</p>
+      <h3 class="font-headline-md text-on-surface text-[15px] font-bold leading-tight text-primary">Enthema AI Coach</h3>
+      <p class="font-label-sm text-outline text-[10px]">ASISTENTE CIENTÍFICO OFFLINE</p>
     </div>
   </div>
-  <nav class="flex-grow space-y-1 px-4">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/dashboard">
-      <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-      <span class="font-label-md text-label-md">Panel de Control</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/">
-      <span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
-      <span class="font-label-md text-label-md">Proyectos (Onboarding)</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/data-analysis">
-      <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
-      <span class="font-label-md text-label-md">Análisis de Datos</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/modeling">
-      <span class="material-symbols-outlined" data-icon="biotech">biotech</span>
-      <span class="font-label-md text-label-md">Modelado Semántico</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/finance">
-      <span class="material-symbols-outlined" data-icon="payments">payments</span>
-      <span class="font-label-md text-label-md">Finanzas</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/reports">
-      <span class="material-symbols-outlined" data-icon="description">description</span>
-      <span class="font-label-md text-label-md">Informes</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/compliance">
-      <span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
-      <span class="font-label-md text-label-md">Cumplimiento</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/configuration">
-      <span class="material-symbols-outlined" data-icon="settings">settings</span>
-      <span class="font-label-md text-label-md">Configuración</span>
-    </a>
-    {% if profile.user_role in ['admin', 'auditor'] %}
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-secondary hover:bg-secondary-container/10 border-r-4 border-secondary transition-colors duration-200" href="/admin">
-      <span class="material-symbols-outlined" data-icon="shield">shield</span>
-      <span class="font-label-md text-label-md font-bold">Consola Auditoría</span>
-    </a>
-    {% endif %}
-  </nav>
-  <div class="px-4 py-2 border-t border-outline-variant">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-danger hover:bg-danger/10 transition-colors duration-200 cursor-pointer" onclick="logout()">
-      <span class="material-symbols-outlined" data-icon="logout">logout</span>
-      <span class="font-label-md text-label-md font-bold">Cerrar Sesión</span>
-    </a>
+
+  <!-- Chat History -->
+  <div id="coach-chat-history" class="flex-grow p-4 overflow-y-auto space-y-3 bg-surface-container-low/20 custom-scrollbar text-xs">
+    <!-- Welcome message -->
+    <div class="flex items-start gap-2 max-w-[85%] mb-2">
+      <div class="w-6 h-6 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-[14px]">smart_toy</span>
+      </div>
+      <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed">
+        Hola, soy su <strong>AI Coach</strong> técnico. Estoy listo para guiarle de forma segura sin costo de API ($0.00). ¿En qué área técnica o solver financiero desea profundizar hoy?
+      </div>
+    </div>
   </div>
+
+  <!-- Suggestions / Quick Links -->
+  <div class="px-4 py-2 bg-surface-container-low/40 border-t border-outline-variant/30">
+    <p class="text-[10px] font-bold text-primary uppercase mb-1">Consultas Sugeridas</p>
+    <div class="flex flex-wrap gap-1.5">
+      <button onclick="sendQuickQuery('¿Cómo funciona el reactor ABM?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🧬 Bio-reactor ABM</button>
+      <button onclick="sendQuickQuery('¿Cómo interpreto el Solver Financiero?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">💸 Solver TIR/VAN</button>
+      <button onclick="sendQuickQuery('¿Qué validez tiene el Sello del Acta?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🛡️ Cumplimiento Legal</button>
+    </div>
+  </div>
+
+  <!-- Chat Input Form -->
+  <form id="coach-chat-form" class="p-4 border-t border-outline-variant bg-surface-container-lowest flex items-center gap-2">
+    <input type="text" id="coach-query-input" placeholder="Pregunte algo al AI Coach..." class="flex-grow bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface" required autocomplete="off" />
+    <button type="submit" class="p-2 bg-primary text-white rounded-lg hover:opacity-90 transition-all shrink-0">
+      <span class="material-symbols-outlined text-[16px]">send</span>
+    </button>
+  </form>
 </aside>
 </body></html>

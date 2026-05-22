@@ -296,7 +296,7 @@ def update_dashboard():
         html = f.read()
 
     # Reemplazar aside y header
-    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=False), html, flags=re.DOTALL)
+    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=False), html, count=1, flags=re.DOTALL)
     html = re.sub(r'<header.*?</header>', get_standard_header(), html, flags=re.DOTALL)
 
     # Reemplazar el contenedor principal para agregar el espacio del coach
@@ -309,7 +309,7 @@ def update_dashboard():
     html = html.replace('Operativo', '<span id="status-val">{{ reactor_status }}</span>')
 
     # Inject Coach Right Sidebar
-    if "Enthema AI Coach" not in html:
+    if "fixed right-0" not in html:
         html = html.replace('</body>', get_standard_coach() + '\n</body>')
 
     # Script de auto-refresh de telemetría y navegación
@@ -350,14 +350,14 @@ def update_data_analysis():
         html = f.read()
 
     # Standardize navigation and header
-    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, flags=re.DOTALL)
+    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
     html = re.sub(r'<header.*?</header>', get_standard_header(), html, flags=re.DOTALL)
 
     # Reemplazar el contenedor principal para agregar el espacio del coach
     html = html.replace('<main class="ml-64 flex-1 min-h-screen">', '<main class="ml-64 flex-1 min-h-screen mr-80">')
 
     # Inject Coach Right Sidebar
-    if "Enthema AI Coach" not in html:
+    if "fixed right-0" not in html:
         html = html.replace('</body>', get_standard_coach() + '\n</body>')
 
     # Insert forms for synthetic simulation and CSV upload in stats sidebar (col-span-4)
@@ -531,14 +531,14 @@ def update_semantic_modeling():
         html = f.read()
 
     # Standardize navigation and header
-    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, flags=re.DOTALL)
+    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
     html = re.sub(r'<header.*?</header>', get_standard_header(), html, flags=re.DOTALL)
 
     # Reemplazar el contenedor principal para agregar el espacio del coach
     html = html.replace('<main class="ml-64 h-screen flex flex-col relative overflow-hidden">', '<main class="ml-64 h-screen flex flex-col relative overflow-hidden mr-80">')
 
     # Inject Coach Right Sidebar
-    if "Enthema AI Coach" not in html:
+    if "fixed right-0" not in html:
         html = html.replace('</body>', get_standard_coach() + '\n</body>')
 
     # Inyectar id al botón de simulación si no está
@@ -626,14 +626,14 @@ def update_finance():
         html = f.read()
 
     # Standardize navigation and header
-    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, flags=re.DOTALL)
+    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
     html = re.sub(r'<header.*?</header>', get_standard_header(), html, flags=re.DOTALL)
 
     # Reemplazar el contenedor principal para agregar el espacio del coach
     html = html.replace('<div class="ml-64 min-h-screen flex flex-col">', '<div class="ml-64 min-h-screen flex flex-col mr-80">')
 
     # Inject Coach Right Sidebar
-    if "Enthema AI Coach" not in html:
+    if "fixed right-0" not in html:
         html = html.replace('</body>', get_standard_coach() + '\n</body>')
 
     # Insert Solver Form before Gantt Chart if not exists
@@ -796,14 +796,14 @@ def update_reports():
         html = f.read()
 
     # Standardize navigation and header
-    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, flags=re.DOTALL)
+    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
     html = re.sub(r'<header.*?</header>', get_standard_header(), html, flags=re.DOTALL)
 
     # Reemplazar el contenedor principal para agregar el espacio del coach
     html = html.replace('<main class="ml-64 flex flex-col h-screen">', '<main class="ml-64 flex flex-col h-screen mr-80">')
 
     # Inject Coach Right Sidebar
-    if "Enthema AI Coach" not in html:
+    if "fixed right-0" not in html:
         html = html.replace('</body>', get_standard_coach() + '\n</body>')
 
     # Insert compiled monograph rendering above Integrity Status if not exists
@@ -894,14 +894,14 @@ def update_compliance():
         html = f.read()
 
     # Standardize navigation and header
-    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, flags=re.DOTALL)
+    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
     html = re.sub(r'<header.*?</header>', get_standard_header(), html, flags=re.DOTALL)
 
     # Reemplazar el contenedor principal para agregar el espacio del coach
     html = html.replace('<main class="ml-64 pt-16 h-screen overflow-y-auto custom-scrollbar bg-background">', '<main class="ml-64 pt-16 h-screen overflow-y-auto custom-scrollbar bg-background mr-80">')
 
     # Inject Coach Right Sidebar
-    if "Enthema AI Coach" not in html:
+    if "fixed right-0" not in html:
         html = html.replace('</body>', get_standard_coach() + '\n</body>')
 
     # Insert Digital Signature Form & Cloud database sync before Contextual Stats if not exists
@@ -1101,14 +1101,14 @@ def update_configuration():
         html = f.read()
 
     # Standardize navigation and header
-    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, flags=re.DOTALL)
+    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
     html = re.sub(r'<header.*?</header>', get_standard_header(), html, flags=re.DOTALL)
 
     # Reemplazar el contenedor principal para agregar el espacio del coach
     html = html.replace('<div class="ml-64 flex flex-col min-h-screen">', '<div class="ml-64 flex flex-col min-h-screen mr-80">')
 
     # Inject Coach Right Sidebar
-    if "Enthema AI Coach" not in html:
+    if "fixed right-0" not in html:
         html = html.replace('</body>', get_standard_coach() + '\n</body>')
 
     # Script replacement for active nav and reset click action
@@ -1163,14 +1163,14 @@ def update_onboarding():
         html = f.read()
 
     # Standardize navigation and header
-    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, flags=re.DOTALL)
+    html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
     html = re.sub(r'<header.*?</header>', get_standard_header(), html, flags=re.DOTALL)
 
     # Reemplazar el contenedor principal para agregar el espacio del coach
     html = html.replace('<main class="flex-grow ml-64 min-w-0">', '<main class="flex-grow ml-64 min-w-0 mr-80">')
 
     # Inject Coach Right Sidebar
-    if "Enthema AI Coach" not in html:
+    if "fixed right-0" not in html:
         html = html.replace('</body>', get_standard_coach() + '\n</body>')
 
     # 3. Insertar formulario Onboarding antes de la sección Testimonios si no está
@@ -1252,7 +1252,34 @@ def update_onboarding():
       <input type="number" id="target_fund_usd" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" />
     </div>
 
-    <div class="col-span-12 flex justify-end gap-4 pt-4">
+    <!-- Col 9: Líneas de Investigación -->
+    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">LÍNEAS DE INVESTIGACIÓN CORE (Separadas por comas)</label>
+      <input type="text" id="core_research_lines" name="core_research_lines" value="{{ ', '.join(profile.core_research_lines) if profile.core_research_lines else '' }}" placeholder="ej. Bioingeniería de Implantes, Regeneración Ósea" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" />
+    </div>
+
+    <!-- Col 10: Palabras Clave -->
+    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">PALABRAS CLAVE LOCALES (Separadas por comas)</label>
+      <input type="text" id="local_keywords" name="local_keywords" value="{{ ', '.join(profile.local_keywords) if profile.local_keywords else '' }}" placeholder="ej. titanio, porosidad, biocompatibilidad" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" />
+    </div>
+
+    <!-- Col 11: Autores de Referencia -->
+    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">AUTORES / MARCOS DE REFERENCIA (Separados por comas)</label>
+      <input type="text" id="influences_authors" name="influences_authors" value="{{ ', '.join(profile.influences_authors) if profile.influences_authors else '' }}" placeholder="ej. Gibson-Ashby, Wolff, Thorne" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" />
+    </div>
+
+    <!-- Col 12: Preferencias Metodológicas -->
+    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">PREFERENCIAS METODOLÓGICAS (Separadas por comas)</label>
+      <input type="text" id="methodology_preferences" name="methodology_preferences" value="{{ ', '.join(profile.methodology_preferences) if profile.methodology_preferences else '' }}" placeholder="ej. Racionalista, Análisis de Elementos Finitos, Impresión 3D" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" />
+    </div>
+
+    <div class="col-span-12 flex justify-between items-center gap-4 pt-4">
+      <button type="button" id="btn-clear-form" class="px-6 py-3 border border-outline-variant text-on-surface-variant hover:bg-surface-container rounded-lg font-headline-md hover:text-danger hover:border-danger transition-all flex items-center gap-2 font-bold">
+        <span class="material-symbols-outlined">delete_sweep</span> 🧹 Iniciar Nueva Investigación (Limpiar Formulario)
+      </button>
       <button type="submit" class="px-8 py-3 bg-primary text-on-primary rounded-lg font-headline-md text-body-lg hover:shadow-lg hover:bg-primary/95 transition-all flex items-center gap-2 font-bold">
         <span class="material-symbols-outlined" data-icon="save">save</span> Guardar Configuración
       </button>
@@ -1286,6 +1313,17 @@ def update_onboarding():
     new_script = f"""<script>
         {get_active_nav_script()}
 
+        // Clear Form Action (Iniciar Nueva Investigación)
+        document.getElementById('btn-clear-form').addEventListener('click', () => {{
+            document.getElementById('profileForm').reset();
+            document.getElementById('orcid').value = '';
+            document.getElementById('core_research_lines').value = '';
+            document.getElementById('local_keywords').value = '';
+            document.getElementById('influences_authors').value = '';
+            document.getElementById('methodology_preferences').value = '';
+            alert('🧹 Formulario limpio. Listo para iniciar una nueva investigación.');
+        }});
+
         // Submit Profile Form
         document.getElementById('profileForm').addEventListener('submit', async (e) => {{
             e.preventDefault();
@@ -1298,7 +1336,11 @@ def update_onboarding():
                 target_publication_objective: document.getElementById('target_publication_objective').value,
                 orcid: document.getElementById('orcid').value,
                 target_fund_usd: parseFloat(document.getElementById('target_fund_usd').value) || 2500000.0,
-                discount_rate: 0.10
+                discount_rate: 0.10,
+                core_research_lines: document.getElementById('core_research_lines').value.split(',').map(s => s.trim()).filter(Boolean),
+                local_keywords: document.getElementById('local_keywords').value.split(',').map(s => s.trim()).filter(Boolean),
+                influences_authors: document.getElementById('influences_authors').value.split(',').map(s => s.trim()).filter(Boolean),
+                methodology_preferences: document.getElementById('methodology_preferences').value.split(',').map(s => s.trim()).filter(Boolean)
             }};
 
             try {{
@@ -1354,6 +1396,10 @@ def update_onboarding():
                         document.getElementById('target_publication_objective').value = result.profile.target_publication_objective || 'Nature';
                         document.getElementById('orcid').value = result.profile.orcid || '';
                         document.getElementById('target_fund_usd').value = result.profile.target_fund_usd || 2500000;
+                        document.getElementById('core_research_lines').value = result.profile.core_research_lines ? result.profile.core_research_lines.join(', ') : '';
+                        document.getElementById('local_keywords').value = result.profile.local_keywords ? result.profile.local_keywords.join(', ') : '';
+                        document.getElementById('influences_authors').value = result.profile.influences_authors ? result.profile.influences_authors.join(', ') : '';
+                        document.getElementById('methodology_preferences').value = result.profile.methodology_preferences ? result.profile.methodology_preferences.join(', ') : '';
                     }}
                 }} else {{
                     statusDiv.className = "block font-label-md p-4 rounded-lg bg-danger/10 text-danger text-left";

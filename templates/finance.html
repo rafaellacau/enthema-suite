@@ -275,234 +275,6 @@
 </div>
 </div>
 <!-- Gantt Milestone Timeline -->
-<!-- Solver Financiero Form -->
-<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-[0_1px_3px_rgba(60,64,67,0.12)] space-y-6 text-left">
-  <div class="border-b border-outline-variant pb-4">
-    <h3 class="font-headline-md text-on-surface text-[20px] flex items-center gap-2">
-      <span class="material-symbols-outlined text-primary">analytics</span> Resolver Viabilidad Financiera (Newton-Raphson)
-    </h3>
-    <p class="font-body-md text-on-surface-variant">Modifique el flujo de caja estimado para computar los valores de VAN y TIR dinámicamente.</p>
-  </div>
-  
-  <form id="financeSolverForm" class="grid grid-cols-12 gap-6">
-    <!-- Col 1: Tasa Descuento -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">TASA DE DESCUENTO (WACC)</label>
-      <input type="number" step="0.01" id="discount_rate_solver" name="discount_rate" value="0.10" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-
-    <!-- Col 2: Financiamiento Objetivo -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">INVERSIÓN INICIAL (USD)</label>
-      <input type="number" id="target_fund_solver" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-    
-    <div class="col-span-12">
-      <p class="text-xs font-label-md text-primary font-bold mb-2">FLUJOS NETOS ANUALES (INFLOWS - OUTFLOWS)</p>
-      <div class="grid grid-cols-6 gap-3">
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 0 (EGRESO)</label>
-          <input type="number" id="flow_0" value="-100000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 1</label>
-          <input type="number" id="flow_1" value="40000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 2</label>
-          <input type="number" id="flow_2" value="45000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 3</label>
-          <input type="number" id="flow_3" value="50000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 4</label>
-          <input type="number" id="flow_4" value="55000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 5</label>
-          <input type="number" id="flow_5" value="60000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-      </div>
-    </div>
-    
-    <div class="col-span-12 flex justify-end gap-4 pt-2">
-      <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded font-label-md hover:shadow transition-all flex items-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">calculate</span> Resolver Viabilidad
-      </button>
-    </div>
-  </form>
-  
-  <!-- Glowing Result Card -->
-  <div id="solverResultCard" class="hidden bg-primary-container/10 p-5 rounded-xl border border-primary/20 grid grid-cols-3 gap-6">
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">VALOR ACTUAL NETO (VAN)</p>
-      <p id="solver-van" class="text-2xl font-bold text-primary">$0.00</p>
-    </div>
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">TASA INTERNA RETORNO (TIR)</p>
-      <p id="solver-tir" class="text-2xl font-bold text-secondary">0.00%</p>
-    </div>
-    <div class="text-center flex flex-col justify-center items-center">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase mb-1">DICTAMEN</p>
-      <span id="solver-dictamen" class="px-4 py-1 text-xs font-bold rounded-full"></span>
-    </div>
-  </div>
-</section>
-
-<!-- Solver Financiero Form -->
-<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-[0_1px_3px_rgba(60,64,67,0.12)] space-y-6 text-left">
-  <div class="border-b border-outline-variant pb-4">
-    <h3 class="font-headline-md text-on-surface text-[20px] flex items-center gap-2">
-      <span class="material-symbols-outlined text-primary">analytics</span> Resolver Viabilidad Financiera (Newton-Raphson)
-    </h3>
-    <p class="font-body-md text-on-surface-variant">Modifique el flujo de caja estimado para computar los valores de VAN y TIR dinámicamente.</p>
-  </div>
-  
-  <form id="financeSolverForm" class="grid grid-cols-12 gap-6">
-    <!-- Col 1: Tasa Descuento -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">TASA DE DESCUENTO (WACC)</label>
-      <input type="number" step="0.01" id="discount_rate_solver" name="discount_rate" value="0.10" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-
-    <!-- Col 2: Financiamiento Objetivo -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">INVERSIÓN INICIAL (USD)</label>
-      <input type="number" id="target_fund_solver" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-    
-    <div class="col-span-12">
-      <p class="text-xs font-label-md text-primary font-bold mb-2">FLUJOS NETOS ANUALES (INFLOWS - OUTFLOWS)</p>
-      <div class="grid grid-cols-6 gap-3">
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 0 (EGRESO)</label>
-          <input type="number" id="flow_0" value="-100000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 1</label>
-          <input type="number" id="flow_1" value="40000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 2</label>
-          <input type="number" id="flow_2" value="45000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 3</label>
-          <input type="number" id="flow_3" value="50000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 4</label>
-          <input type="number" id="flow_4" value="55000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 5</label>
-          <input type="number" id="flow_5" value="60000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-      </div>
-    </div>
-    
-    <div class="col-span-12 flex justify-end gap-4 pt-2">
-      <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded font-label-md hover:shadow transition-all flex items-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">calculate</span> Resolver Viabilidad
-      </button>
-    </div>
-  </form>
-  
-  <!-- Glowing Result Card -->
-  <div id="solverResultCard" class="hidden bg-primary-container/10 p-5 rounded-xl border border-primary/20 grid grid-cols-3 gap-6">
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">VALOR ACTUAL NETO (VAN)</p>
-      <p id="solver-van" class="text-2xl font-bold text-primary">$0.00</p>
-    </div>
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">TASA INTERNA RETORNO (TIR)</p>
-      <p id="solver-tir" class="text-2xl font-bold text-secondary">0.00%</p>
-    </div>
-    <div class="text-center flex flex-col justify-center items-center">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase mb-1">DICTAMEN</p>
-      <span id="solver-dictamen" class="px-4 py-1 text-xs font-bold rounded-full"></span>
-    </div>
-  </div>
-</section>
-
-<!-- Solver Financiero Form -->
-<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-[0_1px_3px_rgba(60,64,67,0.12)] space-y-6 text-left">
-  <div class="border-b border-outline-variant pb-4">
-    <h3 class="font-headline-md text-on-surface text-[20px] flex items-center gap-2">
-      <span class="material-symbols-outlined text-primary">analytics</span> Resolver Viabilidad Financiera (Newton-Raphson)
-    </h3>
-    <p class="font-body-md text-on-surface-variant">Modifique el flujo de caja estimado para computar los valores de VAN y TIR dinámicamente.</p>
-  </div>
-  
-  <form id="financeSolverForm" class="grid grid-cols-12 gap-6">
-    <!-- Col 1: Tasa Descuento -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">TASA DE DESCUENTO (WACC)</label>
-      <input type="number" step="0.01" id="discount_rate_solver" name="discount_rate" value="0.10" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-
-    <!-- Col 2: Financiamiento Objetivo -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">INVERSIÓN INICIAL (USD)</label>
-      <input type="number" id="target_fund_solver" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-    
-    <div class="col-span-12">
-      <p class="text-xs font-label-md text-primary font-bold mb-2">FLUJOS NETOS ANUALES (INFLOWS - OUTFLOWS)</p>
-      <div class="grid grid-cols-6 gap-3">
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 0 (EGRESO)</label>
-          <input type="number" id="flow_0" value="-100000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 1</label>
-          <input type="number" id="flow_1" value="40000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 2</label>
-          <input type="number" id="flow_2" value="45000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 3</label>
-          <input type="number" id="flow_3" value="50000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 4</label>
-          <input type="number" id="flow_4" value="55000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 5</label>
-          <input type="number" id="flow_5" value="60000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-      </div>
-    </div>
-    
-    <div class="col-span-12 flex justify-end gap-4 pt-2">
-      <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded font-label-md hover:shadow transition-all flex items-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">calculate</span> Resolver Viabilidad
-      </button>
-    </div>
-  </form>
-  
-  <!-- Glowing Result Card -->
-  <div id="solverResultCard" class="hidden bg-primary-container/10 p-5 rounded-xl border border-primary/20 grid grid-cols-3 gap-6">
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">VALOR ACTUAL NETO (VAN)</p>
-      <p id="solver-van" class="text-2xl font-bold text-primary">$0.00</p>
-    </div>
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">TASA INTERNA RETORNO (TIR)</p>
-      <p id="solver-tir" class="text-2xl font-bold text-secondary">0.00%</p>
-    </div>
-    <div class="text-center flex flex-col justify-center items-center">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase mb-1">DICTAMEN</p>
-      <span id="solver-dictamen" class="px-4 py-1 text-xs font-bold rounded-full"></span>
-    </div>
-  </div>
-</section>
-
 <section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-[0_1px_3px_rgba(60,64,67,0.12)]">
 <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center">
 <h3 class="font-headline-md text-[18px]">Cronograma de Hitos Financieros</h3>
@@ -589,234 +361,6 @@
 </div>
 </section>
 <!-- Detailed Transactions Table -->
-<!-- Solver Financiero Form -->
-<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-[0_1px_3px_rgba(60,64,67,0.12)] space-y-6 text-left">
-  <div class="border-b border-outline-variant pb-4">
-    <h3 class="font-headline-md text-on-surface text-[20px] flex items-center gap-2">
-      <span class="material-symbols-outlined text-primary">analytics</span> Resolver Viabilidad Financiera (Newton-Raphson)
-    </h3>
-    <p class="font-body-md text-on-surface-variant">Modifique el flujo de caja estimado para computar los valores de VAN y TIR dinámicamente.</p>
-  </div>
-  
-  <form id="financeSolverForm" class="grid grid-cols-12 gap-6">
-    <!-- Col 1: Tasa Descuento -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">TASA DE DESCUENTO (WACC)</label>
-      <input type="number" step="0.01" id="discount_rate_solver" name="discount_rate" value="0.10" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-
-    <!-- Col 2: Financiamiento Objetivo -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">INVERSIÓN INICIAL (USD)</label>
-      <input type="number" id="target_fund_solver" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-    
-    <div class="col-span-12">
-      <p class="text-xs font-label-md text-primary font-bold mb-2">FLUJOS NETOS ANUALES (INFLOWS - OUTFLOWS)</p>
-      <div class="grid grid-cols-6 gap-3">
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 0 (EGRESO)</label>
-          <input type="number" id="flow_0" value="-100000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 1</label>
-          <input type="number" id="flow_1" value="40000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 2</label>
-          <input type="number" id="flow_2" value="45000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 3</label>
-          <input type="number" id="flow_3" value="50000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 4</label>
-          <input type="number" id="flow_4" value="55000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 5</label>
-          <input type="number" id="flow_5" value="60000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-      </div>
-    </div>
-    
-    <div class="col-span-12 flex justify-end gap-4 pt-2">
-      <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded font-label-md hover:shadow transition-all flex items-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">calculate</span> Resolver Viabilidad
-      </button>
-    </div>
-  </form>
-  
-  <!-- Glowing Result Card -->
-  <div id="solverResultCard" class="hidden bg-primary-container/10 p-5 rounded-xl border border-primary/20 grid grid-cols-3 gap-6">
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">VALOR ACTUAL NETO (VAN)</p>
-      <p id="solver-van" class="text-2xl font-bold text-primary">$0.00</p>
-    </div>
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">TASA INTERNA RETORNO (TIR)</p>
-      <p id="solver-tir" class="text-2xl font-bold text-secondary">0.00%</p>
-    </div>
-    <div class="text-center flex flex-col justify-center items-center">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase mb-1">DICTAMEN</p>
-      <span id="solver-dictamen" class="px-4 py-1 text-xs font-bold rounded-full"></span>
-    </div>
-  </div>
-</section>
-
-<!-- Solver Financiero Form -->
-<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-[0_1px_3px_rgba(60,64,67,0.12)] space-y-6 text-left">
-  <div class="border-b border-outline-variant pb-4">
-    <h3 class="font-headline-md text-on-surface text-[20px] flex items-center gap-2">
-      <span class="material-symbols-outlined text-primary">analytics</span> Resolver Viabilidad Financiera (Newton-Raphson)
-    </h3>
-    <p class="font-body-md text-on-surface-variant">Modifique el flujo de caja estimado para computar los valores de VAN y TIR dinámicamente.</p>
-  </div>
-  
-  <form id="financeSolverForm" class="grid grid-cols-12 gap-6">
-    <!-- Col 1: Tasa Descuento -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">TASA DE DESCUENTO (WACC)</label>
-      <input type="number" step="0.01" id="discount_rate_solver" name="discount_rate" value="0.10" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-
-    <!-- Col 2: Financiamiento Objetivo -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">INVERSIÓN INICIAL (USD)</label>
-      <input type="number" id="target_fund_solver" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-    
-    <div class="col-span-12">
-      <p class="text-xs font-label-md text-primary font-bold mb-2">FLUJOS NETOS ANUALES (INFLOWS - OUTFLOWS)</p>
-      <div class="grid grid-cols-6 gap-3">
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 0 (EGRESO)</label>
-          <input type="number" id="flow_0" value="-100000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 1</label>
-          <input type="number" id="flow_1" value="40000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 2</label>
-          <input type="number" id="flow_2" value="45000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 3</label>
-          <input type="number" id="flow_3" value="50000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 4</label>
-          <input type="number" id="flow_4" value="55000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 5</label>
-          <input type="number" id="flow_5" value="60000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-      </div>
-    </div>
-    
-    <div class="col-span-12 flex justify-end gap-4 pt-2">
-      <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded font-label-md hover:shadow transition-all flex items-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">calculate</span> Resolver Viabilidad
-      </button>
-    </div>
-  </form>
-  
-  <!-- Glowing Result Card -->
-  <div id="solverResultCard" class="hidden bg-primary-container/10 p-5 rounded-xl border border-primary/20 grid grid-cols-3 gap-6">
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">VALOR ACTUAL NETO (VAN)</p>
-      <p id="solver-van" class="text-2xl font-bold text-primary">$0.00</p>
-    </div>
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">TASA INTERNA RETORNO (TIR)</p>
-      <p id="solver-tir" class="text-2xl font-bold text-secondary">0.00%</p>
-    </div>
-    <div class="text-center flex flex-col justify-center items-center">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase mb-1">DICTAMEN</p>
-      <span id="solver-dictamen" class="px-4 py-1 text-xs font-bold rounded-full"></span>
-    </div>
-  </div>
-</section>
-
-<!-- Solver Financiero Form -->
-<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-[0_1px_3px_rgba(60,64,67,0.12)] space-y-6 text-left">
-  <div class="border-b border-outline-variant pb-4">
-    <h3 class="font-headline-md text-on-surface text-[20px] flex items-center gap-2">
-      <span class="material-symbols-outlined text-primary">analytics</span> Resolver Viabilidad Financiera (Newton-Raphson)
-    </h3>
-    <p class="font-body-md text-on-surface-variant">Modifique el flujo de caja estimado para computar los valores de VAN y TIR dinámicamente.</p>
-  </div>
-  
-  <form id="financeSolverForm" class="grid grid-cols-12 gap-6">
-    <!-- Col 1: Tasa Descuento -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">TASA DE DESCUENTO (WACC)</label>
-      <input type="number" step="0.01" id="discount_rate_solver" name="discount_rate" value="0.10" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-
-    <!-- Col 2: Financiamiento Objetivo -->
-    <div class="col-span-12 md:col-span-4 space-y-1">
-      <label class="block text-xs font-label-md text-primary font-bold">INVERSIÓN INICIAL (USD)</label>
-      <input type="number" id="target_fund_solver" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-body-md" required />
-    </div>
-    
-    <div class="col-span-12">
-      <p class="text-xs font-label-md text-primary font-bold mb-2">FLUJOS NETOS ANUALES (INFLOWS - OUTFLOWS)</p>
-      <div class="grid grid-cols-6 gap-3">
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 0 (EGRESO)</label>
-          <input type="number" id="flow_0" value="-100000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 1</label>
-          <input type="number" id="flow_1" value="40000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 2</label>
-          <input type="number" id="flow_2" value="45000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 3</label>
-          <input type="number" id="flow_3" value="50000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 4</label>
-          <input type="number" id="flow_4" value="55000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-        <div>
-          <label class="block text-[10px] text-outline text-center">AÑO 5</label>
-          <input type="number" id="flow_5" value="60000" class="w-full bg-white border border-outline-variant rounded px-2 py-1.5 text-center text-body-md" />
-        </div>
-      </div>
-    </div>
-    
-    <div class="col-span-12 flex justify-end gap-4 pt-2">
-      <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded font-label-md hover:shadow transition-all flex items-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">calculate</span> Resolver Viabilidad
-      </button>
-    </div>
-  </form>
-  
-  <!-- Glowing Result Card -->
-  <div id="solverResultCard" class="hidden bg-primary-container/10 p-5 rounded-xl border border-primary/20 grid grid-cols-3 gap-6">
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">VALOR ACTUAL NETO (VAN)</p>
-      <p id="solver-van" class="text-2xl font-bold text-primary">$0.00</p>
-    </div>
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">TASA INTERNA RETORNO (TIR)</p>
-      <p id="solver-tir" class="text-2xl font-bold text-secondary">0.00%</p>
-    </div>
-    <div class="text-center flex flex-col justify-center items-center">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase mb-1">DICTAMEN</p>
-      <span id="solver-dictamen" class="px-4 py-1 text-xs font-bold rounded-full"></span>
-    </div>
-  </div>
-</section>
-
 <section class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-[0_1px_3px_rgba(60,64,67,0.12)]">
 <div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center">
 <h3 class="font-headline-md text-[18px]">Transacciones Operativas Recientes</h3>
@@ -937,133 +481,76 @@
 </div>
 <!-- Micro-interaction Scripts -->
 <script>
-        
-    // Active Navigation Logic for SideNavBar
-    const currentPath = window.location.pathname;
-    document.querySelectorAll('aside nav a').forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === currentPath || (currentPath === '/' && href === '/')) {
-            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-primary font-bold bg-primary-container/10 border-r-4 border-primary transition-all duration-150";
-        } else {
-            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200";
-        }
-    });
-    
-
-        document.getElementById('financeSolverForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const wacc = parseFloat(document.getElementById('discount_rate_solver').value) || 0.10;
-            const targetFund = parseFloat(document.getElementById('target_fund_solver').value) || 2500000;
-            
-            // Build periods cash flows
-            const flows = [
-                { period: 0, inflow: 0.0, outflow: Math.abs(parseFloat(document.getElementById('flow_0').value)) },
-                { period: 1, inflow: parseFloat(document.getElementById('flow_1').value), outflow: 0.0 },
-                { period: 2, inflow: parseFloat(document.getElementById('flow_2').value), outflow: 0.0 },
-                { period: 3, inflow: parseFloat(document.getElementById('flow_3').value), outflow: 0.0 },
-                { period: 4, inflow: parseFloat(document.getElementById('flow_4').value), outflow: 0.0 },
-                { period: 5, inflow: parseFloat(document.getElementById('flow_5').value), outflow: 0.0 }
-            ];
-            
-            try {
-                const res = await fetch('/api/finance/solve', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        discount_rate: wacc,
-                        target_fund_usd: targetFund,
-                        cash_flow: flows
-                    })
-                });
-                const data = await res.json();
-                if (data.status === 'success') {
-                    document.getElementById('solverResultCard').classList.remove('hidden');
-                    document.getElementById('solver-van').innerText = '$' + data.van.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USD';
-                    document.getElementById('solver-tir').innerText = (data.tir * 100).toFixed(2) + '%';
-                    
-                    const badge = document.getElementById('solver-dictamen');
-                    badge.innerText = data.dictamen;
-                    if (data.dictamen.includes('VIABLE')) {
-                        badge.className = "px-4 py-1 text-xs font-bold rounded-full bg-success/20 text-success";
-                    } else {
-                        badge.className = "px-4 py-1 text-xs font-bold rounded-full bg-danger/20 text-danger";
-                    }
-                } else {
-                    alert('Error resolviendo flujos.');
-                }
-            } catch (err) {
-                alert('Error de red: ' + err.message);
-            }
-        });
-
-        // Smooth animations on load
         document.addEventListener('DOMContentLoaded', () => {
+            // Active state hover effects for cards
             const cards = document.querySelectorAll('.bg-surface-container-lowest');
             cards.forEach(card => {
                 card.addEventListener('mouseenter', () => {
                     card.style.transform = 'translateY(-2px)';
                     card.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease';
+                    card.classList.add('shadow-md');
                 });
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = 'translateY(0)';
+                    card.classList.remove('shadow-md');
                 });
+            });
+
+            // Smooth fade-in for rows
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(-10px)';
+                setTimeout(() => {
+                    row.style.transition = 'all 0.4s ease';
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateX(0)';
+                }, 100 * index);
             });
         });
     </script>
 <!-- Enthema AI Coach Right Sidebar -->
-<aside class="fixed left-0 top-0 h-screen w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col py-4 z-50">
-  <div class="px-6 mb-8 flex items-center gap-3">
-    <img alt="Logo Enthema Suite" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
+<aside class="fixed right-0 top-0 h-screen w-80 border-l border-outline-variant bg-surface-container-lowest flex flex-col z-40 shadow-lg text-left">
+  <!-- Coach Header -->
+  <div class="px-6 py-4 border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-3">
+    <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+      <span class="material-symbols-outlined text-[24px]">psychology</span>
+    </div>
     <div>
-      <h1 class="font-headline-lg text-primary font-bold tracking-tight text-[18px] leading-tight">Enthema Suite</h1>
-      <p class="font-label-md text-on-surface-variant text-[10px]">Precisión Técnica</p>
+      <h3 class="font-headline-md text-on-surface text-[15px] font-bold leading-tight text-primary">Enthema AI Coach</h3>
+      <p class="font-label-sm text-outline text-[10px]">ASISTENTE CIENTÍFICO OFFLINE</p>
     </div>
   </div>
-  <nav class="flex-grow space-y-1 px-4">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/dashboard">
-      <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-      <span class="font-label-md text-label-md">Panel de Control</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/">
-      <span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
-      <span class="font-label-md text-label-md">Proyectos (Onboarding)</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/data-analysis">
-      <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
-      <span class="font-label-md text-label-md">Análisis de Datos</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/modeling">
-      <span class="material-symbols-outlined" data-icon="biotech">biotech</span>
-      <span class="font-label-md text-label-md">Modelado Semántico</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/finance">
-      <span class="material-symbols-outlined" data-icon="payments">payments</span>
-      <span class="font-label-md text-label-md">Finanzas</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/reports">
-      <span class="material-symbols-outlined" data-icon="description">description</span>
-      <span class="font-label-md text-label-md">Informes</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/compliance">
-      <span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
-      <span class="font-label-md text-label-md">Cumplimiento</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/configuration">
-      <span class="material-symbols-outlined" data-icon="settings">settings</span>
-      <span class="font-label-md text-label-md">Configuración</span>
-    </a>
-    {% if profile.user_role in ['admin', 'auditor'] %}
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-secondary hover:bg-secondary-container/10 border-r-4 border-secondary transition-colors duration-200" href="/admin">
-      <span class="material-symbols-outlined" data-icon="shield">shield</span>
-      <span class="font-label-md text-label-md font-bold">Consola Auditoría</span>
-    </a>
-    {% endif %}
-  </nav>
-  <div class="px-4 py-2 border-t border-outline-variant">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-danger hover:bg-danger/10 transition-colors duration-200 cursor-pointer" onclick="logout()">
-      <span class="material-symbols-outlined" data-icon="logout">logout</span>
-      <span class="font-label-md text-label-md font-bold">Cerrar Sesión</span>
-    </a>
+
+  <!-- Chat History -->
+  <div id="coach-chat-history" class="flex-grow p-4 overflow-y-auto space-y-3 bg-surface-container-low/20 custom-scrollbar text-xs">
+    <!-- Welcome message -->
+    <div class="flex items-start gap-2 max-w-[85%] mb-2">
+      <div class="w-6 h-6 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-[14px]">smart_toy</span>
+      </div>
+      <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed">
+        Hola, soy su <strong>AI Coach</strong> técnico. Estoy listo para guiarle de forma segura sin costo de API ($0.00). ¿En qué área técnica o solver financiero desea profundizar hoy?
+      </div>
+    </div>
   </div>
+
+  <!-- Suggestions / Quick Links -->
+  <div class="px-4 py-2 bg-surface-container-low/40 border-t border-outline-variant/30">
+    <p class="text-[10px] font-bold text-primary uppercase mb-1">Consultas Sugeridas</p>
+    <div class="flex flex-wrap gap-1.5">
+      <button onclick="sendQuickQuery('¿Cómo funciona el reactor ABM?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🧬 Bio-reactor ABM</button>
+      <button onclick="sendQuickQuery('¿Cómo interpreto el Solver Financiero?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">💸 Solver TIR/VAN</button>
+      <button onclick="sendQuickQuery('¿Qué validez tiene el Sello del Acta?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🛡️ Cumplimiento Legal</button>
+    </div>
+  </div>
+
+  <!-- Chat Input Form -->
+  <form id="coach-chat-form" class="p-4 border-t border-outline-variant bg-surface-container-lowest flex items-center gap-2">
+    <input type="text" id="coach-query-input" placeholder="Pregunte algo al AI Coach..." class="flex-grow bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface" required autocomplete="off" />
+    <button type="submit" class="p-2 bg-primary text-white rounded-lg hover:opacity-90 transition-all shrink-0">
+      <span class="material-symbols-outlined text-[16px]">send</span>
+    </button>
+  </form>
 </aside>
 </body></html>
