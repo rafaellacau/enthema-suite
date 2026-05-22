@@ -7,7 +7,9 @@ Inyecta la barra lateral persistente del Enthema AI Coach en todas las vistas de
 import os
 import re
 
-TEMPLATE_DIR = "/Users/rafaellacau/.gemini/antigravity-ide/scratch/enthema-suite/templates"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
+
 
 def get_standard_aside(is_fixed=True):
     aside_class = "fixed left-0 top-0 h-screen w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col py-4 z-50"
