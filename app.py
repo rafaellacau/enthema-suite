@@ -549,6 +549,20 @@ async def view_admin(request: Request):
         "profile": state.profile
     })
 
+@app.get("/admin/manual", response_class=HTMLResponse)
+async def view_admin_manual(request: Request):
+    """Renderiza el manual confidencial de administración de forma segura."""
+    state = get_session_or_redirect(request)
+    if state is None:
+        return RedirectResponse(url="/login", status_code=303)
+        
+    session_id = request.cookies.get("session_id")
+    conn_info = active_connections.get(session_id)
+    if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
+        raise HTTPException(status_code=403, detail="No autorizado para acceder al Manual Confidencial")
+        
+    return templates.TemplateResponse(request=request, name="manual.html")
+
 @app.get("/api/admin/connections")
 async def api_admin_list_connections(request: Request):
     """Muestra todas las conexiones activas en vivo."""
