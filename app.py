@@ -563,7 +563,10 @@ async def view_admin(request: Request):
     session_id = request.cookies.get("session_id")
     conn_info = active_connections.get(session_id)
     if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
-        raise HTTPException(status_code=403, detail="No autorizado para acceder al Cerebro Central")
+        # Redirigir a login borrando la cookie de sesión para solicitar credenciales de auditor
+        response = RedirectResponse(url="/login", status_code=303)
+        response.delete_cookie("session_id", path="/")
+        return response
         
     return templates.TemplateResponse(request=request, name="admin.html", context={
         "profile": state.profile
@@ -579,7 +582,10 @@ async def view_admin_manual(request: Request):
     session_id = request.cookies.get("session_id")
     conn_info = active_connections.get(session_id)
     if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
-        raise HTTPException(status_code=403, detail="No autorizado para acceder al Manual Confidencial")
+        # Redirigir a login borrando la cookie de sesión para solicitar credenciales de auditor
+        response = RedirectResponse(url="/login", status_code=303)
+        response.delete_cookie("session_id", path="/")
+        return response
         
     return templates.TemplateResponse(request=request, name="manual.html")
 
