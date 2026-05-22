@@ -59,6 +59,22 @@ app = FastAPI(
     version="2.5.0"
 )
 
+import traceback
+@app.middleware("http")
+async def catch_exceptions_middleware(request: Request, call_next):
+    try:
+        return await call_next(request)
+    except Exception as e:
+        err_msg = "".join(traceback.format_exception(type(e), e, e.__traceback__))
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": str(e),
+                "type": type(e).__name__,
+                "traceback": err_msg
+            }
+        )
+
 # Inicializar bases de datos locales y configurar rutas dinámicas
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
