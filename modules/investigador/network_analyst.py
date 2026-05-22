@@ -1,6 +1,5 @@
 import networkx as nx
-import plotly.graph_objects as go
-from typing import List, Tuple
+from typing import List, Tuple, Any
 from .models import ResearcherProfile, ConsortiumProfile
 
 class SemanticGraphEngine:
@@ -77,13 +76,14 @@ class SemanticGraphEngine:
         return G, synergies, gaps
 
     @staticmethod
-    def draw_plotly_network(G: nx.Graph, theme: str = "google") -> go.Figure:
+    def draw_plotly_network(G: nx.Graph, theme: str = "google") -> Any:
         """
         Dibuja un gráfico interactivo premium con Plotly a partir de la red NetworkX.
         Utiliza una jerarquía visual de tres capas (Investigadores, Sinergias y Conceptos)
         con colores de alta gama al estilo Google Material Design y tipografía impecable.
         Soporta temas de estilo dinámico ("google" vs "cyberpunk").
         """
+        import plotly.graph_objects as go
         if len(G.nodes) == 0:
             fig = go.Figure()
             fig.update_layout(
