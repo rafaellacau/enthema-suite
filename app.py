@@ -59,14 +59,17 @@ app = FastAPI(
     version="2.5.0"
 )
 
-# Configurar estáticos y plantillas
-templates = Jinja2Templates(directory="templates")
-if not os.path.exists("static"):
-    os.makedirs("static")
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# Inicializar bases de datos locales si no existen
+# Inicializar bases de datos locales y configurar rutas dinámicas
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+templates_dir = os.path.join(BASE_DIR, "templates")
+static_dir = os.path.join(BASE_DIR, "static")
+
+templates = Jinja2Templates(directory=templates_dir)
+if not os.path.exists(static_dir):
+    os.makedirs(static_dir)
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
 legal_dir = os.path.join(BASE_DIR, "output", "legal")
 if not os.path.exists(legal_dir):
     os.makedirs(legal_dir, exist_ok=True)
