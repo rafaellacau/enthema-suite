@@ -245,7 +245,7 @@ async def view_login(request: Request):
     session_id = request.cookies.get("session_id")
     if session_id and session_id in sessions:
         return RedirectResponse(url="/", status_code=303)
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(request=request, name="login.html")
 
 class LoginRequest(BaseModel):
     username: str
@@ -395,8 +395,8 @@ async def view_general_onboarding(request: Request):
         return HTMLResponse(status_code=200)
     state = get_session_or_redirect(request)
     if state is None:
-        return templates.TemplateResponse("login.html", {"request": request})
-    return templates.TemplateResponse("general_onboarding.html", get_base_context(request, state))
+        return templates.TemplateResponse(request=request, name="login.html")
+    return templates.TemplateResponse(request=request, name="general_onboarding.html", context=get_base_context(request, state))
 
 @app.get("/onboarding/investigador", response_class=HTMLResponse)
 async def view_onboarding_investigador(request: Request):
@@ -404,7 +404,7 @@ async def view_onboarding_investigador(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    return templates.TemplateResponse("onboarding_investigador.html", get_base_context(request, state))
+    return templates.TemplateResponse(request=request, name="onboarding_investigador.html", context=get_base_context(request, state))
 
 @app.get("/onboarding/auditor", response_class=HTMLResponse)
 async def view_onboarding_auditor(request: Request):
@@ -414,7 +414,7 @@ async def view_onboarding_auditor(request: Request):
         return RedirectResponse(url="/login", status_code=303)
     if state.profile.user_role not in ["admin", "auditor"]:
         return RedirectResponse(url="/", status_code=303)
-    return templates.TemplateResponse("onboarding_auditor.html", get_base_context(request, state))
+    return templates.TemplateResponse(request=request, name="onboarding_auditor.html", context=get_base_context(request, state))
 
 @app.get("/investigador/profile-builder", response_class=HTMLResponse)
 async def view_profile_builder(request: Request):
@@ -422,7 +422,7 @@ async def view_profile_builder(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    return templates.TemplateResponse("onboarding.html", get_base_context(request, state))
+    return templates.TemplateResponse(request=request, name="onboarding.html", context=get_base_context(request, state))
 
 @app.get("/dashboard", response_class=HTMLResponse)
 async def view_dashboard(request: Request):
@@ -430,7 +430,7 @@ async def view_dashboard(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    return templates.TemplateResponse("dashboard.html", get_base_context(request, state))
+    return templates.TemplateResponse(request=request, name="dashboard.html", context=get_base_context(request, state))
 
 @app.get("/data-analysis", response_class=HTMLResponse)
 async def view_data_analysis(request: Request):
@@ -438,7 +438,7 @@ async def view_data_analysis(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    return templates.TemplateResponse("data_analysis.html", get_base_context(request, state))
+    return templates.TemplateResponse(request=request, name="data_analysis.html", context=get_base_context(request, state))
 
 @app.get("/modeling", response_class=HTMLResponse)
 async def view_modeling(request: Request):
@@ -446,7 +446,7 @@ async def view_modeling(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    return templates.TemplateResponse("semantic_modeling.html", get_base_context(request, state))
+    return templates.TemplateResponse(request=request, name="semantic_modeling.html", context=get_base_context(request, state))
 
 @app.get("/finance", response_class=HTMLResponse)
 async def view_finance(request: Request):
@@ -454,7 +454,7 @@ async def view_finance(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    return templates.TemplateResponse("finance.html", get_base_context(request, state))
+    return templates.TemplateResponse(request=request, name="finance.html", context=get_base_context(request, state))
 
 @app.get("/reports", response_class=HTMLResponse)
 async def view_reports(request: Request):
@@ -492,7 +492,7 @@ async def view_reports(request: Request):
         "mono_style": mono_style,
         "dissemination": dissemination
     })
-    return templates.TemplateResponse("reports.html", ctx)
+    return templates.TemplateResponse(request=request, name="reports.html", context=ctx)
 
 @app.get("/compliance", response_class=HTMLResponse)
 async def view_compliance(request: Request):
@@ -519,7 +519,7 @@ async def view_compliance(request: Request):
         "nagoya_protocol_badge": "Protocolo de Nagoya: Conforme" if state.profile.target_publication_objective in ["Nature", "World Development"] else "No Requerido",
         "conabios_declaration": "Reglamento CONABIOS: Aplicado" if state.profile.epistemologic_stance in ["Positivista", "Mixed_Methods"] else "Exento"
     })
-    return templates.TemplateResponse("compliance.html", ctx)
+    return templates.TemplateResponse(request=request, name="compliance.html", context=ctx)
 
 @app.get("/configuration", response_class=HTMLResponse)
 async def view_configuration(request: Request):
@@ -527,7 +527,7 @@ async def view_configuration(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    return templates.TemplateResponse("configuration.html", get_base_context(request, state))
+    return templates.TemplateResponse(request=request, name="configuration.html", context=get_base_context(request, state))
 
 # ==========================================
 # MÓDULO DEL AUDITOR Y CEREBRO CENTRAL (/admin)
@@ -545,8 +545,7 @@ async def view_admin(request: Request):
     if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
         raise HTTPException(status_code=403, detail="No autorizado para acceder al Cerebro Central")
         
-    return templates.TemplateResponse("admin.html", {
-        "request": request,
+    return templates.TemplateResponse(request=request, name="admin.html", context={
         "profile": state.profile
     })
 
