@@ -121,7 +121,7 @@ default_users = [
     },
     {
         "username": "RL",
-        "password": "lapauesta66",
+        "password": "lapuesta66",
         "role": "admin",
         "name": "Rafael Lacau (Auditor)",
         "institution": "FONDOCYT / MESCyT",
@@ -177,10 +177,16 @@ if os.path.exists(db_path):
     except Exception:
         users = []
 
-# Sincronizar usuarios por defecto que falten
-existing_usernames = {u["username"].lower() for u in users}
+# Sincronizar y actualizar usuarios por defecto
+existing_users_dict = {u["username"].lower(): u for u in users}
 for du in default_users:
-    if du["username"].lower() not in existing_usernames:
+    uname_lower = du["username"].lower()
+    if uname_lower in existing_users_dict:
+        existing_users_dict[uname_lower]["password"] = du["password"]
+        existing_users_dict[uname_lower]["role"] = du["role"]
+        existing_users_dict[uname_lower]["name"] = du["name"]
+        existing_users_dict[uname_lower]["institution"] = du["institution"]
+    else:
         users.append(du)
 
 try:
