@@ -458,8 +458,6 @@ async def view_general_onboarding(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return templates.TemplateResponse(request=request, name="login.html")
-    if state.profile.user_role in ["admin", "auditor"]:
-        return RedirectResponse(url="/admin", status_code=303)
     return templates.TemplateResponse(request=request, name="general_onboarding.html", context=get_base_context(request, state))
 
 @app.get("/onboarding/investigador", response_class=HTMLResponse)
@@ -468,8 +466,6 @@ async def view_onboarding_investigador(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    if state.profile.user_role in ["admin", "auditor"]:
-        return RedirectResponse(url="/admin", status_code=303)
     return templates.TemplateResponse(request=request, name="onboarding_investigador.html", context=get_base_context(request, state))
 
 @app.get("/onboarding/auditor", response_class=HTMLResponse)
@@ -488,8 +484,6 @@ async def view_profile_builder(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    if state.profile.user_role in ["admin", "auditor"]:
-        return RedirectResponse(url="/admin", status_code=303)
     return templates.TemplateResponse(request=request, name="onboarding.html", context=get_base_context(request, state))
 
 @app.get("/dashboard", response_class=HTMLResponse)
@@ -498,8 +492,6 @@ async def view_dashboard(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    if state.profile.user_role in ["admin", "auditor"]:
-        return RedirectResponse(url="/admin", status_code=303)
     return templates.TemplateResponse(request=request, name="dashboard.html", context=get_base_context(request, state))
 
 @app.get("/data-analysis", response_class=HTMLResponse)
@@ -508,8 +500,6 @@ async def view_data_analysis(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    if state.profile.user_role in ["admin", "auditor"]:
-        return RedirectResponse(url="/admin", status_code=303)
     return templates.TemplateResponse(request=request, name="data_analysis.html", context=get_base_context(request, state))
 
 @app.get("/modeling", response_class=HTMLResponse)
@@ -518,8 +508,6 @@ async def view_modeling(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    if state.profile.user_role in ["admin", "auditor"]:
-        return RedirectResponse(url="/admin", status_code=303)
     return templates.TemplateResponse(request=request, name="semantic_modeling.html", context=get_base_context(request, state))
 
 @app.get("/finance", response_class=HTMLResponse)
@@ -528,8 +516,6 @@ async def view_finance(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    if state.profile.user_role in ["admin", "auditor"]:
-        return RedirectResponse(url="/admin", status_code=303)
     return templates.TemplateResponse(request=request, name="finance.html", context=get_base_context(request, state))
 
 @app.get("/reports", response_class=HTMLResponse)
@@ -538,8 +524,6 @@ async def view_reports(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    if state.profile.user_role in ["admin", "auditor"]:
-        return RedirectResponse(url="/admin", status_code=303)
         
     # Sincronizar test profile en la monografía
     ACADEMIC_MONOGRAPH.test_profile = state.profile
@@ -578,8 +562,6 @@ async def view_compliance(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    if state.profile.user_role in ["admin", "auditor"]:
-        return RedirectResponse(url="/admin", status_code=303)
         
     ctx = get_base_context(request, state)
     
@@ -607,8 +589,6 @@ async def view_configuration(request: Request):
     state = get_session_or_redirect(request)
     if state is None:
         return RedirectResponse(url="/login", status_code=303)
-    if state.profile.user_role in ["admin", "auditor"]:
-        return RedirectResponse(url="/admin", status_code=303)
     return templates.TemplateResponse(request=request, name="configuration.html", context=get_base_context(request, state))
 
 # ==========================================
