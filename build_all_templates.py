@@ -122,7 +122,7 @@ def get_standard_coach():
         <span class="material-symbols-outlined text-[14px]">smart_toy</span>
       </div>
       <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed">
-        Hola, soy su <strong>AI Coach</strong> técnico. Estoy listo para guiarle de forma segura sin costo de API ($0.00). ¿En qué área técnica o solver financiero desea profundizar hoy?
+        Hola, soy tu <strong>AI Coach</strong>. Estoy aquí para asistirte de forma segura y resolver tus dudas en tu proyecto {% if qualitative_db and qualitative_db.project_title %}<strong>"{{ qualitative_db.project_title }}"</strong>{% elif profile.core_research_lines %}<strong>"{{ profile.core_research_lines[0] }}"</strong>{% else %}<strong>"Investigación Local"</strong>{% endif %}. ¿En qué te puedo ayudar hoy?
       </div>
     </div>
   </div>
