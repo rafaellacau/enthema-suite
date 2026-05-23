@@ -1143,72 +1143,220 @@ async def api_configuration_reset(request: Request):
         institution=state.profile.institution,
         role=state.profile.user_role
     )
-    
     session_id = request.cookies.get("session_id")
     sessions[session_id] = new_state
     
     return {"status": "success", "message": "Entorno reiniciado con éxito."}
 
-# ==========================================
-# ENTHEMA AI COACH INTERACTIVE CO-PILOT
-# =====@app.post("/api/copilot/query")
+class CopilotQueryRequest(BaseModel):
+    query: str
+    path: Optional[str] = None
+
+@app.post("/api/copilot/query")
 async def api_copilot_query(data: CopilotQueryRequest, request: Request):
-    """Procesa consultas regulatorias y metodológicas locales de forma agnóstica (Costo de API $0.00 USD)."""
+    """Procesa consultas de forma agnóstica distinguiendo entre Súper-Coach de Gobernanza y Co-piloto Especializado."""
     state = get_api_session(request)
     user_query = data.query.strip()
-    
     query_lower = user_query.lower()
     
-    if any(kw in query_lower for kw in ["clave", "key", "contraseña", "contrasena", "usuario", "registro", "generar"]):
-        answer = (
-            "Como tu Copiloto de Regulación, te informo sobre la gestión de accesos: En la Consola de Gobernanza del Administrador "
-            "puedes generar tantas **claves provisionales de acceso** como requieras de forma ilimitada. Cada clave generada se almacena "
-            "en el archivo de registro `access_keys.json` y sirve para que un nuevo investigador o auditor registre una cuenta de forma "
-            "autónoma. Una vez utilizada por un usuario para registrarse, la clave se marca automáticamente como 'Quemada' y queda inactiva."
-        )
-    elif any(kw in query_lower for kw in ["nagoya", "biodiversidad", "biomasa", "recurso biológico", "recurso biologico", "genético", "genetico", "abs"]):
-        answer = (
-            "Bajo las regulaciones internacionales de biodiversidad, toda investigación que involucre el acceso y aprovechamiento de recursos biológicos "
-            "o genéticos endémicos debe cumplir rigurosamente con el **Protocolo de Nagoya**. Esto exige gestionar un **Permiso de Acceso a Recursos Genéticos** "
-            "ante la Autoridad Nacional Competente en materia de Biodiversidad, garantizando la participación justa y equitativa en los beneficios derivados (ABS). "
-            "El sistema valida este cumplimiento a través de las listas de verificación interactivas en el módulo de Compliance."
-        )
-    elif any(kw in query_lower for kw in ["bioética", "bioetiva", "bioseguridad", "consentimiento", "declaración", "declaracion", "ética", "etica"]):
-        answer = (
-            "Toda investigación científica que involucre experimentación activa, muestras biológicas o impactos ecológicos directos debe contar "
-            "con la aprobación del **Comité Nacional de Bioética y Bioseguridad** regulador. Esto requiere presentar: 1) Un protocolo detallado del experimento, "
-            "2) Un formulario de Consentimiento Informado con redacción clara para los participantes, y 3) Una declaración formal de inocuidad ambiental. "
-            "El sistema compila estas salvaguardas y firma criptográficamente el acta legal de consentimiento inmutable."
-        )
-    elif any(kw in query_lower for kw in ["presupuesto", "financiamiento", "honorarios", "topes", "costos", "fondo", "dinero", "van", "tir"]):
-        answer = (
-            "Para la viabilidad financiera ante organismos de co-financiamiento y fondos de investigación: 1) Los fondos públicos "
-            "otorgados deben destinarse estrictamente a las partidas autorizadas (como equipamiento técnico, viáticos y consumibles). 2) Los honorarios de investigadores "
-            "tienen topes definidos según la dedicación del proyecto. 3) Se exige cofinanciamiento institucional formal de contrapartida. "
-            "Enthema valida estos flujos plurianuales mediante el solver de Newton-Raphson para obtener una TIR y un VAN exactos sin cargos externos."
-        )
-    elif any(kw in query_lower for kw in ["trazabilidad", "linaje", "criptografia", "criptografía", "hash", "firma", "qr", "sello"]):
-        answer = (
-            "El esquema de debida diligencia de Enthema utiliza auditoría criptográfica avanzada. Cada fase de la postulación "
-            "genera un resumen de metadatos acoplado firmado con un **Hash SHA-256**. El código QR vectorial en la portada del reporte "
-            "actúa como un **sello digital infalsificable**. Al escanear el QR, un auditor externo o evaluador multilateral puede confrontar el hash "
-            "local contra el registro de firmas, garantizando que el expediente no ha sido alterado post-evaluación."
-        )
-    elif any(kw in query_lower for kw in ["openscad", "patente", "diseño", "utilidad", "propiedad", "registro", "cad"]):
-        answer = (
-            "Para registrar la invención ante la **Oficina de Registro de Patentes y Propiedad Industrial**, el diseño CAD paramétrico en **OpenSCAD** "
-            "o los modelos técnicos actúan como la memoria descriptiva de utilidad. Se debe adjuntar el código parametrizado de la invención "
-            "junto con la declaración ética. La reproducibilidad digital mediante manufactura aditiva y aplicabilidad industrial es clave para "
-            "lograr la concesión del registro de la patente."
-        )
+    session_id = request.cookies.get("session_id")
+    conn_info = active_connections.get(session_id) if session_id else None
+    
+    # Determinar si es Administrador o Auditor
+    is_admin = (conn_info and conn_info["role"] in ["admin", "auditor"]) or (state and state.profile.user_role in ["admin", "auditor"])
+    
+    if is_admin:
+        # Lógica del Súper-Coach de Gobernanza del Administrador (Visión Global, Omnisciente)
+        if any(kw in query_lower for kw in ["clave", "key", "contraseña", "contrasena", "usuario", "registro", "generar"]):
+            answer = (
+                "**[Súper-Coach - Gobernanza de Accesos]** En tu rol de Administrador, posees facultades de control "
+                "absoluto para generar claves provisionales ilimitadas. Estas credenciales se inscriben en `access_keys.json`. "
+                "Al ser empleadas por investigadores para su registro, sus sesiones inician en entornos aislados. Desde tu panel de "
+                "Monitoreo Operativo, puedes inspeccionar IPs, tiempos de conexión, y revocar accesos de forma remota en tiempo real."
+            )
+        elif any(kw in query_lower for kw in ["nagoya", "biodiversidad", "biomasa", "recurso", "genético", "genetico", "abs"]):
+            answer = (
+                "**[Súper-Coach - Auditoría de Nagoya]** Como autoridad de control, tu función es auditar que cada declaración "
+                "de biomasa y recursos genéticos cuente con el sustento del Protocolo de Nagoya (ABS) antes de validar financiamientos. "
+                "El sistema obliga al investigador a firmar una declaración jurada inmutable. Si se detecta un expediente huérfano de "
+                "consentimiento, tu consola de control emitirá una alerta de brecha regulatoria para bloquear el trámite por diseño."
+            )
+        elif any(kw in query_lower for kw in ["bioética", "bioetiva", "bioseguridad", "consentimiento", "declaración", "declaracion", "ética", "etica", "firma"]):
+            answer = (
+                "**[Súper-Coach - Actas y Firmas Criptográficas]** Toda declaración legal completada genera un acta en formato HTML "
+                "dentro del directorio `output/legal/`. Tu panel lee directamente estos registros locales, calcula su firma digital "
+                "SHA-256 en tiempo real y la confronta contra el registro de auditoría. Si el archivo local coincide, verás el badge "
+                "'INTEGRO OK'. Si fue alterado externamente por fuera de la aplicación, el sistema te alertará de inmediato."
+            )
+        elif any(kw in query_lower for kw in ["presupuesto", "financiamiento", "honorarios", "topes", "costos", "fondo", "dinero", "van", "tir", "newton", "raphson"]):
+            answer = (
+                "**[Súper-Coach - Control de Viabilidad Financiera]** Tu perspectiva sobre el solver Newton-Raphson de TIR/VAN es "
+                "de fiscalización presupuestaria. Debes verificar que los coeficientes ingresados por el científico (viáticos, personal, equipamiento) "
+                "respeten rigurosamente los límites financieros del fondo público. Si la TIR calculada mediante la iteración polinómica "
+                "no coincide con las partidas presupuestarias declaradas, el motor de la Fase 1 denegará el Sello de Verificación."
+            )
+        elif any(kw in query_lower for kw in ["trazabilidad", "linaje", "hash", "qr", "sello"]):
+            answer = (
+                "**[Súper-Coach - Integridad de Trazabilidad]** El linaje del expediente consolidado se representa en un Sello QR "
+                "Criptográfico vectorial procedimental en la portada del reporte. Como Administrador, puedes escanear este código "
+                "para cruzar los hashes del dataset cuantitativo winsorizado y el modelado cualitativo semántico, garantizando que "
+                "la propuesta científica no sufrió alteraciones desde su envío."
+            )
+        elif any(kw in query_lower for kw in ["simulador", "monod", "cacao", "dinámica", "abm"]):
+            answer = (
+                "**[Súper-Coach - Auditoría de Modelos]** El motor de simulación ABM y dinámica de reactores permite contrastar "
+                "el rigor de la propuesta física con el presupuesto solicitado. Como administrador, puedes inspeccionar las brechas "
+                "semánticas del proyecto y validar que los shocks microclimáticos simulados justifiquen la adquisición de insumos declarados."
+            )
+        elif any(kw in query_lower for kw in ["borrar", "purga", "purgar", "limpiar", "borrado", "base de datos"]):
+            answer = (
+                "**[Súper-Coach - Purga Total de Datos]** Tienes a tu disposición la herramienta de Borrado de Datos en la Consola. "
+                "Esta acción borra por completo las actas físicas del disco local, vacía el registro en la nube `cloud_database_mock.json`, "
+                "restablece las claves de acceso provisionales en `access_keys.json` y finaliza de inmediato las sesiones de todos los "
+                "usuarios investigadores conectados, garantizando un reinicio seguro y limpio."
+            )
+        else:
+            answer = (
+                f"**[Súper-Coach de Gobernanza]** He procesado tu consulta: '{user_query}'. Como Administrador, poseo una visión "
+                "global de toda la suite Enthema. Puedo asistirte en la **auditoría de llaves y accesos**, la **purga y borrado de "
+                "bases de datos**, la **trazabilidad del Sello QR**, el control del **Protocolo de Nagoya**, la verificación de "
+                "**Actas Criptográficas**, y la supervisión del **Solver Financiero y Modelos ABM**."
+            )
     else:
-        answer = (
-            f"Como tu Copiloto de Regulación, he registrado tu consulta: '{user_query}'. "
-            "Te sugiero enfocar tus preguntas en las áreas metodológicas y de cumplimiento del sistema. "
-            "Por ejemplo, pregúntame sobre el **Protocolo de Nagoya** para recursos biológicos, las salvaguardas de **Bioseguridad**, "
-            "los cálculos de viabilidad financiera (**TIR/VAN**), la gestión de **Claves de Acceso**, o el **Sello QR Criptográfico** de auditoría."
-        )
+        # Lógica del Co-piloto Especializado por Área para Investigadores
+        current_path = (data.path or "").lower()
         
+        if "data-analysis" in current_path or "analysis" in current_path:
+            # 1. CO-PILOTO ESPECIALIZADO EN ANÁLISIS DE DATOS
+            if any(kw in query_lower for kw in ["winsor", "outlier", "limpieza", "desviación", "media", "datos", "limpiar", "filtro", "atípico"]):
+                answer = (
+                    "**[Co-piloto Científico - Winsorización de Datos]** Para procesar tus muestras sin perder poder estadístico por outliers, "
+                    "ejecutamos una Winsorización bilateral en los percentiles 5% y 95%. Esto reemplaza los valores extremos atípicos por los "
+                    "límites del intervalo de confianza correspondiente en lugar de descartarlos. Esto estabiliza la varianza y acondiciona "
+                    "el dataset cuantitativo de forma robusta antes de alimentar el motor de dinámicas de sistemas."
+                )
+            elif any(kw in query_lower for kw in ["grounded", "cualitativo", "semántico", "código", "segmento", "teoría", "categoria"]):
+                answer = (
+                    "**[Co-piloto Científico - Codificación Cualitativa]** Este módulo implementa la Grounded Theory estructurando segmentos "
+                    "de texto en unidades semánticas codificadas. Cada segmento se vincula a una categoría epistémica y se acopla a las variables "
+                    "cuantitativas de tu proyecto a través de hashes cruzados, asegurando que la fundamentación cualitativa sea 100% trazable."
+                )
+            else:
+                answer = (
+                    "**[Co-piloto Científico - Especialista en Datos]** Hola. En este módulo de Análisis de Datos estoy enfocado "
+                    "estrictamente en guiarte en el **procesamiento robusto de tus datasets**. Pregúntame sobre el filtrado de outliers mediante "
+                    "**Winsorización cuantitativa**, la codificación sistemática de **Grounded Theory**, o el cálculo de varianzas locales."
+                )
+                
+        elif "modeling" in current_path:
+            # 2. CO-PILOTO ESPECIALIZADO EN MODELADO SEMÁNTICO Y DINÁMICA
+            if any(kw in query_lower for kw in ["reactor", "monod", "cinética", "crecimiento", "biomasa", "s"]):
+                answer = (
+                    "**[Co-piloto Científico - Ecuación de Monod]** El crecimiento celular en el bio-reactor se modela mediante la cinética "
+                    "clásica de Monod: $\\mu = \\mu_{\\max} \\cdot \\frac{S}{K_s + S}$, donde $\\mu$ representa la tasa de crecimiento específico, "
+                    "$\\mu_{\\max}$ la tasa máxima, $S$ la concentración del sustrato limitante y $K_s$ la constante de afinidad media. Puedes simular "
+                    "shocks microclimáticos para estimar oscilaciones cinéticas en tiempo de ejecución local."
+                )
+            elif any(kw in query_lower for kw in ["abm", "agente", "simulador", "simulación", "shock", "temperatura", "ph"]):
+                answer = (
+                    "**[Co-piloto Científico - Modelado ABM]** El simulador de agentes (ABM) computa de forma individual las transiciones "
+                    "fisiológicas de los microorganismos ante shocks no lineales de temperatura y pH. Computa iteraciones horarias y "
+                    "actualiza la telemetría en memoria, mapeando la densidad de biomasa y detectando vacíos semánticos en tu marco teórico."
+                )
+            else:
+                answer = (
+                    "**[Co-piloto Científico - Especialista en Modelos]** Hola. En el simulador de Modelado Semántico estoy especializado "
+                    "en la formulación y validación de tus modelos dinámicos. Consúltame sobre la **cinética biológica de Monod**, simulaciones de "
+                    "**agentes bajo shocks térmicos (ABM)**, o la densidad topológica de tu **Grafo Semántico**."
+                )
+                
+        elif "finance" in current_path:
+            # 3. CO-PILOTO ESPECIALIZADO EN SOLVER FINANCIERO
+            if any(kw in query_lower for kw in ["tir", "van", "solver", "newton", "raphson", "iteración", "derivada"]):
+                answer = (
+                    "**[Co-piloto Científico - Algoritmo Newton-Raphson]** Para hallar la Tasa Interna de Retorno (TIR), aplicamos el solver "
+                    "recursivo Newton-Raphson sobre la primera derivada de la ecuación de flujos de caja descontados: $VAN'(r_k) = \\sum \\frac{-t \\cdot CF_t}{(1 + r_k)^{t+1}}$. "
+                    "La aproximación converge según la regla $r_{k+1} = r_k - \\frac{VAN(r_k)}{VAN'(r_k)}$ con una tolerancia extrema de $10^{-6}$ en "
+                    "menos de 5ms, ejecutándose de manera puramente local en tu navegador."
+                )
+            elif any(kw in query_lower for kw in ["presupuesto", "flujo", "costo", "inversión", "viabilidad", "steam", "retorno"]):
+                answer = (
+                    "**[Co-piloto Científico - Viabilidad Financiera]** Este módulo vincula de forma determinista la biomasa estimada con la "
+                    "sostenibilidad de la patente. El solver valida que los costos operativos y de personal declarados en tu presupuesto "
+                    "STEAM se sitúen dentro de las fronteras de optimización técnica y no violen los topes presupuestarios regulatorios."
+                )
+            else:
+                answer = (
+                    "**[Co-piloto Científico - Especialista Financiero]** Hola. En este panel de Finanzas, estoy especializado en el motor "
+                    "matemático de viabilidad. Pregúntame sobre el cálculo recursivo del **Solver de TIR/VAN (Newton-Raphson)**, el modelado "
+                    "de **flujos netos de caja**, o la optimización del presupuesto **STEAM** de patentes."
+                )
+                
+        elif "compliance" in current_path:
+            # 4. CO-PILOTO ESPECIALIZADO EN CUMPLIMIENTO REGULATORIO Y NAGOYA
+            if any(kw in query_lower for kw in ["nagoya", "biodiversidad", "abs", "recurso", "genético"]):
+                answer = (
+                    "**[Co-piloto Científico - Cumplimiento Nagoya (ABS)]** Si tu desarrollo científico emplea biomasa local o recursos genéticos, "
+                    "es obligatorio adherirse a la gobernanza del Protocolo de Nagoya sobre Acceso y Participación de Beneficios (ABS). Debes "
+                    "declarar la legalidad de obtención del recurso, completando el checklist interactivo antes de consolidar el expediente."
+                )
+            elif any(kw in query_lower for kw in ["bioética", "ética", "declaración", "firma", "acta", "criptográfico"]):
+                answer = (
+                    "**[Co-piloto Científico - Actas Criptográficas]** Al firmar digitalmente la declaración de bioética, el backend compila "
+                    "un documento HTML inmutable firmado localmente en `output/legal/`. El hash SHA-256 de esta acta se graba como metadato del proyecto, "
+                    "garantizando su inmutabilidad frente a auditorías externas del consorcio."
+                )
+            else:
+                answer = (
+                    "**[Co-piloto Científico - Especialista en Compliance]** Hola. En este módulo regulatorio, me especializo en velar "
+                    "por el apego ético de tu patente. Consúltame sobre los requisitos del **Protocolo de Nagoya (ABS)**, los estándares de "
+                    "**Comités de Bioética y Bioseguridad**, o el linaje criptográfico de tus **Actas Firmadas**."
+                )
+                
+        elif "reports" in current_path:
+            # 5. CO-PILOTO ESPECIALIZADO EN TRAZABILIDAD Y LINEAGE
+            if any(kw in query_lower for kw in ["informe", "monografía", "patente", "diseminación", "memorándum", "memorandum"]):
+                answer = (
+                    "**[Co-piloto Científico - Generación de Monografías]** El motor consolida la Grounded Theory semántica y los coeficientes "
+                    "financieros del solver en una monografía académica estructurada y un memorándum de inversión. Cada sección inserta firmas "
+                    "y códigos SHA-256 únicos que demuestran que los datos del reporte corresponden fielmente al dataset analizado."
+                )
+            elif any(kw in query_lower for kw in ["qr", "sello", "hash", "trazabilidad"]):
+                answer = (
+                    "**[Co-piloto Científico - Sello QR Criptográfico]** El reporte consolida un Sello QR procedimental inmutable. Este código QR "
+                    "contiene el hash SHA-256 consolidado de la base de datos y la declaración de compliance. Sirve como prueba criptográfica "
+                    "instantánea de que la propuesta científica no fue alterada tras la firma digital del investigador."
+                )
+            else:
+                answer = (
+                    "**[Co-piloto Científico - Especialista en Informes]** Hola. En esta sección de Informes, te asesoro en la exportación del "
+                    "linaje de tus patentes. Consúltame sobre la compilación de la **Monografía Científica**, borradores de **Patentes**, "
+                    "o la validación matemática del **Sello QR Criptográfico**."
+                )
+                
+        elif "configuration" in current_path:
+            # 6. CO-PILOTO DE ENTORNO
+            answer = (
+                "**[Co-piloto Técnico - Configuración]** En este panel de Configuración, te asisto en el mantenimiento y ajuste de "
+                "tu espacio de trabajo. Puedes personalizar tus credenciales científicas, tus líneas core de investigación, o ejecutar "
+                "un restablecimiento del entorno para vaciar la memoria de los simuladores y reiniciar el estado local a sus valores por defecto."
+            )
+            
+        else:
+            # 7. DEFAULT / DASHBOARD / INTEGRACIÓN METODOLÓGICA
+            if any(kw in query_lower for kw in ["clave", "key", "contraseña", "usuario", "registro"]):
+                answer = (
+                    "**[Co-piloto Científico - Gestión de Acceso]** Para registrar tu laboratorio en el consorcio, debes solicitar una clave "
+                    "provisional activa al Administrador. Una vez ingresada en la pantalla de registro, podrás crear tus credenciales de "
+                    "acceso locales para operar de manera aislada y confidencial."
+                )
+            else:
+                answer = (
+                    "**[Co-piloto Científico - Integración Metodológica]** Hola. Como tu Co-piloto Científico, te oriento en el diseño general "
+                    "de tu investigación en Enthema Suite. Puedo explicarte cómo acoplar el **Análisis Cuantitativo winsorizado** con la "
+                    "**Grounded Theory cualitativa**, simular el **bio-reactor microbiológico**, u obtener la viabilidad financiera de tu **patente**."
+                )
+                
     return {"status": "success", "answer": answer}
 
 # ==========================================

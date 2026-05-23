@@ -231,7 +231,7 @@ def get_active_nav_script():
                     const res = await fetch('/api/copilot/query', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ query: query })
+                        body: JSON.stringify({ query: query, path: window.location.pathname })
                     });
                     
                     // Remove typing indicator

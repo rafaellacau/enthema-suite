@@ -852,7 +852,7 @@
             const res = await fetch('/api/copilot/query', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ query: query })
+              body: JSON.stringify({ query: query, path: '/admin' })
             });
             
             // Remove typing indicator
