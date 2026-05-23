@@ -105,7 +105,7 @@ db_path = os.path.join(legal_dir, "users_db.json")
 default_users = [
     {
         "username": "admin",
-        "password": "admin123",
+        "password": "Lalo6%%Lalo",
         "role": "admin",
         "name": "Auditor Principal",
         "institution": "MESCyT / INTEC",
