@@ -352,7 +352,7 @@
         <span class="material-symbols-outlined">bar_chart</span> 2. Inferencia de Datos
       </a>
       <a href="#reactor" class="nav-link">
-        <span class="material-symbols-outlined">biotech</span> 3. Bio-Reactor Semántico
+        <span class="material-symbols-outlined">biotech</span> 3. Simulación y Consorcios
       </a>
       <a href="#finance" class="nav-link">
         <span class="material-symbols-outlined">payments</span> 4. Proyecciones VAN/TIR
@@ -482,18 +482,23 @@ except Exception as e:
       </p>
     </section>
 
-    <!-- CHAPTER 5: SEMANTIC BIOREACTOR -->
+    <!-- CHAPTER 5: SCIENTIFIC SIMULATION -->
     <section id="reactor">
       <div class="section-header">
-        <h2>3. Bio-Reactor Semántico y Redes del Consorcio</h2>
-        <p>Simulación bioquímica digitalizada y sociogramas estructurales</p>
+        <h2>3. Simulación Científica y Modelado de Consorcios</h2>
+        <p>Motor de dinámica de sistemas, simulación multi-agente y grafos de competencias</p>
       </div>
       <p>
-        El Bio-Reactor digitalizado simula en tiempo real la respuesta biológica celular. Integra un motor que ejecuta simulaciones cinéticas bajo el modelo clásico de Monod:
+        El motor de simulación de Enthema es un entorno **multipropósito y configurable**. No está acoplado a una sola disciplina, sino diseñado para resolver dinámicas de sistemas mediante ecuaciones diferenciales acopladas, simulaciones multi-agente (ABM) e inferencia de grafos semánticos en cualquier campo científico.
+      </p>
+
+      <h3 style="margin-bottom: 0.75rem; font-size: 1.15rem; color: var(--primary);">📌 Caso de Estudio 1: Cinética de Crecimiento en Bio-Reactores (Biotecnología)</h3>
+      <p>
+        A modo de demostración para el área de bioingeniería, el motor ejecuta simulaciones cinéticas en vivo de concentración y biomasa bajo el modelo clásico de Monod:
       </p>
 
       <div class="math-block">
-        <strong>Modelo Cinético de Simulación de Monod</strong>
+        <strong>Modelo Cinético de Crecimiento de Monod (Caso de Estudio)</strong>
         <p>Calcula la velocidad de crecimiento celular (&mu;) y el agotamiento del sustrato (S):</p>
         <div class="math-formula">
           &mu; = &mu;_max * S / ( K_s + S )
@@ -501,17 +506,30 @@ except Exception as e:
         <div class="math-formula">
           X_t = X_{t-1} * e^{&mu; * &Delta;t}
         </div>
-        <p>Donde X representa la biomasa celular, S el sustrato disponible, &mu;_max la tasa máxima de crecimiento, y K_s la constante de afinidad.</p>
+        <p>Donde X representa la biomasa celular y S el sustrato alimentador, sirviendo como ejemplo de modelado de dinámicas enzimáticas.</p>
       </div>
 
       <div class="image-showcase">
         <img src="/static/images/enthema_bioreactor.png" alt="enthema_bioreactor.png">
-        <div class="image-caption">Esquema conceptual del Bio-Reactor digitalizado tridimensional en vivo.</div>
+        <div class="image-caption">Visualización del Bio-Reactor digitalizado como caso de estudio demostrativo biotecnológico.</div>
       </div>
 
-      <h3 style="margin-bottom: 0.5rem; font-size: 1.15rem;">Análisis de Redes y Gaps Semánticos</h3>
+      <h3 style="margin-bottom: 0.75rem; font-size: 1.15rem; color: var(--primary); margin-top: 2rem;">📌 Caso de Estudio 2: Dinámicas Agrícolas de Precisión e IoT (Cultivos de Cacao)</h3>
       <p>
-        Para la conformación de consorcios de investigación, el sistema compila las palabras clave de los investigadores en un **grafo de interacción semántica**. Utiliza métricas de centralidad y densidad de red para alertar sobre "agujeros estructurales" o vacíos de conocimiento esenciales en el consorcio, recomendando de forma proactiva qué perfiles científicos incorporar.
+        Para validar la flexibilidad absoluta del simulador en otras disciplinas, el motor de Enthema puede parametrizarse para modelar tasas de transpiración y crecimiento vegetativo de cultivos en base a shocks térmicos y humedad ambiental recolectada por sensores IoT:
+      </p>
+      <div class="math-block" style="border-left-color: var(--accent);">
+        <strong>Modelo de Stress Hídrico y Rendimiento Agrícola (Caso de Estudio)</strong>
+        <p>Estima el índice de rendimiento de biomasa de cacao ($Y_{cacao}$) en función de la temperatura (T) y la humedad del suelo (H):</p>
+        <div class="math-formula">
+          Y_{cacao} = Y_{max} * [ 1 - \alpha * (T - T_{opt})^2 ] * [ H / (K_h + H) ]
+        </div>
+        <p>Donde $T_{opt}$ es la temperatura óptima de cultivo, $\alpha$ es la sensibilidad térmica y $K_h$ es la constante de saturación hídrica.</p>
+      </div>
+
+      <h3 style="margin-bottom: 0.5rem; font-size: 1.15rem; margin-top: 2rem;">Análisis de Redes y Gaps Semánticos de Consorcios</h3>
+      <p>
+        Para la conformación de consorcios en cualquier disciplina (tanto médica como agrícola o social), el sistema compila las palabras clave de los investigadores en un **grafo de interacción semántica**. Utiliza métricas de centralidad y densidad de red para alertar sobre "agujeros estructurales" o vacíos de conocimiento esenciales en el consorcio, recomendando de forma proactiva qué perfiles científicos incorporar.
       </p>
     </section>
 
