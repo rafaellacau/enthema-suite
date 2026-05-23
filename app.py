@@ -101,38 +101,93 @@ except Exception as e:
     os.makedirs(legal_dir, exist_ok=True)
 
 db_path = os.path.join(legal_dir, "users_db.json")
-if not os.path.exists(db_path):
-    default_users = [
-        {
-            "username": "admin",
-            "password": "admin123",
-            "role": "admin",
-            "name": "Auditor Principal",
-            "institution": "MESCyT / INTEC",
-            "profile_id": "INV-AUDIT-MASTER"
-        },
-        {
-            "username": "admin",
-            "password": "admin 123",
-            "role": "admin",
-            "name": "Auditor Principal",
-            "institution": "MESCyT / INTEC",
-            "profile_id": "INV-AUDIT-MASTER"
-        },
-        {
-            "username": "aris",
-            "password": "password",
-            "role": "researcher",
-            "name": "Dr. Aris Thorne",
-            "institution": "Instituto Internacional de Bioingeniería",
-            "profile_id": "INV-ARIS-001"
-        }
-    ]
+
+default_users = [
+    {
+        "username": "admin",
+        "password": "admin123",
+        "role": "admin",
+        "name": "Auditor Principal",
+        "institution": "MESCyT / INTEC",
+        "profile_id": "INV-AUDIT-MASTER"
+    },
+    {
+        "username": "PG",
+        "password": "soncubano66",
+        "role": "admin",
+        "name": "Pedro Gómez (Auditor)",
+        "institution": "FONDOCYT / MESCyT",
+        "profile_id": "INV-AUDIT-PG"
+    },
+    {
+        "username": "RL",
+        "password": "lapauesta66",
+        "role": "admin",
+        "name": "Rafael Lacau (Auditor)",
+        "institution": "FONDOCYT / MESCyT",
+        "profile_id": "INV-AUDIT-RL"
+    },
+    {
+        "username": "aris",
+        "password": "password",
+        "role": "researcher",
+        "name": "Dr. Aris Thorne",
+        "institution": "Instituto Internacional de Bioingeniería",
+        "profile_id": "INV-ARIS-001"
+    },
+    {
+        "username": "investigador_biotech",
+        "password": "socrates_bio99",
+        "role": "researcher",
+        "name": "Lab de Bioingeniería Avanzada",
+        "institution": "Universidad de Santo Domingo",
+        "profile_id": "INV-BIOTECH-01"
+    },
+    {
+        "username": "researcher_steam",
+        "password": "steam_precision88",
+        "role": "researcher",
+        "name": "Grupo de Investigación STEAM",
+        "institution": "Instituto FONDOCYT",
+        "profile_id": "INV-STEAM-02"
+    },
+    {
+        "username": "consultor_esg",
+        "password": "esg_impact77",
+        "role": "researcher",
+        "name": "Consultor Financiero ESG",
+        "institution": "Banco de Desarrollo Multilateral",
+        "profile_id": "INV-ESG-03"
+    },
+    {
+        "username": "dr_thorne",
+        "password": "aris_science55",
+        "role": "researcher",
+        "name": "Dr. Aris Thorne (Alternativo)",
+        "institution": "Instituto Internacional de Bioingeniería",
+        "profile_id": "INV-ARIS-002"
+    }
+]
+
+users = []
+if os.path.exists(db_path):
     try:
-        with open(db_path, "w", encoding="utf-8") as f:
-            json.dump(default_users, f, indent=4, ensure_ascii=False)
-    except Exception as e:
-        logger.error(f"Error escribiendo users_db.json: {e}")
+        with open(db_path, "r", encoding="utf-8") as f:
+            users = json.load(f)
+    except Exception:
+        users = []
+
+# Sincronizar usuarios por defecto que falten
+existing_usernames = {u["username"].lower() for u in users}
+for du in default_users:
+    if du["username"].lower() not in existing_usernames:
+        users.append(du)
+
+try:
+    with open(db_path, "w", encoding="utf-8") as f:
+        json.dump(users, f, indent=4, ensure_ascii=False)
+except Exception as e:
+    logger.error(f"Error escribiendo users_db.json: {e}")
 
 keys_path = os.path.join(legal_dir, "access_keys.json")
 if not os.path.exists(keys_path):
