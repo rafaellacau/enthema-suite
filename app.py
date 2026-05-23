@@ -1151,65 +1151,62 @@ async def api_configuration_reset(request: Request):
 
 # ==========================================
 # ENTHEMA AI COACH INTERACTIVE CO-PILOT
-# ==========================================
-
-class CopilotQueryRequest(BaseModel):
-    query: str
-
-@app.post("/api/copilot/query")
+# =====@app.post("/api/copilot/query")
 async def api_copilot_query(data: CopilotQueryRequest, request: Request):
-    """Procesa consultas regulatorias y metodológicas locales (Costo de API $0.00 USD)."""
+    """Procesa consultas regulatorias y metodológicas locales de forma agnóstica (Costo de API $0.00 USD)."""
     state = get_api_session(request)
     user_query = data.query.strip()
     
     query_lower = user_query.lower()
-    if any(kw in query_lower for kw in ["nagoya", "marena", "medio ambiente", "biodiversidad", "sargazo", "abs"]):
+    
+    if any(kw in query_lower for kw in ["clave", "key", "contraseña", "contrasena", "usuario", "registro", "generar"]):
         answer = (
-            "Para proyectos que involucren recursos genéticos locales (como sargazo costero dominicano), "
-            "el **Convenio sobre la Diversidad Biológica (Protocolo Nagoya)** exige gestionar el "
-            "**Permiso de Acceso a Recursos Genéticos** ante el Viceministerio de Áreas Protegidas y Biodiversidad del "
-            "**MARENA (Ministerio de Medio Ambiente)**. Este permiso garantiza la participación justa y equitativa en los "
-            "beneficios (ABS). Se requiere completar el formulario de solicitud formal, presentar el protocolo de "
-            "investigación académica y acordar las Condiciones de Mutuo Acuerdo (CMA)."
+            "Como tu Copiloto de Regulación, te informo sobre la gestión de accesos: En la Consola de Gobernanza del Administrador "
+            "puedes generar tantas **claves provisionales de acceso** como requieras de forma ilimitada. Cada clave generada se almacena "
+            "en el archivo de registro `access_keys.json` y sirve para que un nuevo investigador o auditor registre una cuenta de forma "
+            "autónoma. Una vez utilizada por un usuario para registrarse, la clave se marca automáticamente como 'Quemada' y queda inactiva."
         )
-    elif any(kw in query_lower for kw in ["conabios", "bioetica", "bioética", "consentimiento", "ensayo", "paciente"]):
+    elif any(kw in query_lower for kw in ["nagoya", "biodiversidad", "biomasa", "recurso biológico", "recurso biologico", "genético", "genetico", "abs"]):
         answer = (
-            "Para ensayos clínicos u obtención de muestras biológicas humanas en la República Dominicana (ej. tomografía y prótesis óseas "
-            "de pacientes en INTEC/UNIBE), es obligatorio obtener la aprobación del **Comité Nacional de Bioética en Salud (CONABIOS)**. "
-            "Debes presentar: 1) Protocolo de investigación clínica detallado. 2) Formulario de Consentimiento Informado (con redacción clara "
-            "para pacientes locales). 3) Declaración de confidencialidad y protección de datos. Ningún procedimiento médico o toma de muestras "
-            "puede iniciar sin el dictamen favorable de CONABIOS."
+            "Bajo las regulaciones internacionales de biodiversidad, toda investigación que involucre el acceso y aprovechamiento de recursos biológicos "
+            "o genéticos endémicos debe cumplir rigurosamente con el **Protocolo de Nagoya**. Esto exige gestionar un **Permiso de Acceso a Recursos Genéticos** "
+            "ante la Autoridad Nacional Competente en materia de Biodiversidad, garantizando la participación justa y equitativa en los beneficios derivados (ABS). "
+            "El sistema valida este cumplimiento a través de las listas de verificación interactivas en el módulo de Compliance."
         )
-    elif any(kw in query_lower for kw in ["fondocyt", "mescyt", "presupuesto", "financiamiento", "honorarios", "topes"]):
+    elif any(kw in query_lower for kw in ["bioética", "bioetiva", "bioseguridad", "consentimiento", "declaración", "declaracion", "ética", "etica"]):
         answer = (
-            "Bajo la normativa del **FONDOCYT (MESCYT)**: 1) Los fondos otorgados no pueden destinarse a la compra de terrenos o vehículos. "
-            "2) Los honorarios de investigadores locales tienen topes establecidos por rango académico y dedicación (generalmente hasta un "
-            "40-50% del total presupuestado). 3) Se exige cofinanciamiento institucional (en especie o efectivo) de al menos el 10-20% por parte "
-            "de INTEC y UNIBE. 4) Toda compra de equipos mayores de laboratorio debe ser justificada en la propuesta inicial y pasar por procesos "
-            "de cotización y aduanas exentos de impuestos selectivos."
+            "Toda investigación científica que involucre experimentación activa, muestras biológicas o impactos ecológicos directos debe contar "
+            "con la aprobación del **Comité Nacional de Bioética y Bioseguridad** regulador. Esto requiere presentar: 1) Un protocolo detallado del experimento, "
+            "2) Un formulario de Consentimiento Informado con redacción clara para los participantes, y 3) Una declaración formal de inocuidad ambiental. "
+            "El sistema compila estas salvaguardas y firma criptográficamente el acta legal de consentimiento inmutable."
+        )
+    elif any(kw in query_lower for kw in ["presupuesto", "financiamiento", "honorarios", "topes", "costos", "fondo", "dinero", "van", "tir"]):
+        answer = (
+            "Para la viabilidad financiera ante organismos de co-financiamiento y fondos de investigación: 1) Los fondos públicos "
+            "otorgados deben destinarse estrictamente a las partidas autorizadas (como equipamiento técnico, viáticos y consumibles). 2) Los honorarios de investigadores "
+            "tienen topes definidos según la dedicación del proyecto. 3) Se exige cofinanciamiento institucional formal de contrapartida. "
+            "Enthema valida estos flujos plurianuales mediante el solver de Newton-Raphson para obtener una TIR y un VAN exactos sin cargos externos."
         )
     elif any(kw in query_lower for kw in ["trazabilidad", "linaje", "criptografia", "criptografía", "hash", "firma", "qr", "sello"]):
         answer = (
-            "El sistema de debida diligencia de Enthema utiliza un esquema de auditoría criptográfica. Cada fase de la postulación "
-            "(desde la ingesta Obsidian hasta el solver financiero) genera un resumen de metadatos acoplado que se firma con un "
-            "**Hash SHA-256**. El código QR neon vectorial en la portada del reporte HTML actúa como un **sello digital infalsificable**. "
-            "Al escanear el QR, un auditor externo o evaluador multilateral puede confrontar el hash local contra la firma en cadena, "
-            "garantizando que el expediente no ha sido alterado post-evaluación."
+            "El esquema de debida diligencia de Enthema utiliza auditoría criptográfica avanzada. Cada fase de la postulación "
+            "genera un resumen de metadatos acoplado firmado con un **Hash SHA-256**. El código QR vectorial en la portada del reporte "
+            "actúa como un **sello digital infalsificable**. Al escanear el QR, un auditor externo o evaluador multilateral puede confrontar el hash "
+            "local contra el registro de firmas, garantizando que el expediente no ha sido alterado post-evaluación."
         )
-    elif any(kw in query_lower for kw in ["openscad", "onapi", "patente", "diseño", "utilidad", "falange"]):
+    elif any(kw in query_lower for kw in ["openscad", "patente", "diseño", "utilidad", "propiedad", "registro", "cad"]):
         answer = (
-            "Para registrar la prótesis quirúrgica ante la **ONAPI (Oficina Nacional de la Propiedad Industrial)** en Santo Domingo, "
-            "el diseño CAD paramétrico en **OpenSCAD** actúa como la memoria descriptiva tridimensional del modelo de utilidad o patente "
-            "de invención. Se debe adjuntar el código parametrizado (que demuestra la adaptabilidad al fémur/falange según tomografía) "
-            "junto con la declaración ética. La reproducibilidad digital mediante manufactura aditiva local es clave para cumplir con el "
-            "requisito de aplicabilidad industrial exigido por ONAPI."
+            "Para registrar la invención ante la **Oficina de Registro de Patentes y Propiedad Industrial**, el diseño CAD paramétrico en **OpenSCAD** "
+            "o los modelos técnicos actúan como la memoria descriptiva de utilidad. Se debe adjuntar el código parametrizado de la invención "
+            "junto con la declaración ética. La reproducibilidad digital mediante manufactura aditiva y aplicabilidad industrial es clave para "
+            "lograr la concesión del registro de la patente."
         )
     else:
         answer = (
             f"Como tu Copiloto de Regulación, he registrado tu consulta: '{user_query}'. "
-            "Te sugiero enfocar tu consulta en áreas del cumplimiento científico local. "
-            "Por ejemplo, pregúntame sobre el **Protocolo Nagoya (MARENA)** para recursos biológicos, el cumplimiento de bioética ante "
-            "**CONABIOS** para datos óseos, los topes presupuestarios de **FONDOCYT (MESCYT)** o el **Sello QR Criptográfico** de auditoría."
+            "Te sugiero enfocar tus preguntas en las áreas metodológicas y de cumplimiento del sistema. "
+            "Por ejemplo, pregúntame sobre el **Protocolo de Nagoya** para recursos biológicos, las salvaguardas de **Bioseguridad**, "
+            "los cálculos de viabilidad financiera (**TIR/VAN**), la gestión de **Claves de Acceso**, o el **Sello QR Criptográfico** de auditoría."
         )
         
     return {"status": "success", "answer": answer}
