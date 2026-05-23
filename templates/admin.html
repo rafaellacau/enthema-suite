@@ -127,7 +127,7 @@
   </aside>
 
   <!-- Main Content Wrapper -->
-  <div class="flex-grow flex flex-col min-h-screen">
+  <div class="flex-grow flex flex-col min-h-screen mr-80">
     
     <!-- Top Header -->
     <header class="h-16 border-b border-slate-200 bg-white px-8 flex justify-between items-center z-10 shrink-0">
@@ -748,6 +748,167 @@
         alert('Error al compilar el paquete XML de auditoría: ' + err.message);
       }
     }
+  </script>
+
+  <!-- Enthema AI Coach Right Sidebar (Admin Edition) -->
+  <aside class="fixed right-0 top-0 h-screen w-80 border-l border-slate-200 bg-white flex flex-col z-40 shadow-lg text-left">
+    <!-- Coach Header -->
+    <div class="px-6 py-4 border-b border-slate-200 bg-white flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-[#10b981]/15 text-[#059669] flex items-center justify-center">
+        <span class="material-symbols-outlined text-[24px]">psychology</span>
+      </div>
+      <div>
+        <h3 class="text-slate-800 text-[15px] font-bold leading-tight">Enthema AI Coach</h3>
+        <p class="text-slate-400 text-[10px] uppercase font-mono tracking-wider">Asistente de Auditoría & Control</p>
+      </div>
+    </div>
+
+    <!-- Chat History -->
+    <div id="coach-chat-history" class="flex-grow p-4 overflow-y-auto space-y-3 bg-slate-50/50 text-xs">
+      <!-- Welcome message -->
+      <div class="flex items-start gap-2 max-w-[85%] mb-2">
+        <div class="w-6 h-6 rounded-full bg-[#10b981]/15 text-[#059669] flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[14px]">smart_toy</span>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-lg p-2.5 text-slate-700 leading-relaxed">
+          Hola, <strong>Auditor Principal</strong>. Estoy listo para asistirle en la gobernanza, verificación de Nagoya, CONABIOS y en la validación de consistencia de los expedientes. ¿Qué duda de control o fórmula desea auditar hoy?
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggestions / Quick Links -->
+    <div class="px-4 py-2 bg-slate-50 border-t border-slate-200/50">
+      <p class="text-[9px] font-bold text-slate-400 uppercase font-mono mb-1">Consultas de Control</p>
+      <div class="flex flex-wrap gap-1.5">
+        <button onclick="sendQuickQuery('¿Cómo valido el sello criptográfico SHA-256?')" class="text-[9px] px-2 py-1 bg-white border border-slate-200 rounded hover:bg-emerald-50 hover:text-emerald-700 transition-all text-left">🔐 Validar Sellos</button>
+        <button onclick="sendQuickQuery('¿Qué diferencia hay entre la Opción A y B del Auditor?')" class="text-[9px] px-2 py-1 bg-white border border-slate-200 rounded hover:bg-emerald-50 hover:text-emerald-700 transition-all text-left">⚖️ Opción A vs B</button>
+        <button onclick="sendQuickQuery('¿Cómo audito el cumplimiento de Nagoya?')" class="text-[9px] px-2 py-1 bg-white border border-slate-200 rounded hover:bg-emerald-50 hover:text-emerald-700 transition-all text-left">🛡️ Control Nagoya</button>
+      </div>
+    </div>
+
+    <!-- Chat Input Form -->
+    <form id="coach-chat-form" class="p-4 border-t border-slate-200 bg-white flex items-center gap-2">
+      <input type="text" id="coach-query-input" placeholder="Pregunte algo al AI Coach..." class="flex-grow bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-[#10b981]/20 outline-none transition-all text-slate-800" required autocomplete="off" />
+      <button type="submit" class="p-2 bg-[#111d23] text-white rounded-lg hover:opacity-90 transition-all shrink-0">
+        <span class="material-symbols-outlined text-[16px]">send</span>
+      </button>
+    </form>
+  </aside>
+
+  <script>
+    // AI Coach Quick Query
+    function sendQuickQuery(text) {
+      const input = document.getElementById('coach-query-input');
+      if (input) {
+        input.value = text;
+        document.getElementById('coach-chat-form').dispatchEvent(new Event('submit'));
+      }
+    }
+
+    // AI Coach AJAX submit handler
+    document.addEventListener('DOMContentLoaded', () => {
+      const chatForm = document.getElementById('coach-chat-form');
+      const chatHistory = document.getElementById('coach-chat-history');
+      const queryInput = document.getElementById('coach-query-input');
+      
+      if (chatForm && chatHistory && queryInput) {
+        chatForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const query = queryInput.value.trim();
+          if (!query) return;
+          
+          // Append User Message
+          const userMsgDiv = document.createElement('div');
+          userMsgDiv.className = "flex items-start gap-2 max-w-[85%] ml-auto justify-end mb-2";
+          userMsgDiv.innerHTML = `
+            <div class="bg-[#111d23] text-white rounded-lg p-2.5 leading-relaxed text-right">
+              ${query}
+            </div>
+            <div class="w-6 h-6 rounded-full bg-[#111d23] text-white flex items-center justify-center shrink-0 font-bold text-[9px]">
+              YO
+            </div>
+          `;
+          chatHistory.appendChild(userMsgDiv);
+          chatHistory.scrollTop = chatHistory.scrollHeight;
+          
+          // Clear input and show typing...
+          queryInput.value = '';
+          queryInput.disabled = true;
+          
+          const typingDiv = document.createElement('div');
+          typingDiv.className = "flex items-start gap-2 max-w-[85%] typing-indicator mb-2";
+          typingDiv.innerHTML = `
+            <div class="w-6 h-6 rounded-full bg-[#10b981]/15 text-[#059669] flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[14px]">smart_toy</span>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-lg p-2.5 text-slate-500 leading-relaxed italic animate-pulse">
+              Analizando variables de control...
+            </div>
+          `;
+          chatHistory.appendChild(typingDiv);
+          chatHistory.scrollTop = chatHistory.scrollHeight;
+          
+          try {
+            const res = await fetch('/api/copilot/query', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ query: query })
+            });
+            
+            // Remove typing indicator
+            const typing = chatHistory.querySelector('.typing-indicator');
+            if (typing) typing.remove();
+            
+            if (res.ok) {
+              const data = await res.json();
+              
+              const botMsgDiv = document.createElement('div');
+              botMsgDiv.className = "flex items-start gap-2 max-w-[85%] mb-2";
+              botMsgDiv.innerHTML = `
+                <div class="w-6 h-6 rounded-full bg-[#10b981]/15 text-[#059669] flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[14px]">smart_toy</span>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-lg p-2.5 text-slate-700 leading-relaxed">
+                  ${data.answer}
+                </div>
+              `;
+              chatHistory.appendChild(botMsgDiv);
+            } else {
+              const errorDiv = document.createElement('div');
+              errorDiv.className = "flex items-start gap-2 max-w-[85%] mb-2";
+              errorDiv.innerHTML = `
+                <div class="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[14px]">error</span>
+                </div>
+                <div class="bg-red-50 border border-red-100 rounded-lg p-2.5 text-red-700 leading-relaxed">
+                  Error al procesar consulta de control.
+                </div>
+              `;
+              chatHistory.appendChild(errorDiv);
+            }
+          } catch (err) {
+            const typing = chatHistory.querySelector('.typing-indicator');
+            if (typing) typing.remove();
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = "flex items-start gap-2 max-w-[85%] mb-2";
+            errorDiv.innerHTML = `
+              <div class="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-[14px]">error</span>
+              </div>
+              <div class="bg-red-50 border border-red-100 rounded-lg p-2.5 text-red-700 leading-relaxed">
+                Error de conexión con el servidor.
+              </div>
+            `;
+            chatHistory.appendChild(errorDiv);
+          } finally {
+            queryInput.disabled = false;
+            queryInput.focus();
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>
