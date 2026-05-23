@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Enthema Suite - Configuración Inicial</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f3faff; /* Soft Ice background */
+      color: #1e293b;
+    }
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(17, 29, 35, 0.08);
+      box-shadow: 0 10px 30px -10px rgba(17, 29, 35, 0.04);
+    }
+    .profile-card {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .profile-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px -10px rgba(0, 91, 192, 0.12);
+    }
+    .waveform-bar {
+      animation: bounce 0.8s ease-in-out infinite alternate;
+    }
+    @keyframes bounce {
+      0% { height: 4px; }
+      100% { height: 28px; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+  <!-- Sleek Header -->
+  <header class="h-16 border-b border-slate-200/80 bg-white px-8 flex justify-between items-center z-10 shrink-0">
+    <div class="flex items-center gap-3">
+      <img alt="Logo Enthema" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
+      <div>
+        <h1 class="font-bold text-[#111d23] text-[15px] leading-none tracking-tight">Enthema Suite</h1>
+        <p class="text-[9px] text-[#005bc0] font-mono mt-1 uppercase tracking-wider">Ecosistema de Precisión</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-6">
+      <div class="text-right">
+        <p class="text-xs font-bold text-slate-800 leading-none">{{ profile.name }}</p>
+        <p class="text-[9px] text-slate-400 uppercase tracking-widest font-mono mt-1">
+          {% if profile.user_role in ['admin', 'auditor'] %}
+            Acceso Administrativo
+          {% else %}
+            Perfil Científico
+          {% endif %}
+        </p>
+      </div>
+      <div class="h-8 w-px bg-slate-200"></div>
+      <button onclick="handleLogout()" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-red-50 border border-slate-200 hover:border-red-200 rounded-lg text-xs font-bold text-slate-500 hover:text-red-600 transition-all">
+        <span class="material-symbols-outlined text-[16px]">logout</span>
+        Cerrar Sesión
+      </button>
+    </div>
+  </header>
+
+  <!-- Centered Premium Layout -->
+  <div class="flex-grow w-full max-w-[1280px] mx-auto bg-[#f3faff] flex flex-col justify-start">
+    
+    <!-- Main Content Area -->
+    <main class="flex-grow p-6 md:p-10 space-y-12 bg-[#f3faff] max-w-5xl mx-auto w-full">
+      
+      <!-- Welcome Pitch -->
+      <div class="text-center space-y-3 max-w-3xl mx-auto">
+        <h2 class="text-4xl font-extrabold text-[#111d23] tracking-tight leading-tight">
+          Bienvenido a la Precisión Algorítmica
+        </h2>
+        <p class="text-slate-500 text-sm leading-relaxed max-w-2xl mx-auto">
+          Prepare su entorno de trabajo para el análisis de datos de próxima generación. Enthema Suite integra rigor científico, compilación de impacto legal y gobernanza criptográfica inmutable.
+        </p>
+      </div>
+
+      <!-- Interactive Lifecycle Theater Bento Box (D0-D3 Showcase) -->
+      <div class="w-full max-w-5xl mx-auto glass-panel rounded-3xl p-6 bg-white border border-slate-200/80 shadow-xl space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 pb-4 gap-4">
+          <div>
+            <h3 class="text-xl font-extrabold text-[#111d23]">Teatro del Ciclo de Vida: Enthema D0-D3</h3>
+            <p class="text-xs text-slate-400 mt-1">Explore el viaje completo del dato desde su origen científico hasta la inmutabilidad legal y regulatoria.</p>
+          </div>
+          <!-- Slideshow Controls -->
+          <div class="flex items-center gap-3">
+            <button id="theater-prev" onclick="theaterPrev()" class="w-8 h-8 rounded-lg border border-slate-200 hover:border-slate-300 bg-white flex items-center justify-center text-slate-500 hover:text-[#005bc0] active:scale-95 transition-all">
+              <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+            </button>
+            <button id="theater-play-pause" onclick="theaterTogglePlay()" class="px-3 py-1.5 rounded-lg bg-[#005bc0] hover:bg-[#004bb0] text-white font-semibold text-xs flex items-center gap-1.5 shadow-sm transition-all active:scale-95">
+              <span class="material-symbols-outlined text-[16px]" id="theater-play-icon">pause</span>
+              <span id="theater-play-text">Teatro Activo</span>
+            </button>
+            <button id="theater-next" onclick="theaterNext()" class="w-8 h-8 rounded-lg border border-slate-200 hover:border-slate-300 bg-white flex items-center justify-center text-slate-500 hover:text-[#005bc0] active:scale-95 transition-all">
+              <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <!-- Left Column: Tab list (lg:col-span-5) -->
+          <div class="lg:col-span-5 flex flex-col gap-3 justify-between">
+            <div class="space-y-3">
+              <!-- Tab D0 -->
+              <button onclick="theaterSetStage(0)" id="theater-tab-0" class="w-full text-left p-4 rounded-2xl border transition-all duration-300 flex items-start gap-3.5 group bg-blue-50/50 border-[#005bc0] shadow-sm">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#005bc0] border border-blue-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
+                  <span class="material-symbols-outlined text-[20px]">description</span>
+                </div>
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="text-[9px] font-bold tracking-widest uppercase bg-[#005bc0] text-white px-1.5 py-0.5 rounded-md font-mono">D0 - Registro</span>
+                  </div>
+                  <h4 class="text-xs font-extrabold text-[#111d23] tracking-tight">Ingestión Omnívora de Referencias</h4>
+                  <p class="text-[11px] text-slate-500 leading-normal">
+                    Pipeline inteligente de captación y catalogación de notas y datasets crudos.
+                  </p>
+                </div>
+              </button>
+
+              <!-- Tab D1 -->
+              <button onclick="theaterSetStage(1)" id="theater-tab-1" class="w-full text-left p-4 rounded-2xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50/50 transition-all duration-300 flex items-start gap-3.5 group">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
+                  <span class="material-symbols-outlined text-[20px]">science</span>
+                </div>
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="text-[9px] font-bold tracking-widest uppercase bg-emerald-600 text-white px-1.5 py-0.5 rounded-md font-mono">D1 - Simulación</span>
+                  </div>
+                  <h4 class="text-xs font-extrabold text-slate-700 tracking-tight">Modelado Predictivo y Solver STEM</h4>
+                  <p class="text-[11px] text-slate-400 leading-normal">
+                    Simulación de bio-reactores en tiempo real y proyecciones de viabilidad financiera.
+                  </p>
+                </div>
+              </button>
+
+              <!-- Tab D2 -->
+              <button onclick="theaterSetStage(2)" id="theater-tab-2" class="w-full text-left p-4 rounded-2xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50/50 transition-all duration-300 flex items-start gap-3.5 group">
+                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
+                  <span class="material-symbols-outlined text-[20px]">gavel</span>
+                </div>
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="text-[9px] font-bold tracking-widest uppercase bg-amber-600 text-white px-1.5 py-0.5 rounded-md font-mono">D2 - Traducción</span>
+                  </div>
+                  <h4 class="text-xs font-extrabold text-slate-700 tracking-tight">Compilador de Impacto Legal</h4>
+                  <p class="text-[11px] text-slate-400 leading-normal">
+                    Traducción automatizada a patentes ONAPI, actas de derecho de autor y memorandos.
+                  </p>
+                </div>
+              </button>
+
+              <!-- Tab D3 -->
+              <button onclick="theaterSetStage(3)" id="theater-tab-3" class="w-full text-left p-4 rounded-2xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50/50 transition-all duration-300 flex items-start gap-3.5 group">
+                <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 border border-rose-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all">
+                  <span class="material-symbols-outlined text-[20px]">verified_user</span>
+                </div>
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="text-[9px] font-bold tracking-widest uppercase bg-rose-600 text-white px-1.5 py-0.5 rounded-md font-mono">D3 - Gobernanza</span>
+                  </div>
+                  <h4 class="text-xs font-extrabold text-slate-700 tracking-tight">Auditoría Criptográfica e Inmutabilidad</h4>
+                  <p class="text-[11px] text-slate-400 leading-normal">
+                    Libro mayor inalterable regulado por MESCyT con firma digital y hash SHA-256.
+                  </p>
+                </div>
+              </button>
+            </div>
+
+            <!-- Total Slideshow Progress Line -->
+            <div class="bg-slate-50 border border-slate-200/60 rounded-xl p-3.5 space-y-2 mt-4">
+              <div class="flex justify-between items-center text-[10px] text-slate-500 font-mono">
+                <span class="font-bold text-slate-400 uppercase tracking-wider">Progreso del Teatro</span>
+                <span id="theater-progress-text">25% Completado</span>
+              </div>
+              <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                <div id="theater-progress-bar" class="h-full bg-[#005bc0] transition-all duration-300" style="width: 25%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Visual Showcase Monitor (lg:col-span-7) -->
+          <div class="lg:col-span-7 flex flex-col justify-between rounded-2xl border border-slate-200 bg-slate-950 p-4 relative overflow-hidden group shadow-lg min-h-[350px]">
+            <!-- Subtle glow effect -->
+            <div class="absolute -right-20 -top-20 w-40 h-40 bg-[#005bc0]/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <!-- Monitor Header/Status -->
+            <div class="flex justify-between items-center z-10 border-b border-white/10 pb-3">
+              <div class="flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></div>
+                <span class="text-[10px] font-bold text-slate-300 tracking-wider uppercase font-mono" id="theater-status-label">ESTADO: INGESTIÓN ACTIVA</span>
+              </div>
+              <div class="flex items-center gap-1.5 font-mono text-[9px] text-white/60 bg-white/5 border border-white/10 px-2 py-0.5 rounded">
+                <span class="material-symbols-outlined text-[10px]">lock</span>
+                <span id="theater-signature-label">SHA256: PENDIENTE</span>
+              </div>
+            </div>
+
+            <!-- Dynamic Large Display Image -->
+            <div class="relative flex-grow flex items-center justify-center rounded-xl overflow-hidden my-4 bg-slate-900 border border-white/5">
+              <img id="theater-display-img" alt="Enthema Interface View" class="w-full h-full object-cover opacity-90 transition-all duration-500" src="/static/images/enthema_google_clean.png"/>
+              <!-- Screen glass/shine overlay -->
+              <div class="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 pointer-events-none"></div>
+            </div>
+
+            <!-- Beautiful narrative text section below image -->
+            <div class="z-10 bg-slate-900/90 border border-white/10 p-4 rounded-xl space-y-1.5">
+              <h5 class="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2" id="theater-panel-title">
+                <span class="material-symbols-outlined text-[#005bc0] text-[14px]">info</span>
+                Ingestión Inteligente de Referencias
+              </h5>
+              <p id="theater-panel-desc" class="text-[11px] text-slate-300 leading-relaxed font-sans">
+                Capture ideas crudas, datasets, imágenes o documentos de cualquier tipo. Enthema procesa y cataloga las fuentes primarias de forma inmediata mediante un pipeline inteligente, indexando cada elemento para asegurar una trazabilidad total desde el primer segundo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module Selection Section -->
+      <div class="space-y-6 max-w-5xl mx-auto">
+        <h3 class="text-xl font-extrabold text-[#111d23] text-left">Seleccione su Perfil</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Researcher Profile Card -->
+          <div class="profile-card glass-panel rounded-2xl p-6 flex flex-col justify-between items-start border border-slate-200/80 bg-white relative overflow-hidden group">
+            <div class="space-y-5 w-full">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-[#005bc0] flex items-center justify-center border border-blue-100 shadow-sm">
+                <span class="material-symbols-outlined text-[24px]">science</span>
+              </div>
+              
+              <div>
+                <h4 class="text-base font-extrabold text-[#111d23]">Módulo de Investigador</h4>
+                <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                  Análisis profundo de datos y experimentación avanzada. Diseñado para científicos de datos y analistas que requieren herramientas de modelado predictivo de alta fidelidad.
+                </p>
+              </div>
+
+              <!-- Bullet points -->
+              <ul class="space-y-2 pt-2 text-xs text-slate-600">
+                <li class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[16px] text-[#34a853] font-bold">check</span>
+                  Modelado de Redes Neuronales
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[16px] text-[#34a853] font-bold">check</span>
+                  Visualización de Datasets Masivos
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-[16px] text-[#34a853] font-bold">check</span>
+                  Integración con Python/R
+                </li>
+              </ul>
+            </div>
+            
+            <div class="w-full pt-6">
+              <button onclick="navigateModule('investigador')" class="w-full bg-[#005bc0] hover:bg-[#004bb0] text-white py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm">
+                Activar Entorno de Investigación
+              </button>
+            </div>
+          </div>
+
+          <!-- Auditor Profile Card -->
+          {% if profile.user_role in ['admin', 'auditor'] %}
+            <!-- Unlocked State for Auditor -->
+            <div class="profile-card glass-panel rounded-2xl p-6 flex flex-col justify-between items-start border border-slate-200/80 bg-white relative overflow-hidden group">
+              <div class="space-y-5 w-full">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-[#005bc0] flex items-center justify-center border border-blue-100 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">folder_managed</span>
+                </div>
+                
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="text-base font-extrabold text-[#111d23]">Módulo de Auditor</h4>
+                    <span class="px-2 py-0.5 bg-emerald-50 border border-emerald-200 text-[8px] font-bold text-[#059669] uppercase rounded font-mono">Autorizado</span>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                    Control regulatorio, inspección técnica y cumplimiento de protocolos. Optimizado para revisiones de gobernanza y aseguramiento de la integridad del sistema.
+                  </p>
+                </div>
+
+                <!-- Bullet points -->
+                <ul class="space-y-2 pt-2 text-xs text-slate-600">
+                  <li class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px] text-[#34a853] font-bold">check</span>
+                    Reportes de Conformidad ISO
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px] text-[#34a853] font-bold">check</span>
+                    Trazabilidad de Auditoría Completa
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px] text-[#34a853] font-bold">check</span>
+                    Gestión de Incidencias Técnicas
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="w-full pt-6">
+                <button onclick="navigateModule('auditor')" class="w-full border border-[#005bc0] hover:bg-[#005bc0]/5 text-[#005bc0] py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2">
+                  Activar Protocolo de Auditoría
+                </button>
+              </div>
+            </div>
+          {% else %}
+            <!-- Restricted State for Auditor -->
+            <div class="profile-card glass-panel rounded-2xl p-6 flex flex-col justify-between items-start border border-slate-200/80 bg-white opacity-60 relative overflow-hidden group">
+              <div class="space-y-5 w-full">
+                <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center border border-slate-200 shadow-sm">
+                  <span class="material-symbols-outlined text-[24px]">lock</span>
+                </div>
+                
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h4 class="text-base font-extrabold text-[#111d23]">Módulo de Auditor</h4>
+                    <span class="px-2 py-0.5 bg-red-50 border border-red-200 text-[8px] font-bold text-red-500 uppercase rounded font-mono">Restringido</span>
+                  </div>
+                  <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                    Control regulatorio, inspección técnica y cumplimiento de protocolos. Optimizado para revisiones de gobernanza y aseguramiento de la integridad del sistema.
+                  </p>
+                </div>
+
+                <!-- Bullet points -->
+                <ul class="space-y-2 pt-2 text-xs text-slate-400">
+                  <li class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px] text-slate-300 font-bold">check</span>
+                    Reportes de Conformidad ISO
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px] text-slate-300 font-bold">check</span>
+                    Trazabilidad de Auditoría Completa
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px] text-slate-300 font-bold">check</span>
+                    Gestión de Incidencias Técnicas
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="w-full pt-6">
+                <button onclick="showClearanceAlert()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-500 py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2">
+                  Firma Criptográfica Insuficiente
+                  <span class="material-symbols-outlined text-[14px]">lock</span>
+                </button>
+              </div>
+            </div>
+          {% endif %}
+          
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!-- Elegant Denied Modal -->
+  <div id="clearance-modal" class="hidden fixed inset-0 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-all">
+    <div class="w-full max-w-md bg-white rounded-2xl p-8 border border-slate-200 text-center space-y-6 relative overflow-hidden shadow-2xl">
+      <!-- Top glowing line -->
+      <div class="absolute top-0 left-0 right-0 h-[3px] bg-red-500"></div>
+      
+      <div class="w-16 h-16 rounded-full bg-red-50 border border-red-100 text-red-500 flex items-center justify-center mx-auto shadow-sm">
+        <span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">security</span>
+      </div>
+      
+      <div class="space-y-2">
+        <h3 class="text-lg font-extrabold text-slate-800">Autorización Denegada</h3>
+        <p class="text-xs text-slate-500 leading-relaxed">
+          Su perfil científico (<strong>{{ profile.user_role }}</strong>) carece de la firma criptográfica requerida para ingresar a la Consola de Gobernanza y Cerebro Central de la plataforma.
+        </p>
+      </div>
+
+      <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-[10px] text-slate-400 font-mono">
+        LOG_CODE: STATUS_403_INSUFFICIENT_CLEARANCE<br>
+        SESIÓN: {{ profile.name }} | IP: 127.0.0.1
+      </div>
+
+      <button onclick="closeClearanceModal()" class="w-full bg-slate-900 hover:bg-slate-800 text-slate-100 py-2.5 rounded-lg text-xs font-bold transition-all shadow-sm">
+        Entendido, Volver al Hub
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="w-full text-center text-slate-400 text-[10px] font-mono tracking-wider py-4 bg-white border-t border-slate-100 shrink-0">
+    PLATAFORMA DE BIOINGENIERÍA E INMUTABILIDAD ENTHEMA SUITE © 2026. REGULADA POR CONCYT / MESCYT.
+  </footer>
+
+  <script>
+    // --- Teatro del Ciclo de Vida D0-D3 de Enthema ---
+    const theaterStages = [
+      {
+        title: "Ingestión Omnívora de Referencias",
+        desc: "Capture ideas crudas, datasets, imágenes o documentos de cualquier tipo. Enthema procesa y cataloga las fuentes primarias de forma inmediata mediante un pipeline inteligente, indexando cada elemento para asegurar una trazabilidad total desde el primer segundo.",
+        img: "/static/images/enthema_google_clean.png",
+        label: "D0 - REGISTRO",
+        status: "ESTADO: INGESTIÓN ACTIVA",
+        signature: "SHA256: GENERADO"
+      },
+      {
+        title: "Modelado Predictivo y Solver STEM",
+        desc: "Ejecute simulaciones avanzadas de alta fidelidad. Desde dinámicas de bio-reactores celulares hasta proyecciones financieras complejas, el motor solver de Enthema procesa las variables críticas con precisión matemática, ofreciendo simulaciones simétricas en tiempo real.",
+        img: "/static/images/enthema_bioreactor.png",
+        label: "D1 - SIMULACIÓN",
+        status: "ESTADO: MATRIZ FORMULADA",
+        signature: "SHA256: SIMULADO"
+      },
+      {
+        title: "Compilador de Impacto Legal",
+        desc: "Convierta sus datos y descubrimientos científicos en propiedad intelectual valiosa. Nuestro compilador genera patentes de invención listas para ONAPI, registros de derechos de autor para ONDA y memorandos ejecutivos con rigor técnico y legal absoluto.",
+        img: "/static/images/enthema_soft_dark.png",
+        label: "D2 - TRADUCCIÓN",
+        status: "ESTADO: COMPILACIÓN EXITOSA",
+        signature: "SHA256: TRADUCIDO"
+      },
+      {
+        title: "Auditoría Criptográfica e Inmutabilidad",
+        desc: "Certifique la integridad de todo el proceso. Mediante firmas criptográficas SHA-256 descentralizadas, Enthema crea una traza de auditoría inalterable que cumple con los más altos estándares regulatorios de MESCyT, protegiendo su innovación contra cualquier alteración.",
+        img: "/static/images/onboarding_video_mockup.png",
+        label: "D3 - GOBERNANZA",
+        status: "ESTADO: BLOQUE INMUTABLE",
+        signature: "SHA256: REGISTRADO"
+      }
+    ];
+
+    let theaterCurrentStage = 0;
+    let theaterIsPlaying = true;
+    let theaterIntervalId = null;
+    let theaterProgress = 0;
+    const stageDuration = 6000; // 6 seconds per stage
+    const progressInterval = 50; // Update progress bar every 50ms
+
+    function initTheater() {
+      theaterSetStage(0);
+      theaterStartAutoplay();
+    }
+
+    function theaterStartAutoplay() {
+      if (theaterIntervalId) clearInterval(theaterIntervalId);
+      
+      theaterIntervalId = setInterval(() => {
+        if (theaterIsPlaying) {
+          theaterProgress += (progressInterval / stageDuration) * 100;
+          if (theaterProgress >= 100) {
+            theaterProgress = 0;
+            theaterNext();
+          } else {
+            updateProgressBar();
+          }
+        }
+      }, progressInterval);
+    }
+
+    function updateProgressBar() {
+      const progressBar = document.getElementById("theater-progress-bar");
+      if (progressBar) {
+        progressBar.style.width = theaterProgress + "%";
+      }
+      const progressText = document.getElementById("theater-progress-text");
+      if (progressText) {
+        const completedPct = Math.round((theaterCurrentStage / 3) * 100);
+        progressText.innerText = `${completedPct}% Completado`;
+      }
+    }
+
+    function theaterSetStage(index) {
+      theaterCurrentStage = index;
+      theaterProgress = 0;
+      
+      const stage = theaterStages[index];
+      
+      // Update showcase displays
+      const imgEl = document.getElementById("theater-display-img");
+      const titleEl = document.getElementById("theater-panel-title");
+      const descEl = document.getElementById("theater-panel-desc");
+      const statusEl = document.getElementById("theater-status-label");
+      const sigEl = document.getElementById("theater-signature-label");
+      
+      if (imgEl) {
+        imgEl.style.opacity = "0";
+        setTimeout(() => {
+          imgEl.src = stage.img;
+          imgEl.style.opacity = "0.9";
+        }, 200);
+      }
+      
+      if (titleEl) {
+        titleEl.innerHTML = `<span class="material-symbols-outlined text-[#005bc0] text-[14px]">info</span>` + stage.title;
+      }
+      if (descEl) descEl.innerText = stage.desc;
+      if (statusEl) statusEl.innerText = stage.status;
+      if (sigEl) sigEl.innerHTML = `<span class="material-symbols-outlined text-[10px]">lock</span>${stage.signature}`;
+
+      // Update active classes on tabs
+      for (let i = 0; i < 4; i++) {
+        const tab = document.getElementById(`theater-tab-${i}`);
+        if (!tab) continue;
+        
+        const badge = tab.querySelector(".font-mono");
+        const iconContainer = tab.querySelector(".shrink-0");
+        const title = tab.querySelector("h4");
+        const subtitle = tab.querySelector("p");
+        
+        if (i === index) {
+          // Active styles
+          tab.className = "w-full text-left p-4 rounded-2xl border transition-all duration-300 flex items-start gap-3.5 group bg-blue-50/50 border-[#005bc0] shadow-sm";
+          if (badge) {
+            badge.className = "text-[9px] font-bold tracking-widest uppercase bg-[#005bc0] text-white px-1.5 py-0.5 rounded-md font-mono";
+          }
+          if (iconContainer) {
+            iconContainer.className = "w-10 h-10 rounded-xl bg-blue-50 text-[#005bc0] border border-blue-100 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all";
+          }
+          if (title) {
+            title.className = "text-xs font-extrabold text-[#111d23] tracking-tight";
+          }
+          if (subtitle) {
+            subtitle.className = "text-[11px] text-slate-500 leading-normal";
+          }
+        } else {
+          // Inactive styles
+          tab.className = "w-full text-left p-4 rounded-2xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50/50 transition-all duration-300 flex items-start gap-3.5 group";
+          if (badge) {
+            // Pick corresponding badge color
+            let badgeBg = "bg-slate-500";
+            if (i === 1) badgeBg = "bg-emerald-600";
+            if (i === 2) badgeBg = "bg-amber-600";
+            if (i === 3) badgeBg = "bg-rose-600";
+            badge.className = `text-[9px] font-bold tracking-widest uppercase ${badgeBg} text-white px-1.5 py-0.5 rounded-md font-mono`;
+          }
+          if (iconContainer) {
+            let iconTheme = "bg-slate-50 text-slate-500 border border-slate-100";
+            if (i === 1) iconTheme = "bg-emerald-50 text-emerald-600 border border-emerald-100";
+            if (i === 2) iconTheme = "bg-amber-50 text-amber-600 border border-amber-100";
+            if (i === 3) iconTheme = "bg-rose-50 text-rose-600 border border-rose-100";
+            iconContainer.className = `w-10 h-10 rounded-xl ${iconTheme} flex items-center justify-center shrink-0 group-hover:scale-105 transition-all`;
+          }
+          if (title) {
+            title.className = "text-xs font-extrabold text-slate-700 tracking-tight";
+          }
+          if (subtitle) {
+            subtitle.className = "text-[11px] text-slate-400 leading-normal";
+          }
+        }
+      }
+      
+      updateProgressBar();
+    }
+
+    function theaterTogglePlay() {
+      theaterIsPlaying = !theaterIsPlaying;
+      const playIcon = document.getElementById("theater-play-icon");
+      const playText = document.getElementById("theater-play-text");
+      const playBtn = document.getElementById("theater-play-pause");
+      
+      if (theaterIsPlaying) {
+        if (playIcon) playIcon.innerText = "pause";
+        if (playText) playText.innerText = "Teatro Activo";
+        if (playBtn) {
+          playBtn.className = "px-3 py-1.5 rounded-lg bg-[#005bc0] hover:bg-[#004bb0] text-white font-semibold text-xs flex items-center gap-1.5 shadow-sm transition-all active:scale-95";
+        }
+      } else {
+        if (playIcon) playIcon.innerText = "play_arrow";
+        if (playText) playText.innerText = "Reanudar Teatro";
+        if (playBtn) {
+          playBtn.className = "px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-semibold text-xs flex items-center gap-1.5 shadow-sm transition-all active:scale-95";
+        }
+      }
+    }
+
+    function theaterNext() {
+      const nextIndex = (theaterCurrentStage + 1) % 4;
+      theaterSetStage(nextIndex);
+    }
+
+    function theaterPrev() {
+      const prevIndex = (theaterCurrentStage - 1 + 4) % 4;
+      theaterSetStage(prevIndex);
+    }
+
+    // Initialize theater when page loads
+    window.addEventListener("DOMContentLoaded", initTheater);
+
+    function navigateModule(moduleName) {
+      if (moduleName === 'investigador') {
+        window.location.href = '/onboarding/investigador';
+      } else if (moduleName === 'auditor') {
+        window.location.href = '/onboarding/auditor';
+      }
+    }
+
+    function showClearanceAlert() {
+      document.getElementById('clearance-modal').classList.remove('hidden');
+    }
+
+    // Double check accessibility
+    window.showClearanceAlert = showClearanceAlert;
+
+    function closeClearanceModal() {
+      document.getElementById('clearance-modal').classList.add('hidden');
+    }
+
+    async function handleLogout() {
+      try {
+        const res = await fetch('/api/logout', { method: 'POST' });
+        const data = await res.json();
+        window.location.href = data.redirect || '/login';
+      } catch (err) {
+        alert('Error al cerrar sesión');
+      }
+    }
+  </script>
+</body>
+</html>

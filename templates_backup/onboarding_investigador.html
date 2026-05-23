@@ -44,43 +44,40 @@
       </div>
 
       <nav class="space-y-1">
-        <a href="/dashboard" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg bg-[#d97706] text-white font-bold transition-all text-left">
+        <a href="#" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg bg-[#d97706] text-white font-bold transition-all text-left">
           <span class="material-symbols-outlined text-[20px]">dashboard</span>
           <span class="text-xs uppercase tracking-wider">Dashboard</span>
         </a>
-        <a href="/" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
+        <a href="#" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
           <span class="material-symbols-outlined text-[20px]">folder</span>
           <span class="text-xs uppercase tracking-wider">Projects</span>
         </a>
-        <a href="/data-analysis" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
+        <a href="#" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
           <span class="material-symbols-outlined text-[20px]">analytics</span>
           <span class="text-xs uppercase tracking-wider">Data Analysis</span>
         </a>
-        <a href="/modeling" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
+        <a href="#" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
           <span class="material-symbols-outlined text-[20px]">biotech</span>
           <span class="text-xs uppercase tracking-wider">Modeling</span>
         </a>
-        <a href="/finance" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
+        <a href="#" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
           <span class="material-symbols-outlined text-[20px]">payments</span>
           <span class="text-xs uppercase tracking-wider">Financials</span>
         </a>
-        <a href="/reports" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
+        <a href="#" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
           <span class="material-symbols-outlined text-[20px]">description</span>
           <span class="text-xs uppercase tracking-wider">Reports</span>
         </a>
-        <a href="/compliance" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
+        <a href="#" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
           <span class="material-symbols-outlined text-[20px]">verified_user</span>
           <span class="text-xs uppercase tracking-wider">Compliance</span>
         </a>
       </nav>
     </div>
 
-    <div class="space-y-2">
+    <div>
       <button onclick="skipOnboarding('/investigador/profile-builder')" class="w-full bg-[#d97706] hover:bg-[#b45309] text-white py-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2">
         Start Research
-      </button>
-      <button onclick="logout()" class="w-full bg-[#1c2e37] hover:bg-red-950/20 hover:text-red-400 border border-slate-800 text-slate-300 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[16px]">logout</span> Cerrar Sesión
       </button>
     </div>
   </aside>
@@ -330,16 +327,6 @@
 
     function skipOnboarding(targetUrl) {
       window.location.href = targetUrl;
-    }
-
-    async function logout() {
-      try {
-        const res = await fetch('/api/logout', { method: 'POST' });
-        const data = await res.json();
-        window.location.href = data.redirect || '/login';
-      } catch (err) {
-        alert('Error al cerrar sesión');
-      }
     }
   </script>
 </body>

@@ -781,6 +781,61 @@ async def api_admin_revoke_session(data: RevokeSessionRequest, request: Request)
     else:
         raise HTTPException(status_code=400, detail="Sesión no encontrada.")
 
+@app.post("/api/admin/purge-data")
+async def api_admin_purge_data(request: Request):
+    """Purga de forma completa toda la data de auditoría (actas, bases mock y sesiones de investigadores)."""
+    session_id = request.cookies.get("session_id")
+    conn_info = active_connections.get(session_id) if session_id else None
+    if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
+        raise HTTPException(status_code=403, detail="Solo administradores o auditores pueden purgar datos.")
+
+    # 1. Limpiar cloud_database_mock.json
+    mock_db_path = os.path.join(legal_dir, "cloud_database_mock.json")
+    try:
+        with open(mock_db_path, "w", encoding="utf-8") as f:
+            json.dump([], f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        logger.error(f"Error purgando cloud_database_mock: {e}")
+
+    # 2. Borrar subdirectorios user_<id> y archivos de actas HTML en legal_dir
+    import shutil
+    try:
+        for item in os.listdir(legal_dir):
+            item_path = os.path.join(legal_dir, item)
+            if os.path.isdir(item_path) and item.startswith("user_"):
+                shutil.rmtree(item_path)
+    except Exception as e:
+        logger.error(f"Error borrando carpetas de actas: {e}")
+
+    # 3. Limpiar access_keys.json restableciendo a por defecto
+    default_keys = [
+        {
+            "key": "TEMP-ARIS",
+            "used": False,
+            "used_by": None,
+            "created_at": datetime.now().isoformat() + "Z"
+        },
+        {
+            "key": "TEMP-AUDIT",
+            "used": False,
+            "used_by": None,
+            "created_at": datetime.now().isoformat() + "Z"
+        }
+    ]
+    try:
+        with open(keys_path, "w", encoding="utf-8") as f:
+            json.dump(default_keys, f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        logger.error(f"Error restableciendo access_keys.json: {e}")
+
+    # 4. Revocar todas las sesiones de investigadores (manteniendo la sesión del administrador actual)
+    sessions_to_remove = [sid for sid in list(sessions.keys()) if sid != session_id]
+    for sid in sessions_to_remove:
+        sessions.pop(sid, None)
+        active_connections.pop(sid, None)
+
+    return {"status": "success", "message": "Base de datos, actas y llaves de auditoría purgadas con éxito."}
+
 # ==========================================
 # ENDPOINTS DE API REST DEL INVESTIGADOR
 # ==========================================

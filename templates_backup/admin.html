@@ -117,9 +117,6 @@
           <p class="text-[9px] text-[#84d5c5] mt-1 font-mono uppercase tracking-wider">Auditor Autorizado</p>
         </div>
       </div>
-      <button onclick="purgeAllData()" class="w-full bg-red-950/40 hover:bg-red-800 border border-red-800/50 text-red-200 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 mb-2">
-        <span class="material-symbols-outlined text-[16px]">delete_sweep</span> Borrar Data Anterior
-      </button>
       <button onclick="logoutAdmin()" class="w-full bg-[#1c2e37] hover:bg-red-950/20 hover:text-red-400 border border-slate-800 text-slate-300 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2">
         <span class="material-symbols-outlined text-[16px]">logout</span> Cerrar Sesión
       </button>
@@ -446,27 +443,6 @@
     // Global Navigation State
     let activeTab = 'dashboard';
     let currentSessionId = '';
-
-    async function purgeAllData() {
-      if (!confirm('🚨 ATENCIÓN: Esta acción realizará un HARD RESET completo de la auditoría:\n\n1. Borrará todas las actas firmadas físicamente del disco.\n2. Vaciará la base de datos de declaraciones éticas (cloud mock).\n3. Restablecerá las claves de acceso a los valores de fábrica.\n4. Desconectará de inmediato a todos los investigadores activos.\n\n¿Está absolutamente seguro de que desea proceder?')) {
-        return;
-      }
-      try {
-        const res = await fetch('/api/admin/purge-data', { method: 'POST' });
-        const data = await res.json();
-        if (res.ok && data.status === 'success') {
-          alert('🧹 ' + data.message);
-          refreshOperationalData();
-          if (activeTab === 'reports') {
-            loadSignedDeeds();
-          }
-        } else {
-          alert(data.detail || 'Error al purgar los datos.');
-        }
-      } catch (err) {
-        alert('Error al conectar con el servidor.');
-      }
-    }
 
     document.addEventListener('DOMContentLoaded', () => {
       // Load connections and keys on start
