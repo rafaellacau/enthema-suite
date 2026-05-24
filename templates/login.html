@@ -91,8 +91,52 @@
           <p class="text-[10px] text-slate-400 font-medium">
             Acceso auditado criptográficamente. Clave maestra disponible para Auditor.
           </p>
-        </div>
       </form>
+
+      <!-- Quick Access Section -->
+      <div class="mt-6 pt-4 border-t border-slate-100">
+        <button type="button" class="w-full flex items-center justify-between text-xs font-bold text-slate-500 hover:text-[#005bc0] transition-colors focus:outline-none" onclick="toggleQuickAccess()">
+          <span class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[16px] text-[#005bc0]">shield_person</span> Acceso Rápido de Evaluación
+          </span>
+          <span id="quick-access-arrow" class="material-symbols-outlined text-[16px] transition-transform duration-200">expand_more</span>
+        </button>
+        
+        <div id="quick-access-content" class="hidden mt-3 space-y-2">
+          <div class="grid grid-cols-1 gap-2">
+            <button type="button" class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 rounded-lg text-left transition-all group" onclick="quickLogin('admin', 'Lalo6%%Lalo')">
+              <div>
+                <div class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5">
+                  Auditor Principal <span class="px-1.5 py-0.5 bg-red-50 text-red-600 text-[9px] rounded font-mono border border-red-100">admin</span>
+                </div>
+                <div class="text-[9px] text-slate-400 font-mono mt-0.5">Clave: Lalo6%%Lalo</div>
+              </div>
+              <span class="material-symbols-outlined text-slate-400 group-hover:text-[#005bc0] text-[16px] transition-colors">arrow_forward</span>
+            </button>
+
+            <button type="button" class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 rounded-lg text-left transition-all group" onclick="quickLogin('RL', 'lapuesta66')">
+              <div>
+                <div class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5">
+                  Rafael Lacau (Auditor) <span class="px-1.5 py-0.5 bg-red-50 text-red-600 text-[9px] rounded font-mono border border-red-100">admin</span>
+                </div>
+                <div class="text-[9px] text-slate-400 font-mono mt-0.5">Clave: lapuesta66</div>
+              </div>
+              <span class="material-symbols-outlined text-slate-400 group-hover:text-[#005bc0] text-[16px] transition-colors">arrow_forward</span>
+            </button>
+
+            <button type="button" class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 rounded-lg text-left transition-all group" onclick="quickLogin('aris', 'password')">
+              <div>
+                <div class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5">
+                  Dr. Aris Thorne <span class="px-1.5 py-0.5 bg-blue-50 text-blue-600 text-[9px] rounded font-mono border border-blue-100">científico</span>
+                </div>
+                <div class="text-[9px] text-slate-400 font-mono mt-0.5">Clave: password</div>
+              </div>
+              <span class="material-symbols-outlined text-slate-400 group-hover:text-[#005bc0] text-[16px] transition-colors">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
 
       <!-- REGISTRATION FORM -->
       <form id="form-register" class="space-y-5 hidden" onsubmit="handleRegister(event)">
@@ -239,6 +283,26 @@
       } catch (err) {
         showToast('Error de conexión con el servidor de consorcio');
       }
+    }
+
+    function toggleQuickAccess() {
+      const content = document.getElementById('quick-access-content');
+      const arrow = document.getElementById('quick-access-arrow');
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        arrow.style.transform = 'rotate(180deg)';
+      } else {
+        content.classList.add('hidden');
+        arrow.style.transform = 'rotate(0deg)';
+      }
+    }
+
+    function quickLogin(username, password) {
+      document.getElementById('login-username').value = username;
+      document.getElementById('login-password').value = password;
+      const form = document.getElementById('form-login');
+      // Enviar el formulario directamente
+      handleLogin({ preventDefault: () => {} });
     }
   </script>
 </body>

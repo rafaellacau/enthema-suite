@@ -519,8 +519,345 @@
 </section>
 </div>
 </div>
+
+<!-- Centro de Normativas de República Dominicana e INTEC -->
+<section class="col-span-12 bg-surface-base border border-border-subtle rounded-xl p-8 shadow-sm space-y-6 text-left">
+  <div class="border-b border-outline-variant pb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div>
+      <h3 class="font-headline-md text-on-surface text-[20px] flex items-center gap-2 font-bold">
+        <span class="material-symbols-outlined text-primary">gavel</span> Centro de Normativas de República Dominicana & INTEC
+      </h3>
+      <p class="font-body-md text-on-surface-variant">Explora, busca y descarga las regulaciones nacionales e institucionales del proyecto. Depurado y libre de duplicados.</p>
+    </div>
+    <!-- Stats del Repositorio -->
+    <div class="flex items-center gap-2">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold font-label-md">
+        <span class="material-symbols-outlined text-[14px]">folder</span> 97 Únicas
+      </span>
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-success/10 text-success text-xs font-bold font-label-md">
+        <span class="material-symbols-outlined text-[14px]">cleaning_services</span> 27 Duplicados Removidos
+      </span>
+    </div>
+  </div>
+
+  <!-- Compliance Matcher Widget (Bento Grid Style) -->
+  <div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/30 grid grid-cols-12 gap-6 items-center">
+    <div class="col-span-12 lg:col-span-4 space-y-2">
+      <h4 class="font-bold text-on-surface text-sm flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-primary text-lg">psychology</span> Analizador de Cumplimiento Legal
+      </h4>
+      <p class="text-xs text-on-surface-variant leading-relaxed">Selecciona el tipo de investigación que estás realizando para evaluar qué normativas locales e institucionales debes cumplir de forma obligatoria.</p>
+      <select id="project_matcher_select" class="w-full bg-white border border-outline-variant rounded px-3 py-2 text-xs text-on-surface focus:ring-2 focus:ring-primary/20 outline-none transition-all" onchange="matchProjectRegulations()">
+        <option value="">-- Seleccionar tipo de proyecto --</option>
+        <option value="sargazo">Muestreo de Sargazo y Biofertilizantes (Medio Ambiente / Nagoya)</option>
+        <option value="protesis">Desarrollo de Prótesis de Falanges (Biomecánica / Ética INTEC)</option>
+        <option value="licitacion">Licitación de Vivienda Popular (Tender Shield / DGCP / Ley 340-06)</option>
+      </select>
+    </div>
+    
+    <div class="col-span-12 lg:col-span-8 bg-white border border-outline-variant/30 rounded-lg p-4 h-[130px] overflow-y-auto custom-scrollbar flex flex-col justify-center text-xs text-on-surface-variant">
+      <div id="matcher_results" class="space-y-2">
+        <div class="text-center text-outline">
+          <span class="material-symbols-outlined text-3xl mb-1 block">troubleshoot</span>
+          Seleccione un tipo de proyecto a la izquierda para ejecutar el análisis regulatorio.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controles de Búsqueda y Pestañas -->
+  <div class="space-y-4">
+    <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+      <!-- Input de Búsqueda -->
+      <div class="relative w-full md:max-w-md">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+        <input type="text" id="law_search_input" oninput="filterLaws()" class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-4 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface" placeholder="Buscar por ley, código, palabras clave (ej: 64-00, ética)..." />
+      </div>
+      <!-- Indicador de Resultados -->
+      <span class="text-xs text-on-surface-variant font-label-md" id="law_count_indicator">Cargando leyes...</span>
+    </div>
+
+    <!-- Pestañas de Categorías -->
+    <div class="flex flex-wrap gap-2 border-b border-outline-variant/30 pb-3" id="category_tabs_container">
+      <button onclick="selectCategory('all')" class="category-tab px-3 py-1.5 rounded-full text-xs font-semibold bg-primary text-white transition-all shadow-sm flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">grid_view</span> Todas
+      </button>
+      <button onclick="selectCategory('medio-ambiente')" class="category-tab px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">eco</span> Medio Ambiente
+      </button>
+      <button onclick="selectCategory('administracion-finanzas')" class="category-tab px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">account_balance</span> Admin y Finanzas
+      </button>
+      <button onclick="selectCategory('ciencia-tecnologia')" class="category-tab px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">science</span> Ciencia y Tech
+      </button>
+      <button onclick="selectCategory('contrataciones-publicas')" class="category-tab px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">gavel</span> Contrataciones
+      </button>
+      <button onclick="selectCategory('derechos-humanos-social')" class="category-tab px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">groups</span> Derechos y Sociedad
+      </button>
+      <button onclick="selectCategory('intec')" class="category-tab px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">school</span> Regulaciones INTEC
+      </button>
+      <button onclick="selectCategory('constitucion-general')" class="category-tab px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">description</span> Constitución
+      </button>
+    </div>
+  </div>
+
+  <!-- Contenedor del Listado (Grilla) -->
+  <div class="h-[420px] overflow-y-auto custom-scrollbar pr-2">
+    <div id="laws_grid_container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Las tarjetas se insertan dinámicamente -->
+      <div class="col-span-full py-20 text-center text-outline">
+        <span class="material-symbols-outlined text-4xl animate-spin mb-2">sync</span>
+        <p>Cargando índice de leyes y reglamentos...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Scripts del Centro de Normativas -->
+<script>
+  let allLaws = [];
+  let currentCategory = 'all';
+
+  // Cargar las leyes en la inicialización
+  document.addEventListener('DOMContentLoaded', () => {
+    fetch('/static/laws/laws_index.json')
+      .then(response => response.json())
+      .then(data => {
+        allLaws = data;
+        renderLaws();
+        updateIndicators();
+      })
+      .catch(error => {
+        console.error('Error cargando el índice de leyes:', error);
+        document.getElementById('laws_grid_container').innerHTML = `
+          <div class="col-span-full py-12 text-center text-danger bg-danger/5 border border-danger/20 rounded-xl">
+            <span class="material-symbols-outlined text-4xl mb-2">error</span>
+            <p class="font-bold">Error al cargar el índice de leyes dominicanas e INTEC</p>
+            <p class="text-xs mt-1">Por favor verifica que se haya ejecutado el procesador de leyes scratch/organize_laws.py.</p>
+          </div>
+        `;
+      });
+  });
+
+  const categoryColors = {
+    'medio-ambiente': 'bg-success/15 text-success border-success/30',
+    'administracion-finanzas': 'bg-primary/15 text-primary border-primary/30',
+    'ciencia-tecnologia': 'bg-secondary/15 text-secondary border-secondary/30',
+    'contrataciones-publicas': 'bg-warning/15 text-warning border-warning/30',
+    'derechos-humanos-social': 'bg-danger/15 text-danger border-danger/30',
+    'intec': 'bg-sky-500/15 text-sky-600 border-sky-500/30',
+    'constitucion-general': 'bg-slate-500/15 text-slate-700 border-slate-500/30'
+  };
+
+  const categoryIcons = {
+    'medio-ambiente': 'eco',
+    'administracion-finanzas': 'account_balance',
+    'ciencia-tecnologia': 'science',
+    'contrataciones-publicas': 'gavel',
+    'derechos-humanos-social': 'groups',
+    'intec': 'school',
+    'constitucion-general': 'description'
+  };
+
+  function selectCategory(cat) {
+    currentCategory = cat;
+    
+    // Actualizar estilo activo de las pestañas
+    const tabs = document.querySelectorAll('.category-tab');
+    tabs.forEach(tab => {
+      tab.className = 'category-tab px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-container border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all flex items-center gap-1';
+    });
+    
+    // Obtener la pestaña correspondiente
+    const event = window.event;
+    let clickedTab = event ? event.currentTarget : null;
+    if (!clickedTab) {
+      // Buscar por onclick string
+      const matched = Array.from(tabs).find(t => t.getAttribute('onclick').includes(`'${cat}'`));
+      if (matched) clickedTab = matched;
+    }
+    
+    if (clickedTab) {
+      clickedTab.className = 'category-tab px-3 py-1.5 rounded-full text-xs font-semibold bg-primary text-white transition-all shadow-sm flex items-center gap-1';
+    }
+    
+    renderLaws();
+  }
+
+  function filterLaws() {
+    renderLaws();
+  }
+
+  function getFilteredLaws() {
+    const searchVal = document.getElementById('law_search_input').value.toLowerCase().trim();
+    
+    return allLaws.filter(law => {
+      // Filtrar por categoría
+      const matchesCat = (currentCategory === 'all' || law.category_slug === currentCategory);
+      
+      // Filtrar por buscador
+      const matchesSearch = (!searchVal || 
+        law.title.toLowerCase().includes(searchVal) || 
+        law.code.toLowerCase().includes(searchVal) || 
+        law.summary.toLowerCase().includes(searchVal) ||
+        law.original_filename.toLowerCase().includes(searchVal)
+      );
+      
+      return matchesCat && matchesSearch;
+    });
+  }
+
+  function updateIndicators() {
+    const total = allLaws.length;
+    const indicator = document.getElementById('law_count_indicator');
+    if (indicator) {
+      indicator.textContent = `Total indexadas: ${total} leyes`;
+    }
+  }
+
+  function renderLaws() {
+    const container = document.getElementById('laws_grid_container');
+    const filtered = getFilteredLaws();
+    
+    // Actualizar indicador de cantidad filtrada
+    const countIndicator = document.getElementById('law_count_indicator');
+    if (countIndicator) {
+      countIndicator.textContent = `Mostrando ${filtered.length} de ${allLaws.length} leyes`;
+    }
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="col-span-full py-16 text-center text-outline bg-surface-container-low rounded-xl border border-dashed border-outline-variant">
+          <span class="material-symbols-outlined text-4xl mb-2">search_off</span>
+          <p class="font-bold">No se encontraron regulaciones para la búsqueda activa</p>
+          <p class="text-xs mt-1">Intente cambiar de categoría o usar palabras clave más amplias.</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(law => {
+      const colorClass = categoryColors[law.category_slug] || 'bg-surface-container text-on-surface-variant';
+      const icon = categoryIcons[law.category_slug] || 'description';
+      const sizeKB = Math.round(law.size_bytes / 1024);
+      const sizeDisplay = sizeKB > 1024 ? (sizeKB / 1024).toFixed(1) + ' MB' : sizeKB + ' KB';
+
+      return `
+        <div class="bg-surface-base border border-border-subtle rounded-xl p-5 hover:shadow-md hover:border-primary/50 transition-all flex flex-col justify-between group">
+          <div class="space-y-2">
+            <!-- Header Tarjeta -->
+            <div class="flex justify-between items-start gap-2">
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[10px] font-bold border ${colorClass} uppercase tracking-wider">
+                <span class="material-symbols-outlined text-[12px]">${icon}</span> ${law.category}
+              </span>
+              <span class="text-[10px] text-outline font-label-md">${law.year}</span>
+            </div>
+            
+            <!-- Cuerpo Tarjeta -->
+            <h4 class="font-headline-md text-sm text-on-surface font-bold leading-tight group-hover:text-primary transition-all">${law.title}</h4>
+            <div class="text-[10px] font-label-md text-primary font-bold">CÓDIGO: ${law.code}</div>
+            <p class="text-xs text-on-surface-variant line-clamp-3 leading-relaxed text-justify">${law.summary}</p>
+          </div>
+          
+          <!-- Footer Tarjeta -->
+          <div class="mt-4 pt-3 border-t border-outline-variant/30 flex items-center justify-between">
+            <span class="text-[10px] text-outline font-label-sm flex items-center gap-1">
+              <span class="material-symbols-outlined text-[12px]">download</span> ${sizeDisplay}
+            </span>
+            <a href="${law.filename}" target="_blank" class="inline-flex items-center gap-1 px-3 py-1.5 bg-primary/10 hover:bg-primary hover:text-white text-primary text-xs font-bold rounded transition-all">
+              <span class="material-symbols-outlined text-[14px]">visibility</span> Visualizar
+            </a>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function matchProjectRegulations() {
+    const val = document.getElementById('project_matcher_select').value;
+    const resultsContainer = document.getElementById('matcher_results');
+    
+    const matches = {
+      'sargazo': {
+        title: '🌱 Evaluación de Cumplimiento: Sargazo e Insumos Costeros',
+        badge: 'Medio Ambiente & Biotecnología',
+        badgeColor: 'success',
+        rules: [
+          { code: 'Ley 64-00', requirement: 'Obliga a registrar un Estudio de Impacto Ambiental preliminar para mitigar lixiviados ácidos en la costa dominicana.' },
+          { code: 'Nagoya Protocol', requirement: 'Obligatorio firmar el Consentimiento Previo por uso y recolección comercial de macroalgas costeras.' },
+          { code: 'Reglamento FONDOCYT', requirement: 'Exige que toda innovación en biofertilizantes transfiera la patente ONAPI en co-autoría institucional.' }
+        ]
+      },
+      'protesis': {
+        title: '🔬 Evaluación de Cumplimiento: Prótesis Biomecánicas de Falanges',
+        badge: 'Salud, Bioética & Dispositivos Médicos',
+        badgeColor: 'primary',
+        rules: [
+          { code: 'Reglamento INTEC-RGI-008', requirement: 'Obliga a depositar el diseño paramétrico ante el Comité de Ética de INTEC para ensayos con pacientes.' },
+          { code: 'Ley 139-01 (MESCYT)', requirement: 'Norma las regalías de propiedad industrial en investigaciones co-financiadas por el Estado.' },
+          { code: 'Guía del Inventor INTEC', requirement: 'Rige las cláusulas de patentamiento, invención autónoma y comercialización de prótesis de titanio.' }
+        ]
+      },
+      'licitacion': {
+        title: '🏠 Evaluación de Cumplimiento: Licitación de Obra Pública (Tender Shield)',
+        badge: 'Compras del Estado & Compliance Público',
+        badgeColor: 'warning',
+        rules: [
+          { code: 'Ley 340-06 (compras)', requirement: 'Rige las bases de licitación de vivienda social y adjudicaciones con alcaldías municipales.' },
+          { code: 'Ley 126-02 (firmas dig.)', requirement: 'Confiere plena validez jurídica a los pliegos y hashes inmutables blindados en el ledger de Enthema.' },
+          { code: 'Ley 247-12 (adm. pública)', requirement: 'Establece el alcance de fiscalización de presupuestos gubernamentales en obras urbanísticas.' }
+        ]
+      }
+    };
+
+    if (!val) {
+      resultsContainer.innerHTML = `
+        <div class="text-center text-outline">
+          <span class="material-symbols-outlined text-3xl mb-1 block">troubleshoot</span>
+          Seleccione un tipo de proyecto a la izquierda para ejecutar el análisis regulatorio.
+        </div>
+      `;
+      return;
+    }
+
+    const data = matches[val];
+    resultsContainer.innerHTML = `
+      <div class="space-y-2 animate-fadeIn text-left">
+        <div class="flex justify-between items-center border-b border-outline-variant/30 pb-1.5">
+          <h5 class="font-bold text-on-surface text-[13px]">${data.title}</h5>
+          <span class="px-2 py-0.5 bg-primary/10 text-primary border border-primary/20 rounded text-[9px] font-bold uppercase tracking-wider">${data.badge}</span>
+        </div>
+        <ul class="space-y-1.5">
+          ${data.rules.map(r => `
+            <li class="flex items-start gap-2">
+              <span class="px-1.5 py-0.5 bg-slate-100 text-slate-700 border border-slate-300 rounded text-[9px] font-label-md font-bold shrink-0 mt-0.5">${r.code}</span>
+              <span class="text-xs text-on-surface-variant leading-tight">${r.requirement}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    `;
+  }
+</script>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+</style>
+
 <!-- Consentimiento Ético y Firma Digital del Proyecto -->
 <section class="col-span-12 bg-surface-base border border-border-subtle rounded-xl p-8 shadow-sm space-y-6 text-left">
+
   <div class="border-b border-outline-variant pb-4">
     <h3 class="font-headline-md text-on-surface text-[20px] flex items-center gap-2">
       <span class="material-symbols-outlined text-primary">draw</span> Declaración de Consentimiento Ético y Nagoya Protocol

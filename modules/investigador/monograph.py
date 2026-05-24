@@ -200,7 +200,12 @@ $$r_{\\text{Pearson}} = 0.86 \\quad (p < 0.001)$$
 
 Este hallazgo valida empíricamente el manifiesto sinestésico: **tonos cálidos intensos inducen mayor activación sensorial y dinamismo del espectador, influyendo de forma directo en su patrón de movimiento físico alrededor de la instalación**.
 
-#### ⚙️ 3. Registro de Propiedad Intelectual ONDA
+#### 🎥 3. Trazabilidad Transmedia y Timecodes de Video/Audio (Investigación-Creación)
+Como parte de nuestro compromiso con la Pluralidad Ontológica en Enthema Suite, indexamos e integramos los siguientes timecodes multimedia de las sesiones de interacción expuestas:
+* **Video Registro de Interacción NeoPixel (Exposición Santo Domingo)**: `[Video: clip_interaccion_domingo.mp4 | Timecode: 00:02:15 a 00:05:45]`. Muestra la transición cromática HSL adaptativa ante proximidad física del observador.
+* **Audio Registro Binaural (Paisaje Sonoro de Samaná)**: `[Audio: ambiente_binaural_pescadores.wav | Timecode: 00:10:20 a 00:12:40]`. Captura la resonancia sinestésica y ontológica del entorno costero caribeño.
+
+#### ⚙️ 4. Registro de Propiedad Intelectual ONDA
 Se redactó la memoria descriptiva de la obra interactiva, tramitada exitosamente bajo el registro ONDA en la categoría de **\"Obra Multimedia e Instalación Artística de Interacción Dinámica\"**, protegiendo la autoría del manifiesto estético y el código algorítmico del microcontrolador.
 """,
                 "discussion": """
@@ -294,7 +299,7 @@ Este dictamen demuestra que, incluso aplicando una tasa de descuento conservador
 La conjunción de personalización médica en OpenSCAD y estructuración financiera robusta en Enthema Suite provee un modelo de disrupción de mercado viable:
 
 #### Conclusiones Clave:
-1. **Disrupción de Precios y LTV:** La impresión 3D SLS bajo demanda local reduce el precio final del implante quirúrgico en un $60\%$, permitiendo a la vez un ratio LTV/CAC saludable superior a $4.0$.
+1. **Disrupción de Precios y LTV:** La impresión 3D SLS bajo demanda local reduce el precio final del implante quirúrgico en un $60\\%$, permitiendo a la vez un ratio LTV/CAC saludable superior a $4.0$.
 2. **Mitigación y Blindaje de Riesgo ESG:** El memorando de inversión audita y certifica que los procesos de recolección de polvo residual de titanio tienen un impacto ambiental neutral.
 3. **Seguridad Legal Total:** Las actas firmadas y aseguradas mediante hashes SHA-256 en la nube blindan la transferencia de responsabilidades éticas y civiles hacia el cirujano y hospital operador.
 

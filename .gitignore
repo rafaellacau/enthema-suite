@@ -29,3 +29,5 @@ output/legal/user_*/
 .idea/
 .gemini/
 .DS_Store
+.coverage
+

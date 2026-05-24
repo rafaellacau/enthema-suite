@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d" />
+      <stop offset="100%" stop-color="#070a13" />
+    </linearGradient>
+    
+    <!-- Neon Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Box Gradients -->
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    
+    <linearGradient id="riskHighGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0.05" />
+    </linearGradient>
+    
+    <linearGradient id="riskMedGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.05" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    .title { font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; font-size: 22px; fill: #ffffff; font-weight: 700; letter-spacing: 0.5px; }
+    .subtitle { font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; font-size: 13px; fill: #94a3b8; }
+    .node-title { font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; font-size: 14px; fill: #6366f1; font-weight: 700; }
+    .node-text { font-family: 'Inter', 'Segoe UI', sans-serif; font-size: 11px; fill: #cbd5e1; }
+    .risk-title { font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; font-size: 11px; font-weight: 700; }
+    .risk-text { font-family: 'Inter', 'Segoe UI', sans-serif; font-size: 10px; fill: #94a3b8; }
+    .arrow-text { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 10px; fill: #10b981; font-weight: 600; }
+    .tag { font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 9px; fill: #38bdf8; font-weight: bold; }
+  </style>
+
+  <!-- Background -->
+  <rect width="1000" height="700" fill="url(#bgGrad)" rx="12" />
+
+  <!-- Header -->
+  <text x="40" y="50" class="title">DIAGRAMA DE LINAJE Y SEGURIDAD DE DATOS SENSIBLES</text>
+  <text x="40" y="75" class="subtitle">Mapeo del flujo del expediente, Bounded Contexts y evaluación de vectores de riesgo (Security-Trace v3.0)</text>
+
+  <!-- NODE 1: Ingesta del Investigador -->
+  <g transform="translate(60, 110)">
+    <rect width="250" height="120" fill="url(#nodeGrad)" stroke="#334155" stroke-width="1.5" rx="8" />
+    <circle cx="25" cy="25" r="8" fill="#6366f1" />
+    <text x="45" y="29" class="node-title">1. INGESTA DE INVESTIGACIÓN</text>
+    <text x="20" y="60" class="node-text">Inputs: Obsidian (.md), Zotero (RIS/BibTeX),</text>
+    <text x="20" y="75" class="node-text">Jupyter Notebooks (.ipynb) o Entrevistas.</text>
+    <text x="20" y="95" class="tag">[Extractor Pasivo / Ingesta local en RAM]</text>
+    
+    <!-- Risk Box (Medium) -->
+    <rect x="0" y="130" width="250" height="70" fill="url(#riskMedGrad)" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3" rx="6" />
+    <text x="15" y="148" class="risk-title" fill="#f59e0b">⚠️ RIESGO: INYECCIÓN DE SCRIPTS (MEDIO)</text>
+    <text x="15" y="165" class="risk-text">Notas o papers maliciosos pueden inyectar</text>
+    <text x="15" y="180" class="risk-text">código markdown o LaTeX perforando el parser.</text>
+  </g>
+
+  <!-- Connection 1 -> 2 -->
+  <path d="M 310,170 L 380,170" stroke="#10b981" stroke-width="2" stroke-dasharray="4,4" />
+  <polygon points="380,170 372,165 372,175" fill="#10b981" />
+  <text x="320" y="160" class="arrow-text">JSON payload</text>
+
+  <!-- NODE 2: Carga en db_builder -->
+  <g transform="translate(390, 110)">
+    <rect width="250" height="120" fill="url(#nodeGrad)" stroke="#334155" stroke-width="1.5" rx="8" />
+    <circle cx="25" cy="25" r="8" fill="#6366f1" />
+    <text x="45" y="29" class="node-title">2. CURACIÓN Y WINSORIZACIÓN</text>
+    <text x="20" y="60" class="node-text">Imputación de nulos, limpieza estadística</text>
+    <text x="20" y="75" class="node-text">y codificación cualitativa Grounded Theory.</text>
+    <text x="20" y="95" class="tag">[db_builder.py / CodedSemanticUnit]</text>
+
+    <!-- Risk Box (Low) -->
+    <rect x="0" y="130" width="250" height="70" fill="url(#riskMedGrad)" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3" rx="6" />
+    <text x="15" y="148" class="risk-title" fill="#f59e0b">⚠️ RIESGO: DERIVA SESGO (BAJO)</text>
+    <text x="15" y="165" class="risk-text">La winsorización bilateral forzada en los</text>
+    <text x="15" y="180" class="risk-text">percentiles 5-95 altera outliers legítimos.</text>
+  </g>
+
+  <!-- Connection 2 -> 3 -->
+  <path d="M 640,170 L 710,170" stroke="#10b981" stroke-width="2" />
+  <polygon points="710,170 702,165 702,175" fill="#10b981" />
+  <text x="650" y="160" class="arrow-text">Memory State</text>
+
+  <!-- NODE 3: Persistencia Local -->
+  <g transform="translate(720, 110)">
+    <rect width="240" height="120" fill="url(#nodeGrad)" stroke="#334155" stroke-width="1.5" rx="8" />
+    <circle cx="25" cy="25" r="8" fill="#ef4444" />
+    <text x="45" y="29" class="node-title" fill="#ef4444">3. PERSISTENCIA DE SESIÓN</text>
+    <text x="20" y="60" class="node-text">Las sesiones de usuarios se almacenan en</text>
+    <text x="20" y="75" class="node-text">el diccionario 'sessions' global del backend.</text>
+    <text x="20" y="95" class="tag">[app.py / global dict / users_db.json]</text>
+
+    <!-- Risk Box (Critical) -->
+    <rect x="0" y="130" width="240" height="70" fill="url(#riskHighGrad)" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3" rx="6" />
+    <text x="15" y="148" class="risk-title" fill="#ef4444">🚨 RIESGO: FUGA SOBERANÍA (CRÍTICO)</text>
+    <text x="15" y="165" class="risk-text">Bases de datos en texto plano local.</text>
+    <text x="15" y="180" class="risk-text">Sin cifrado en reposo con llave de usuario.</text>
+  </g>
+
+  <!-- Connection 3 -> 4 -->
+  <path d="M 840,310 L 840,430 L 710,430" stroke="#10b981" stroke-width="2" />
+  <polygon points="710,430 718,435 718,425" fill="#10b981" />
+  <text x="750" y="420" class="arrow-text">Active Paradigm Prompt</text>
+
+  <!-- NODE 4: AI Coach & Firewall Interceptor -->
+  <g transform="translate(390, 370)">
+    <rect width="290" height="120" fill="url(#nodeGrad)" stroke="#334155" stroke-width="1.5" rx="8" />
+    <circle cx="25" cy="25" r="8" fill="#10b981" />
+    <text x="45" y="29" class="node-title" fill="#10b981">4. AI COACH &amp; SEMANTIC FIREWALL</text>
+    <text x="20" y="60" class="node-text">Interceptación de términos del prompt contra blacklist</text>
+    <text x="20" y="75" class="node-text">del paradigma activo. Whitelist dinâmica de citas.</text>
+    <text x="20" y="95" class="tag">[app.py / api_copilot_query / excepted_terms]</text>
+
+    <!-- Risk Box (High) -->
+    <rect x="0" y="130" width="290" height="70" fill="url(#riskHighGrad)" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3" rx="6" />
+    <text x="15" y="148" class="risk-title" fill="#ef4444">🚨 RIESGO: PERFORACIÓN DE CITA (ALTO)</text>
+    <text x="15" y="165" class="risk-text">Inyección de palabras prohibidas dentro del campo</text>
+    <text x="15" y="180" class="risk-text">value de citas desactiva el cortafuegos por diseño.</text>
+  </g>
+
+  <!-- Connection 4 -> 5 -->
+  <path d="M 390,430 L 320,430" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,4" />
+  <polygon points="320,430 328,435 328,425" fill="#ef4444" />
+  <text x="330" y="420" class="arrow-text" fill="#ef4444">External Network</text>
+
+  <!-- NODE 5: APIs de LLM Externas -->
+  <g transform="translate(60, 370)">
+    <rect width="250" height="120" fill="url(#nodeGrad)" stroke="#ef4444" stroke-width="1.5" rx="8" />
+    <circle cx="25" cy="25" r="8" fill="#ef4444" />
+    <text x="45" y="29" class="node-title" fill="#ef4444">5. APIS LLM EXTERNAS (COLONIAL)</text>
+    <text x="20" y="60" class="node-text">Conexión saliente para consultas del Coach</text>
+    <text x="20" y="75" class="node-text">a servidores de OpenAI o Anthropic (USA).</text>
+    <text x="20" y="95" class="tag">[Frontera de Red Externa / Nube]</text>
+
+    <!-- Risk Box (Critical) -->
+    <rect x="0" y="130" width="250" height="70" fill="url(#riskHighGrad)" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3" rx="6" />
+    <text x="15" y="148" class="risk-title" fill="#ef4444">🚨 RIESGO: FUGA DE SOBERANÍA (CRÍTICO)</text>
+    <text x="15" y="165" class="risk-text">Datos sensibles de investigaciones locales se</text>
+    <text x="15" y="180" class="risk-text">envían en texto plano a nubes corporativas.</text>
+  </g>
+
+  <!-- Flow Legend -->
+  <g transform="translate(60, 600)">
+    <rect width="880" height="50" fill="#1e293b" rx="6" />
+    <text x="20" y="30" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" fill="#94a3b8" font-weight="700">LEYENDA:</text>
+    
+    <circle cx="100" cy="25" r="6" fill="#10b981" />
+    <text x="115" y="29" font-family="Inter" font-size="11" fill="#cbd5e1">Frontera Segura / Local</text>
+    
+    <circle cx="280" cy="25" r="6" fill="#f59e0b" />
+    <text x="295" y="29" font-family="Inter" font-size="11" fill="#cbd5e1">Riesgo Moderado / Lógico</text>
+    
+    <circle cx="480" cy="25" r="6" fill="#ef4444" />
+    <text x="495" y="29" font-family="Inter" font-size="11" fill="#cbd5e1">Fuga de Soberanía / Red Externa (Alto Riesgo)</text>
+  </g>
+</svg>

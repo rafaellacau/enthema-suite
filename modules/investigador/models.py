@@ -149,3 +149,26 @@ class QuantitativeDatabase(BaseModel):
         description="Lista de advertencias estadísticas, valores atípicos o sesgos de muestreo detectados"
     )
     dataset_format: str = Field("CSV", description="Formato del archivo estructurado limpio (CSV, Parquet, etc.)")
+
+class TypedSegment(BaseModel):
+    """
+    Representa un segmento continuo de texto con atribución de autoría tipada (Compromiso 3).
+    Asegura la trazabilidad y la firma de contribución (C2PA local-first).
+    """
+    id: str = Field(..., description="ID único del segmento")
+    start_char: int = Field(..., description="Posición del carácter de inicio en la sección")
+    end_char: int = Field(..., description="Posición del carácter de fin en la sección")
+    text: str = Field(..., description="Contenido de texto del segmento")
+    author_type: str = Field("human_pure", description="Tipo de autoría: human_pure, ai_copilot_assisted, ai_pure_accepted")
+    timestamp: str = Field(..., description="Estampa de tiempo del segmento")
+
+class MultimediaTimecode(BaseModel):
+    """
+    Representa una anotación multimedia referencial vinculada al texto (Compromiso 7).
+    Asegura la pluralidad ontológica al mapear marcas de tiempo exactas sobre el texto monográfico.
+    """
+    id: str = Field(..., description="ID de la referencia multimedia")
+    source_file: str = Field(..., description="Nombre del archivo o URL multimedia de origen")
+    start_time: str = Field(..., description="Marca de tiempo de inicio (hh:mm:ss o mm:ss)")
+    end_time: str = Field(..., description="Marca de tiempo de fin (hh:mm:ss o mm:ss)")
+    annotation: str = Field(..., description="Anotación descriptiva")

@@ -253,6 +253,40 @@
             </div>
           </div>
         </div>
+
+        <!-- Matriz de Auditoría Receptiva (Stress Test de Coherencia) (Mitigación del Eje 4) -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="font-black text-slate-800 text-base flex items-center gap-2">
+                <span class="material-symbols-outlined text-[#10b981]">rule_folder</span>
+                Matriz de Auditoría Receptiva (Consistencia en Paralelo)
+              </h3>
+              <p class="text-[10px] text-slate-400 font-mono mt-0.5">Detección de incongruencias del Solver y bloqueos estructurales de Nagoya/Bioética</p>
+            </div>
+            <button onclick="refreshAuditMatrix()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow">
+              <span class="material-symbols-outlined text-[16px]">autorenew</span> Refrescar Auditoría
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-100 text-[9px] font-bold text-slate-400 uppercase font-mono tracking-wider">
+                  <th class="pb-3">Investigador</th>
+                  <th class="pb-3">Código Proyecto</th>
+                  <th class="pb-3">Institución</th>
+                  <th class="pb-3">Gobernanza / Bioética (Estructural)</th>
+                  <th class="pb-3">Consistencia del Solver (Matemático)</th>
+                  <th class="pb-3">Alineación Epistémica (Metodológico)</th>
+                </tr>
+              </thead>
+              <tbody id="auditMatrixTableBody" class="divide-y divide-slate-100 text-xs">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
       </section>
 
       <!-- ==================== PESTAÑA 2: HISTORIAL DE AUDITORÍA ==================== -->
@@ -388,6 +422,7 @@
                     <th class="pb-3">Código Proyecto</th>
                     <th class="pb-3">Investigador / Institución</th>
                     <th class="pb-3">Hashes Base (Qual/Quant)</th>
+                    <th class="pb-3">Código QR Seguro</th>
                     <th class="pb-3">Estado Registro</th>
                     <th class="pb-3 text-right">Verificación / Archivo</th>
                   </tr>
@@ -405,7 +440,7 @@
             
             <div class="border border-dashed border-slate-200 rounded-2xl p-4 text-center space-y-4">
               <!-- Animated QR Code Visual Placeholder -->
-              <div class="w-28 h-28 bg-white border border-slate-200 mx-auto flex items-center justify-center p-2 rounded-xl shadow-inner relative overflow-hidden group">
+              <div id="admin-qr-display" class="w-28 h-28 bg-white border border-slate-200 mx-auto flex items-center justify-center p-2 rounded-xl shadow-inner relative overflow-hidden group">
                 <svg viewBox="0 0 100 100" class="w-full h-full text-slate-800">
                   <!-- Mock QR code details in vector -->
                   <path fill="currentColor" d="M10,10 h20 v20 h-20 z M15,15 h10 v10 h-10 z M70,10 h20 v20 h-20 z M75,15 h10 v10 h-10 z M10,70 h20 v20 h-20 z M15,75 h10 v10 h-10 z" />
@@ -414,6 +449,9 @@
                 <div class="absolute inset-0 bg-[#84d5c5]/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <span class="text-[9px] font-bold text-slate-800 bg-white px-2 py-0.5 rounded shadow">QR VERIFICADO</span>
                 </div>
+              </div>
+              <div id="admin-qr-url" class="text-center mt-2 flex flex-col justify-center items-center">
+                <span class="text-[9px] text-slate-400 font-mono">SELECCIONA UN QR PARA ESCANEADO SEGURO</span>
               </div>
 
               <div class="space-y-1">
@@ -448,11 +486,34 @@
     let currentSessionId = '';
 
     async function purgeAllData() {
-      if (!confirm('🚨 ATENCIÓN: Esta acción realizará un HARD RESET completo de la auditoría:\n\n1. Borrará todas las actas firmadas físicamente del disco.\n2. Vaciará la base de datos de declaraciones éticas (cloud mock).\n3. Restablecerá las claves de acceso a los valores de fábrica.\n4. Desconectará de inmediato a todos los investigadores activos.\n\n¿Está absolutamente seguro de que desea proceder?')) {
+      // Doble confirmación preliminar
+      if (!confirm('🚨 ATENCIÓN: Esta acción realizará un HARD RESET y CRIPTO-PURGA (Crypto-Shredding) completa de la auditoría:\n\n1. Destruirá e invalidará permanentemente la clave maestra criptográfica.\n2. Las actas históricas en copias de seguridad se volverán ilegibles de por vida.\n3. Vaciará la base de datos de declaraciones éticas (cloud mock).\n4. Desconectará de inmediato a todos los investigadores activos.\n\n¿Está absolutamente seguro de que desea proceder?')) {
         return;
       }
+      
+      // Pase 1: Confirmación de frase explícita
+      const confirmPhrase = prompt('PASE 1 DE SEGURIDAD:\nPara autorizar la cripto-purga destructiva, escriba exactamente la siguiente frase en mayúsculas:\n\nCONFIRMAR PURGA CRIPTO-SHREDDING');
+      if (confirmPhrase !== 'CONFIRMAR PURGA CRIPTO-SHREDDING') {
+        alert('❌ Operación cancelada. La frase de seguridad no coincide.');
+        return;
+      }
+      
+      // Pase 2: Contraseña administrativa
+      const confirmPassword = prompt('PASE 2 DE SEGURIDAD:\nPor favor, introduzca su contraseña administrativa para autorizar el crypto-shredding:');
+      if (!confirmPassword) {
+        alert('❌ Operación cancelada. Contraseña requerida.');
+        return;
+      }
+
       try {
-        const res = await fetch('/api/admin/purge-data', { method: 'POST' });
+        const res = await fetch('/api/admin/purge-data', { 
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            confirm_phrase: confirmPhrase,
+            confirm_password: confirmPassword
+          })
+        });
         const data = await res.json();
         if (res.ok && data.status === 'success') {
           alert('🧹 ' + data.message);
@@ -468,9 +529,11 @@
       }
     }
 
+
     document.addEventListener('DOMContentLoaded', () => {
       // Load connections and keys on start
       refreshOperationalData();
+      refreshAuditMatrix();
     });
 
     function switchTab(tabId) {
@@ -505,6 +568,7 @@
       // Load specific tab data
       if (tabId === 'dashboard') {
         refreshOperationalData();
+        refreshAuditMatrix();
       } else if (tabId === 'reports') {
         loadSignedDeeds();
       }
@@ -634,9 +698,9 @@
       const tbody = document.getElementById('deedsTableBody');
       tbody.innerHTML = `
         <tr>
-          <td colspan="6" class="py-8 text-center text-slate-400 font-medium">
+          <td colspan="7" class="py-8 text-center text-slate-400 font-medium">
             <span class="material-symbols-outlined animate-spin align-middle mr-1.5 text-[#10b981]">sync</span>
-            Recolectando firmas de los espacios privados...
+            Recolectando firmas y computando tokens dinámicos...
           </td>
         </tr>
       `;
@@ -649,7 +713,7 @@
         if (deeds.length === 0) {
           tbody.innerHTML = `
             <tr>
-              <td colspan="6" class="py-8 text-center text-slate-400 font-medium font-mono">
+              <td colspan="7" class="py-8 text-center text-slate-400 font-medium font-mono">
                 Ninguna declaración ética ha sido firmada en este ciclo operativo.
               </td>
             </tr>
@@ -659,7 +723,7 @@
 
         deeds.forEach(d => {
           const row = document.createElement('tr');
-          row.className = "hover:bg-slate-50/80 transition-all";
+          row.className = "hover:bg-slate-50/80 transition-all border-b border-slate-100/50";
           
           const verified = d.file_exists;
           
@@ -670,6 +734,11 @@
             <td class="py-3 font-mono text-[9px] text-slate-500 leading-tight">
               CUAL: <span class="text-emerald-600 font-bold">${d.qualitative_hash ? d.qualitative_hash.substring(0, 10) : 'N/D'}...</span><br>
               CUANT: <span class="text-[#0284c7] font-bold">${d.quantitative_hash ? d.quantitative_hash.substring(0, 10) : 'N/D'}...</span>
+            </td>
+            <td class="py-3">
+              <div class="w-14 h-14 bg-white border border-slate-200 p-0.5 rounded shadow-inner hover:scale-105 transition-all cursor-pointer flex items-center justify-center" title="Haga clic para expandir y auditar en el panel lateral" onclick="showSecureQrDetails('${d.hash_proyecto}', \`${d.secure_qr_svg}\`, '${d.verify_url}')">
+                ${d.secure_qr_svg}
+              </div>
             </td>
             <td class="py-3">
               <span class="inline-flex items-center px-2 py-0.5 rounded text-[8px] font-extrabold ${verified ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20' : 'bg-red-500/10 text-red-600 border border-red-500/20'} uppercase font-mono">
@@ -693,7 +762,7 @@
       } catch (err) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="6" class="py-8 text-center text-red-600 font-medium font-mono">
+            <td colspan="7" class="py-8 text-center text-red-600 font-medium font-mono">
               Error al recolectar actas desde el servidor de almacenamiento.
             </td>
           </tr>
@@ -703,6 +772,19 @@
 
     function verifyDeed(hash, qual, quant) {
       alert(`🔐 [VERIFICACIÓN CRIPTOGRÁFICA DE SELLO]\n------------------------------------------------\nID Acta: ${hash}\nSello QR: Validado OK\nFirma SHA-256 Cualitativa: ${qual ? qual : 'No disponible'}\nFirma SHA-256 Cuantitativa: ${quant ? quant : 'No disponible'}\n\nResultado: El acta es 100% auténtica y coincide con el linaje socrático del investigador.`);
+    }
+
+    function showSecureQrDetails(hash, qr_svg, verify_url) {
+      document.getElementById('admin-qr-display').innerHTML = qr_svg;
+      document.getElementById('admin-qr-url').innerHTML = `
+        <a href="${verify_url}" target="_blank" class="inline-block px-3 py-1.5 bg-[#84d5c5]/10 border border-[#10b981]/20 hover:bg-[#84d5c5]/25 text-[#059669] rounded text-[10px] font-bold font-mono tracking-tight transition-all shadow-sm">
+          Simular Escaneo (Enlace Cifrado TOTP)
+        </a>
+        <p class="text-[8px] text-slate-400 mt-1.5 italic text-center leading-normal">
+          El token caduca dinámicamente en 30s.<br>
+          Al escanearlo, registrará tu IP en la bitácora de auditoría.
+        </p>
+      `;
     }
 
     // Dynamic downloadable MESCyT XML package generated on-the-fly
@@ -805,6 +887,18 @@
       }
     }
 
+    function toggleReasoningTrace(button) {
+      const container = button.nextElementSibling;
+      const chevron = button.querySelector('.chevron-icon');
+      if (container.classList.contains('hidden')) {
+        container.classList.remove('hidden');
+        chevron.style.transform = 'rotate(180deg)';
+      } else {
+        container.classList.add('hidden');
+        chevron.style.transform = 'rotate(0deg)';
+      }
+    }
+
     // AI Coach AJAX submit handler
     document.addEventListener('DOMContentLoaded', () => {
       const chatForm = document.getElementById('coach-chat-form');
@@ -859,21 +953,74 @@
             const typing = chatHistory.querySelector('.typing-indicator');
             if (typing) typing.remove();
             
+            // Re-enable input
+            queryInput.disabled = false;
+            queryInput.focus();
+            
             if (res.ok) {
               const data = await res.json();
               
+              let traceHtml = "";
+              if (data.reasoning_trace && data.reasoning_trace.length > 0) {
+                let stepsHtml = "";
+                data.reasoning_trace.forEach(step => {
+                  let badgeColor = "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+                  if (step.status === "BLOCKED" || step.status === "RED") {
+                    badgeColor = "bg-rose-500/10 text-rose-400 border border-rose-500/20";
+                  } else if (step.status === "ADMIN" || step.status === "ADMIN_ACCESS") {
+                    badgeColor = "bg-blue-500/10 text-blue-400 border border-blue-500/20";
+                  }
+                  stepsHtml += `
+                    <div class="flex items-start gap-2 pt-1.5 border-t border-slate-800/40 first:border-t-0 first:pt-0">
+                      <div class="flex items-center gap-1 shrink-0 mt-0.5">
+                        <span class="text-[#059669] font-bold text-[8px] tracking-wider font-mono">PASO ${step.step}:</span>
+                        <span class="px-1 py-0.5 rounded text-[7px] font-bold uppercase font-mono tracking-tighter ${badgeColor}">${step.status}</span>
+                      </div>
+                      <div class="flex-grow text-left">
+                        <span class="font-extrabold text-[8px] text-slate-200 uppercase tracking-tight">[${step.node}]</span>
+                        <p class="text-[9px] text-slate-400 leading-normal mt-0.5">${step.desc}</p>
+                      </div>
+                    </div>
+                  `;
+                });
+                
+                traceHtml = `
+                  <div class="w-full mt-2 border-t border-slate-200/40 pt-1.5 text-left">
+                    <button onclick="toggleReasoningTrace(this)" class="flex items-center gap-1 text-[9px] text-[#059669] hover:text-[#047857] font-bold font-mono tracking-wider uppercase transition-colors shrink-0 outline-none">
+                      <span class="material-symbols-outlined text-[12px] chevron-icon transition-transform duration-200 transform rotate-0">expand_more</span>
+                      🔍 Inspeccionar Trazabilidad Inferencial
+                    </button>
+                    <div class="reasoning-trace-panel hidden mt-2 bg-slate-900 border border-slate-800/80 rounded-lg p-3 text-slate-300 font-mono shadow-lg flex flex-col gap-2">
+                      <div class="flex items-center justify-between pb-1.5 border-b border-slate-800">
+                        <span class="text-[8px] font-extrabold text-slate-500 uppercase tracking-widest font-mono">AUDIT TRAIL // ENTHEMA CO-PILOT</span>
+                        <span class="text-[8px] text-[#10b981] font-mono font-bold animate-pulse uppercase">● SECURE INF NODE</span>
+                      </div>
+                      ${stepsHtml}
+                    </div>
+                  </div>
+                `;
+              }
+              
               const botMsgDiv = document.createElement('div');
-              botMsgDiv.className = "flex items-start gap-2 max-w-[85%] mb-2";
+              botMsgDiv.className = "flex items-start gap-2 max-w-[85%] mb-2 flex-col";
               botMsgDiv.innerHTML = `
-                <div class="w-6 h-6 rounded-full bg-[#10b981]/15 text-[#059669] flex items-center justify-center shrink-0">
-                  <span class="material-symbols-outlined text-[14px]">smart_toy</span>
-                </div>
-                <div class="bg-white border border-slate-200 rounded-lg p-2.5 text-slate-700 leading-relaxed">
-                  ${data.answer}
+                <div class="flex items-start gap-2 w-full">
+                  <div class="w-6 h-6 rounded-full bg-[#10b981]/15 text-[#059669] flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-[14px]">smart_toy</span>
+                  </div>
+                  <div class="bg-white border border-slate-200 rounded-lg p-2.5 text-slate-700 leading-relaxed flex-grow w-0">
+                    <div>${data.answer}</div>
+                    ${traceHtml}
+                  </div>
                 </div>
               `;
               chatHistory.appendChild(botMsgDiv);
+              chatHistory.scrollTop = chatHistory.scrollHeight;
             } else {
+              // Re-enable input in case of error
+              queryInput.disabled = false;
+              queryInput.focus();
+              
               const errorDiv = document.createElement('div');
               errorDiv.className = "flex items-start gap-2 max-w-[85%] mb-2";
               errorDiv.innerHTML = `
@@ -909,6 +1056,120 @@
         });
       }
     });
+
+    async function refreshAuditMatrix() {
+      const tbody = document.getElementById('auditMatrixTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="py-6 text-center text-slate-400 font-medium">
+            <span class="material-symbols-outlined animate-spin align-middle mr-1.5 text-primary">sync</span>
+            Computando coherencia y cruzando hashes de bases de datos...
+          </td>
+        </tr>
+      `;
+
+      try {
+        const res = await fetch('/api/admin/audit-matrix');
+        const data = await res.json();
+        tbody.innerHTML = '';
+
+        if (data.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="py-6 text-center text-slate-400 font-mono font-bold">
+                No hay expedientes científicos activos en memoria para auditar.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        data.forEach(p => {
+          const row = document.createElement('tr');
+          row.className = "hover:bg-slate-50/80 transition-all border-b border-slate-100";
+          
+          let structBadge = '';
+          if (p.structural_status === 'red') {
+            structBadge = `
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-[8px] font-extrabold bg-red-100 text-red-700 border border-red-200 uppercase font-mono animate-pulse">
+                BLOQUEO ROJO
+              </span>
+            `;
+          } else {
+            structBadge = `
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-[8px] font-extrabold bg-emerald-100 text-emerald-700 border border-emerald-200 uppercase font-mono">
+                VALIDADO OK
+              </span>
+            `;
+          }
+
+          let mathBadge = '';
+          if (p.mathematical_status === 'yellow') {
+            mathBadge = `
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-[8px] font-extrabold bg-amber-100 text-amber-700 border border-amber-200 uppercase font-mono animate-pulse">
+                ALERTA INCONGRUENCIA (AMARILLO)
+              </span>
+            `;
+          } else {
+            mathBadge = `
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-[8px] font-extrabold bg-emerald-100 text-emerald-700 border border-emerald-200 uppercase font-mono">
+                SIN DISCREPANCIAS
+              </span>
+            `;
+          }
+
+          let epistemicBadge = '';
+          if (p.epistemic_status === 'yellow') {
+            epistemicBadge = `
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-[8px] font-extrabold bg-amber-100 text-amber-700 border border-amber-200 uppercase font-mono animate-pulse">
+                ALERTA DERIVA (AMARILLO)
+              </span>
+            `;
+          } else {
+            epistemicBadge = `
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-[8px] font-extrabold bg-emerald-100 text-emerald-700 border border-emerald-200 uppercase font-mono">
+                COHERENCIA OK
+              </span>
+            `;
+          }
+
+          row.innerHTML = `
+            <td class="py-4 font-bold text-slate-800">${p.investigator_name}</td>
+            <td class="py-4 font-mono text-[10px] text-slate-500">${p.project_id}</td>
+            <td class="py-4 text-slate-600 font-medium">${p.institution}</td>
+            <td class="py-4">
+              <div class="space-y-1">
+                ${structBadge}
+                <div class="text-[9px] text-slate-400 font-mono leading-tight">${p.structural_reasons.join('<br>')}</div>
+              </div>
+            </td>
+            <td class="py-4">
+              <div class="space-y-1">
+                ${mathBadge}
+                <div class="text-[9px] text-slate-400 font-mono leading-tight">${p.mathematical_reasons.join('<br>')}</div>
+              </div>
+            </td>
+            <td class="py-4">
+              <div class="space-y-1">
+                ${epistemicBadge}
+                <div class="text-[9px] text-slate-400 font-mono leading-tight">${p.epistemic_reasons.join('<br>')}</div>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+
+      } catch (err) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="py-6 text-center text-red-600 font-mono">
+              Error al recolectar auditoría de coherencia en caliente.
+            </td>
+          </tr>
+        `;
+      }
+    }
   </script>
 </body>
 </html>
