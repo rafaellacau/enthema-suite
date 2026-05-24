@@ -203,6 +203,14 @@ default_users = [
         "name": "Dr. Aris Thorne (Alternativo)",
         "institution": "Instituto Internacional de Bioingeniería",
         "profile_id": "INV-ARIS-002"
+    },
+    {
+        "username": "PV",
+        "password": "sargazopv66",
+        "role": "researcher",
+        "name": "Investigador Principal PV",
+        "institution": "INTEC",
+        "profile_id": "INV-PV-001"
     }
 ]
 
