@@ -1616,6 +1616,26 @@ async def get_profile(request: Request):
     state = get_api_session(request)
     return state.profile
 
+@app.get("/api/researcher/telemetry")
+async def get_researcher_telemetry(request: Request):
+    """Retorna las métricas de telemetría de complacencia del propio investigador para transparencia ética (Mitigación del Gap 4)."""
+    state = get_api_session(request)
+    literal_count = len(state.literal_acceptances) if hasattr(state, "literal_acceptances") else 0
+    modified_count = len(state.modified_acceptances) if hasattr(state, "modified_acceptances") else 0
+    total_sug = sum(len(lst) for lst in state.generated_suggestions.values()) if hasattr(state, "generated_suggestions") else 0
+    
+    acceptance_rate = 0.0
+    if total_sug > 0:
+        acceptance_rate = round(((literal_count + modified_count) / total_sug) * 100, 1)
+        
+    return {
+        "status": "success",
+        "literal_acceptances": literal_count,
+        "modified_acceptances": modified_count,
+        "total_suggestions": total_sug,
+        "acceptance_rate_percent": acceptance_rate
+    }
+
 class ProfileUpdateRequest(BaseModel):
     name: str
     institution: str

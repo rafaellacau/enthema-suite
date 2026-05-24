@@ -120,5 +120,20 @@ class TestAdversarialesResolucion(unittest.TestCase):
         self.assertIn("answer", data)
         self.assertIn("🛡️ Zona de Silencio No-AI", data["answer"])
 
+    # ==============================================================================
+    # PRUEBA 5: TRANSPARENCIA DE TELEMETRÍA DEL PROPIO INVESTIGADOR
+    # ==============================================================================
+    def test_researcher_telemetry_transparency(self):
+        """Valida que el endpoint /api/researcher/telemetry retorne las métricas del propio investigador."""
+        self.client.cookies.set("session_id", self.researcher_cookie)
+        res = self.client.get("/api/researcher/telemetry")
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertEqual(data["status"], "success")
+        self.assertIn("literal_acceptances", data)
+        self.assertIn("modified_acceptances", data)
+        self.assertIn("total_suggestions", data)
+        self.assertIn("acceptance_rate_percent", data)
+
 if __name__ == "__main__":
     unittest.main()
