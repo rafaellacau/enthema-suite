@@ -699,18 +699,77 @@ def update_finance():
   </form>
   
   <!-- Glowing Result Card -->
-  <div id="solverResultCard" class="hidden bg-primary-container/10 p-5 rounded-xl border border-primary/20 grid grid-cols-3 gap-6">
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">VALOR ACTUAL NETO (VAN)</p>
-      <p id="solver-van" class="text-2xl font-bold text-primary">$0.00</p>
+  <div id="solverResultCard" class="hidden space-y-6">
+    <div class="bg-primary-container/10 p-5 rounded-xl border border-primary/20 grid grid-cols-3 gap-6">
+      <div class="text-center border-r border-outline-variant/30">
+        <p class="text-xs text-on-surface-variant font-label-md uppercase font-bold">VALOR ACTUAL NETO (VAN)</p>
+        <p id="solver-van" class="text-2xl font-bold text-primary">$0.00</p>
+      </div>
+      <div class="text-center border-r border-outline-variant/30">
+        <p class="text-xs text-on-surface-variant font-label-md uppercase font-bold">TASA INTERNA RETORNO (TIR)</p>
+        <p id="solver-tir" class="text-2xl font-bold text-secondary">0.00%</p>
+      </div>
+      <div class="text-center flex flex-col justify-center items-center">
+        <p class="text-xs text-on-surface-variant font-label-md uppercase mb-1 font-bold">DICTAMEN</p>
+        <span id="solver-dictamen" class="px-4 py-1 text-xs font-bold rounded-full"></span>
+      </div>
     </div>
-    <div class="text-center border-r border-outline-variant/30">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase">TASA INTERNA RETORNO (TIR)</p>
-      <p id="solver-tir" class="text-2xl font-bold text-secondary">0.00%</p>
-    </div>
-    <div class="text-center flex flex-col justify-center items-center">
-      <p class="text-xs text-on-surface-variant font-label-md uppercase mb-1">DICTAMEN</p>
-      <span id="solver-dictamen" class="px-4 py-1 text-xs font-bold rounded-full"></span>
+    
+    <!-- Monte Carlo Simulation Card -->
+    <div class="bg-secondary-container/10 p-6 rounded-xl border border-secondary/20 space-y-4 text-left">
+      <div class="border-b border-outline-variant/30 pb-3 flex justify-between items-center">
+        <h4 class="font-headline-sm text-on-surface text-[16px] flex items-center gap-2 font-bold">
+          <span class="material-symbols-outlined text-secondary">insights</span> Simulación Probabilística Monte Carlo (1,000 Iteraciones, σ=15%)
+        </h4>
+        <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-secondary/15 text-secondary uppercase font-mono">Simulación Activa</span>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- VAN percentiles -->
+        <div class="bg-white/50 p-4 rounded-lg border border-outline-variant/20 space-y-2.5">
+          <p class="text-xs text-on-surface-variant font-bold uppercase flex items-center gap-1.5 text-primary">
+            <span class="material-symbols-outlined text-[14px]">query_stats</span> Distribución del VAN
+          </p>
+          <div class="space-y-1.5 text-xs">
+            <div class="flex justify-between items-center py-1 border-b border-outline-variant/10">
+              <span class="text-slate-500 font-medium">Percentil 5 (Escenario Pesimista)</span>
+              <span id="mc-van-p5" class="font-mono font-bold text-danger">$-</span>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-outline-variant/10">
+              <span class="text-slate-700 font-bold">Percentil 50 (Escenario Esperado)</span>
+              <span id="mc-van-p50" class="font-mono font-bold text-primary">$-</span>
+            </div>
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500 font-medium">Percentil 95 (Escenario Optimista)</span>
+              <span id="mc-van-p95" class="font-mono font-bold text-success">$-</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- TIR percentiles -->
+        <div class="bg-white/50 p-4 rounded-lg border border-outline-variant/20 space-y-2.5">
+          <p class="text-xs text-on-surface-variant font-bold uppercase flex items-center gap-1.5 text-secondary">
+            <span class="material-symbols-outlined text-[14px]">show_chart</span> Distribución de la TIR
+          </p>
+          <div class="space-y-1.5 text-xs">
+            <div class="flex justify-between items-center py-1 border-b border-outline-variant/10">
+              <span class="text-slate-500 font-medium">Percentil 5 (Escenario Pesimista)</span>
+              <span id="mc-tir-p5" class="font-mono font-bold text-danger">-%</span>
+            </div>
+            <div class="flex justify-between items-center py-1 border-b border-outline-variant/10">
+              <span class="text-slate-700 font-bold">Percentil 50 (Escenario Esperado)</span>
+              <span id="mc-tir-p50" class="font-mono font-bold text-secondary">-%</span>
+            </div>
+            <div class="flex justify-between items-center py-1">
+              <span class="text-slate-500 font-medium">Percentil 95 (Escenario Optimista)</span>
+              <span id="mc-tir-p95" class="font-mono font-bold text-success">-%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="text-[10px] text-on-surface-variant/80 italic">
+        * La simulación inyecta ruido gaussiano con desviación estándar de 15% en los flujos de caja operativos anuales y 5% en la inversión inicial para calcular la dispersión del retorno real.
+      </p>
     </div>
   </div>
 </section>
@@ -760,6 +819,17 @@ def update_finance():
                         badge.className = "px-4 py-1 text-xs font-bold rounded-full bg-success/20 text-success";
                     }} else {{
                         badge.className = "px-4 py-1 text-xs font-bold rounded-full bg-danger/20 text-danger";
+                    }}
+
+                    // Render Monte Carlo Probabilistic Percentiles
+                    if (data.monte_carlo) {{
+                        document.getElementById('mc-van-p5').innerText = '$' + data.monte_carlo.van_p5.toLocaleString(undefined, {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}) + ' USD';
+                        document.getElementById('mc-van-p50').innerText = '$' + data.monte_carlo.van_p50.toLocaleString(undefined, {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}) + ' USD';
+                        document.getElementById('mc-van-p95').innerText = '$' + data.monte_carlo.van_p95.toLocaleString(undefined, {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}) + ' USD';
+                        
+                        document.getElementById('mc-tir-p5').innerText = (data.monte_carlo.tir_p5 * 100).toFixed(2) + '%';
+                        document.getElementById('mc-tir-p50').innerText = (data.monte_carlo.tir_p50 * 100).toFixed(2) + '%';
+                        document.getElementById('mc-tir-p95').innerText = (data.monte_carlo.tir_p95 * 100).toFixed(2) + '%';
                     }}
                 }} else {{
                     alert('Error resolviendo flujos.');

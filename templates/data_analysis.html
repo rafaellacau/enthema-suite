@@ -400,6 +400,27 @@
       <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
     </div>
   </div>
+  <!-- Controles de Datos -->
+  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm space-y-4 text-left">
+    <h3 class="font-headline-md text-on-surface text-[18px]">⚡ Controles de Datos</h3>
+    <p class="font-body-md text-on-surface-variant">Genere datos piloto sintéticos o cargue su dataset de laboratorio.</p>
+    
+    <div class="space-y-3 pt-2">
+      <!-- Botón Piloto -->
+      <button id="btn-synthetic" class="w-full bg-primary text-white py-2.5 px-4 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto
+      </button>
+      
+      <!-- Cargador CSV -->
+      <div class="border border-dashed border-outline-variant rounded-lg p-4 text-center space-y-2 hover:border-primary transition-all">
+        <span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
+        <p class="text-xs text-on-surface-variant">Cargar archivo de Muestras (.csv)</p>
+        <input type="file" id="quantCsvFile" class="hidden" accept=".csv" />
+        <button type="button" onclick="document.getElementById('quantCsvFile').click()" class="text-xs px-3 py-1 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-all">Seleccionar</button>
+      </div>
+      <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
+    </div>
+  </div>
 <!-- Enzime Heatmap Card -->
 <div class="bg-surface-base border border-border-subtle rounded-xl p-6 shadow-sm flex-1">
 <div class="mb-4">

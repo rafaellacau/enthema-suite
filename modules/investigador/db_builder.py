@@ -346,6 +346,53 @@ class FinancialFeasibilityProfiler:
         return r
 
     @staticmethod
+    def simular_monte_carlo(flujos: List[float], discount_rate: float, std_dev: float = 0.15, simulaciones: int = 1000) -> Dict[str, float]:
+        """
+        Realiza una simulación estocástica de Monte Carlo (1000 iteraciones)
+        sobre los flujos de caja del proyecto aplicando ruido gaussiano (std_dev = 15%).
+        Devuelve los percentiles 5, 50, y 95 de VAN e TIR.
+        """
+        import random
+        van_sims = []
+        tir_sims = []
+        
+        for _ in range(simulaciones):
+            # Simular flujos de caja perturbados
+            flujos_perturbados = []
+            for i, f in enumerate(flujos):
+                if i == 0:
+                    # El flujo 0 (inversión inicial) también puede fluctuar ligeramente (ej. +/- 5% desviación estándar)
+                    pert = f * (1.0 + random.normalvariate(0, 0.05))
+                else:
+                    # Flujos operativos con 15% desviación estándar
+                    pert = f * (1.0 + random.normalvariate(0, std_dev))
+                flujos_perturbados.append(pert)
+            
+            # Calcular VAN
+            van_s = sum(fp / (1 + discount_rate)**t for t, fp in enumerate(flujos_perturbados))
+            # Calcular TIR
+            tir_s = FinancialFeasibilityProfiler.calcular_tir(flujos_perturbados)
+            
+            van_sims.append(van_s)
+            tir_sims.append(tir_s)
+            
+        van_sims.sort()
+        tir_sims.sort()
+        
+        def get_percentile(arr, p):
+            idx = int(len(arr) * (p / 100.0))
+            return arr[min(idx, len(arr) - 1)]
+            
+        return {
+            "van_p5": float(get_percentile(van_sims, 5)),
+            "van_p50": float(get_percentile(van_sims, 50)),
+            "van_p95": float(get_percentile(van_sims, 95)),
+            "tir_p5": float(get_percentile(tir_sims, 5)),
+            "tir_p50": float(get_percentile(tir_sims, 50)),
+            "tir_p95": float(get_percentile(tir_sims, 95))
+        }
+
+    @staticmethod
     def profile_financials(
         project_title: str, 
         df: pd.DataFrame, 

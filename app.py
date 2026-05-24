@@ -1811,7 +1811,7 @@ class FinanceSolveRequest(BaseModel):
 
 @app.post("/api/finance/solve")
 async def solve_financials(data: FinanceSolveRequest, request: Request):
-    """Resuelve la viabilidad financiera multiperiodo TIR/VAN con Newton-Raphson."""
+    """Resuelve la viabilidad financiera multiperiodo TIR/VAN con Newton-Raphson y Monte Carlo."""
     state = get_api_session(request)
     
     if not data.cash_flow:
@@ -1826,12 +1826,17 @@ async def solve_financials(data: FinanceSolveRequest, request: Request):
         discount_rate=data.discount_rate
     )
     
+    # Simulación Monte Carlo
+    flujos = df_clean["Flujo_Caja"].tolist()
+    mc_results = FinancialFeasibilityProfiler.simular_monte_carlo(flujos, data.discount_rate)
+    
     return {
         "status": "success",
         "van": van,
         "tir": tir,
         "dictamen": dictamen,
-        "clean_cash_flow": df_clean.to_dict(orient="records")
+        "clean_cash_flow": df_clean.to_dict(orient="records"),
+        "monte_carlo": mc_results
     }
 
 class ABMSimulationRequest(BaseModel):
