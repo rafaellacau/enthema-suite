@@ -322,28 +322,28 @@
 </section>
 <!-- Onboarding Form Section -->
 <section id="onboarding-form-section" class="bg-surface-container-lowest border border-outline-variant rounded-3xl p-10 lg:p-12 shadow-sm space-y-8">
-  <div class="border-b border-outline-variant pb-6 text-left">
-    <h2 class="font-headline-lg text-on-surface text-xl font-bold">🧬 Configuración Científica y Académica (Onboarding)</h2>
+  <div class="border-b border-outline-variant pb-6">
+    <h2 class="font-headline-lg text-on-surface">🧬 Configuración Científica y Académica (Onboarding)</h2>
     <p class="font-body-md text-on-surface-variant">Establezca los parámetros clave de su ADN intelectual y defina la revista o patente destino para su investigación.</p>
   </div>
   
-  <form id="profileForm" class="grid grid-cols-12 gap-6 text-on-surface">
+  <form id="profileForm" class="grid grid-cols-12 gap-6">
     <!-- Col 1: Nombre del Investigador -->
     <div class="col-span-12 md:col-span-6 space-y-2 text-left">
       <label class="block font-label-md text-primary tracking-wide text-xs">NOMBRE COMPLETO</label>
-      <input type="text" id="name" name="name" value="{{ profile.name }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" required />
+      <input type="text" id="name" name="name" value="{{ profile.name }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" required />
     </div>
 
     <!-- Col 2: Institución -->
     <div class="col-span-12 md:col-span-6 space-y-2 text-left">
       <label class="block font-label-md text-primary tracking-wide text-xs">INSTITUCIÓN O FIRMA CONSULTORA</label>
-      <input type="text" id="institution" name="institution" value="{{ profile.institution }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" required />
+      <input type="text" id="institution" name="institution" value="{{ profile.institution }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" required />
     </div>
 
     <!-- Col 3: Rol del Usuario -->
     <div class="col-span-12 md:col-span-4 space-y-2 text-left">
       <label class="block font-label-md text-primary tracking-wide text-xs">ROL DE OPERACIÓN EN LA SUITE</label>
-      <select id="user_role" name="user_role" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface">
+      <select id="user_role" name="user_role" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
         <option value="classic_researcher" {% if profile.user_role == 'classic_researcher' %}selected{% endif %}>Investigador Clásico</option>
         <option value="investment_consultant" {% if profile.user_role == 'investment_consultant' %}selected{% endif %}>Consultor de Inversión</option>
       </select>
@@ -352,7 +352,7 @@
     <!-- Col 4: Postura Epistémica -->
     <div class="col-span-12 md:col-span-4 space-y-2 text-left">
       <label class="block font-label-md text-primary tracking-wide text-xs">POSTURA EPISTÉMICA</label>
-      <select id="epistemologic_stance" name="epistemologic_stance" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface">
+      <select id="epistemologic_stance" name="epistemologic_stance" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
         <option value="Positivista" {% if profile.epistemologic_stance == 'Positivista' %}selected{% endif %}>Positivista (Experimental/Matemático)</option>
         <option value="Constructivista" {% if profile.epistemologic_stance == 'Constructivista' %}selected{% endif %}>Constructivista (Cualitativo/Social)</option>
         <option value="Hermenéutica" {% if profile.epistemologic_stance == 'Hermenéutica' %}selected{% endif %}>Hermenéutica (Arte/Vanguardias)</option>
@@ -363,7 +363,7 @@
     <!-- Col 5: Fase de Madurez -->
     <div class="col-span-12 md:col-span-4 space-y-2 text-left">
       <label class="block font-label-md text-primary tracking-wide text-xs">FASE DE MADUREZ CIENTÍFICA</label>
-      <select id="research_maturity_stage" name="research_maturity_stage" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface">
+      <select id="research_maturity_stage" name="research_maturity_stage" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
         <option value="Ideación" {% if profile.research_maturity_stage == 'Ideación' %}selected{% endif %}>Ideación Activa (Early-stage sin datos reales)</option>
         <option value="En Curso" {% if profile.research_maturity_stage == 'En Curso' %}selected{% endif %}>En Curso (Con recolección de muestras)</option>
         <option value="Consolidado" {% if profile.research_maturity_stage == 'Consolidado' %}selected{% endif %}>Consolidado (Dataset completo)</option>
@@ -373,7 +373,7 @@
     <!-- Col 6: Canal / Revista Objetivo -->
     <div class="col-span-12 md:col-span-4 space-y-2 text-left">
       <label class="block font-label-md text-primary tracking-wide text-xs">REVISTA O PATENTE OBJETIVO</label>
-      <select id="target_publication_objective" name="target_publication_objective" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface">
+      <select id="target_publication_objective" name="target_publication_objective" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
         <option value="Nature" {% if profile.target_publication_objective == 'Nature' %}selected{% endif %}>Nature (STEM)</option>
         <option value="IEEE" {% if profile.target_publication_objective == 'IEEE' %}selected{% endif %}>IEEE (Ingeniería y Materiales)</option>
         <option value="World Development" {% if profile.target_publication_objective == 'World Development' %}selected{% endif %}>World Development (Sociales/Gini)</option>
@@ -387,44 +387,17 @@
     <!-- Col 7: ORCID -->
     <div class="col-span-12 md:col-span-4 space-y-2 text-left">
       <label class="block font-label-md text-primary tracking-wide text-xs">IDENTIFICADOR CIENTÍFICO ORCID</label>
-      <input type="text" id="orcid" name="orcid" value="{{ profile.orcid or '' }}" placeholder="0000-0000-0000-0000" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" />
+      <input type="text" id="orcid" name="orcid" value="{{ profile.orcid or '' }}" placeholder="0000-0000-0000-0000" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" />
     </div>
 
     <!-- Col 8: Financiamiento Objetivo (USD) -->
     <div class="col-span-12 md:col-span-4 space-y-2 text-left">
       <label class="block font-label-md text-primary tracking-wide text-xs">FINANCIAMIENTO OBJETIVO (USD)</label>
-      <input type="number" id="target_fund_usd" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" />
+      <input type="number" id="target_fund_usd" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" />
     </div>
 
-    <!-- Col 9: Líneas de Investigación -->
-    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">LÍNEAS DE INVESTIGACIÓN CORE (Separadas por comas)</label>
-      <input type="text" id="core_research_lines" name="core_research_lines" value="{{ ', '.join(profile.core_research_lines) if profile.core_research_lines else '' }}" placeholder="ej. Bioingeniería de Implantes, Regeneración Ósea" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" />
-    </div>
-
-    <!-- Col 10: Palabras Clave -->
-    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">PALABRAS CLAVE LOCALES (Separadas por comas)</label>
-      <input type="text" id="local_keywords" name="local_keywords" value="{{ ', '.join(profile.local_keywords) if profile.local_keywords else '' }}" placeholder="ej. titanio, porosidad, biocompatibilidad" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" />
-    </div>
-
-    <!-- Col 11: Autores de Referencia -->
-    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">AUTORES / MARCOS DE REFERENCIA (Separados por comas)</label>
-      <input type="text" id="influences_authors" name="influences_authors" value="{{ ', '.join(profile.influences_authors) if profile.influences_authors else '' }}" placeholder="ej. Gibson-Ashby, Wolff, Thorne" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" />
-    </div>
-
-    <!-- Col 12: Preferencias Metodológicas -->
-    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">PREFERENCIAS METODOLÓGICAS (Separadas por comas)</label>
-      <input type="text" id="methodology_preferences" name="methodology_preferences" value="{{ ', '.join(profile.methodology_preferences) if profile.methodology_preferences else '' }}" placeholder="ej. Racionalista, Análisis de Elementos Finitos, Impresión 3D" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all text-on-surface" />
-    </div>
-
-    <div class="col-span-12 flex justify-between items-center gap-4 pt-4">
-      <button type="button" id="btn-clear-form" class="px-6 py-3 border border-outline-variant text-on-surface-variant hover:bg-surface-container rounded-lg font-headline-md hover:text-danger hover:border-danger transition-all flex items-center gap-2 font-bold">
-        <span class="material-symbols-outlined">delete_sweep</span> 🧹 Iniciar Nueva Investigación (Limpiar Formulario)
-      </button>
-      <button type="submit" class="px-8 py-3 bg-primary text-on-primary rounded-lg font-headline-md text-body-lg hover:shadow-lg hover:bg-primary/95 transition-all flex items-center gap-2 font-bold">
+    <div class="col-span-12 flex justify-end gap-4 pt-4">
+      <button type="submit" class="px-8 py-3 bg-primary text-on-primary rounded-lg font-headline-md text-body-lg hover:shadow-lg hover:bg-primary/95 transition-all flex items-center gap-2">
         <span class="material-symbols-outlined" data-icon="save">save</span> Guardar Configuración
       </button>
     </div>
@@ -434,7 +407,109 @@
 <!-- Import Panel -->
 <section class="bg-surface-container-lowest border border-outline-variant rounded-3xl p-10 lg:p-12 shadow-sm space-y-8">
   <div class="border-b border-outline-variant pb-6 text-left">
-    <h2 class="font-headline-lg text-on-surface text-xl font-bold">📂 Ingesta de Historial de Investigación (Importación Pasiva)</h2>
+    <h2 class="font-headline-lg text-on-surface">📂 Ingesta de Historial de Investigación (Importación Pasiva)</h2>
+    <p class="font-body-md text-on-surface-variant">Cargue sus notas de Obsidian (.md), reportes en formato RIS de Zotero (.ris), BibTeX (.bib) o cuadernos de Jupyter (.ipynb) para compilar su perfil científico de forma automática.</p>
+  </div>
+  
+  <div class="border-2 border-dashed border-outline-variant rounded-2xl p-8 text-center space-y-4 hover:border-primary transition-all bg-surface-container-low/20">
+    <span class="material-symbols-outlined text-[48px] text-primary" data-icon="cloud_upload">cloud_upload</span>
+    <p class="font-body-md text-on-surface">Arrastre su archivo de investigación aquí o haga clic para cargarlo</p>
+    <input type="file" id="academicFile" class="hidden" accept=".md,.ris,.bib,.bibtex,.ipynb" />
+    <button type="button" onclick="document.getElementById('academicFile').click()" class="px-6 py-2 border border-outline-variant text-primary rounded-lg font-label-md hover:bg-surface-container transition-all">Seleccionar Archivo</button>
+    <p class="font-label-sm text-outline">Formatos válidos: Markdown (.md), RIS (.ris), BibTeX (.bib), Jupyter Notebook (.ipynb)</p>
+  </div>
+  
+  <div id="uploadStatus" class="hidden font-label-md p-4 rounded-lg text-left"></div>
+</section>
+
+<!-- Onboarding Form Section -->
+<section id="onboarding-form-section" class="bg-surface-container-lowest border border-outline-variant rounded-3xl p-10 lg:p-12 shadow-sm space-y-8">
+  <div class="border-b border-outline-variant pb-6">
+    <h2 class="font-headline-lg text-on-surface">🧬 Configuración Científica y Académica (Onboarding)</h2>
+    <p class="font-body-md text-on-surface-variant">Establezca los parámetros clave de su ADN intelectual y defina la revista o patente destino para su investigación.</p>
+  </div>
+  
+  <form id="profileForm" class="grid grid-cols-12 gap-6">
+    <!-- Col 1: Nombre del Investigador -->
+    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">NOMBRE COMPLETO</label>
+      <input type="text" id="name" name="name" value="{{ profile.name }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" required />
+    </div>
+
+    <!-- Col 2: Institución -->
+    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">INSTITUCIÓN O FIRMA CONSULTORA</label>
+      <input type="text" id="institution" name="institution" value="{{ profile.institution }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" required />
+    </div>
+
+    <!-- Col 3: Rol del Usuario -->
+    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">ROL DE OPERACIÓN EN LA SUITE</label>
+      <select id="user_role" name="user_role" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
+        <option value="classic_researcher" {% if profile.user_role == 'classic_researcher' %}selected{% endif %}>Investigador Clásico</option>
+        <option value="investment_consultant" {% if profile.user_role == 'investment_consultant' %}selected{% endif %}>Consultor de Inversión</option>
+      </select>
+    </div>
+
+    <!-- Col 4: Postura Epistémica -->
+    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">POSTURA EPISTÉMICA</label>
+      <select id="epistemologic_stance" name="epistemologic_stance" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
+        <option value="Positivista" {% if profile.epistemologic_stance == 'Positivista' %}selected{% endif %}>Positivista (Experimental/Matemático)</option>
+        <option value="Constructivista" {% if profile.epistemologic_stance == 'Constructivista' %}selected{% endif %}>Constructivista (Cualitativo/Social)</option>
+        <option value="Hermenéutica" {% if profile.epistemologic_stance == 'Hermenéutica' %}selected{% endif %}>Hermenéutica (Arte/Vanguardias)</option>
+        <option value="Mixed_Methods" {% if profile.epistemologic_stance == 'Mixed_Methods' %}selected{% endif %}>Métodos Mixtos (Cuali-Cuanti)</option>
+      </select>
+    </div>
+
+    <!-- Col 5: Fase de Madurez -->
+    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">FASE DE MADUREZ CIENTÍFICA</label>
+      <select id="research_maturity_stage" name="research_maturity_stage" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
+        <option value="Ideación" {% if profile.research_maturity_stage == 'Ideación' %}selected{% endif %}>Ideación Activa (Early-stage sin datos reales)</option>
+        <option value="En Curso" {% if profile.research_maturity_stage == 'En Curso' %}selected{% endif %}>En Curso (Con recolección de muestras)</option>
+        <option value="Consolidado" {% if profile.research_maturity_stage == 'Consolidado' %}selected{% endif %}>Consolidado (Dataset completo)</option>
+      </select>
+    </div>
+
+    <!-- Col 6: Canal / Revista Objetivo -->
+    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">REVISTA O PATENTE OBJETIVO</label>
+      <select id="target_publication_objective" name="target_publication_objective" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
+        <option value="Nature" {% if profile.target_publication_objective == 'Nature' %}selected{% endif %}>Nature (STEM)</option>
+        <option value="IEEE" {% if profile.target_publication_objective == 'IEEE' %}selected{% endif %}>IEEE (Ingeniería y Materiales)</option>
+        <option value="World Development" {% if profile.target_publication_objective == 'World Development' %}selected{% endif %}>World Development (Sociales/Gini)</option>
+        <option value="Leonardo" {% if profile.target_publication_objective == 'Leonardo' %}selected{% endif %}>Leonardo (Arte/Interactivos)</option>
+        <option value="HBR" {% if profile.target_publication_objective == 'HBR' %}selected{% endif %}>Harvard Business Review (Negocios)</option>
+        <option value="ONAPI" {% if profile.target_publication_objective == 'ONAPI' %}selected{% endif %}>ONAPI (Registro de Patentes)</option>
+        <option value="ONDA" {% if profile.target_publication_objective == 'ONDA' %}selected{% endif %}>ONDA (Registro de Obras Artísticas)</option>
+      </select>
+    </div>
+
+    <!-- Col 7: ORCID -->
+    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">IDENTIFICADOR CIENTÍFICO ORCID</label>
+      <input type="text" id="orcid" name="orcid" value="{{ profile.orcid or '' }}" placeholder="0000-0000-0000-0000" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" />
+    </div>
+
+    <!-- Col 8: Financiamiento Objetivo (USD) -->
+    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+      <label class="block font-label-md text-primary tracking-wide text-xs">FINANCIAMIENTO OBJETIVO (USD)</label>
+      <input type="number" id="target_fund_usd" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" />
+    </div>
+
+    <div class="col-span-12 flex justify-end gap-4 pt-4">
+      <button type="submit" class="px-8 py-3 bg-primary text-on-primary rounded-lg font-headline-md text-body-lg hover:shadow-lg hover:bg-primary/95 transition-all flex items-center gap-2">
+        <span class="material-symbols-outlined" data-icon="save">save</span> Guardar Configuración
+      </button>
+    </div>
+  </form>
+</section>
+
+<!-- Import Panel -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-3xl p-10 lg:p-12 shadow-sm space-y-8">
+  <div class="border-b border-outline-variant pb-6 text-left">
+    <h2 class="font-headline-lg text-on-surface">📂 Ingesta de Historial de Investigación (Importación Pasiva)</h2>
     <p class="font-body-md text-on-surface-variant">Cargue sus notas de Obsidian (.md), reportes en formato RIS de Zotero (.ris), BibTeX (.bib) o cuadernos de Jupyter (.ipynb) para compilar su perfil científico de forma automática.</p>
   </div>
   
@@ -524,15 +599,97 @@
 <span class="material-symbols-outlined text-[32px]" data-icon="add">add</span>
 </button>
 <script>
-        document.querySelectorAll('.bento-grid > div').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.classList.add('shadow-xl');
-            });
-            card.addEventListener('mouseleave', () => {
-                card.classList.remove('shadow-xl');
-            });
+        // Active Navigation Logic for SideNavBar
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('aside nav a').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPath || (currentPath === '/' && href === '/')) {
+                link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-primary font-bold bg-primary-container/10 border-r-4 border-primary transition-all duration-150";
+            } else {
+                link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200";
+            }
+        });
+
+        // Submit Profile Form
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                name: document.getElementById('name').value,
+                institution: document.getElementById('institution').value,
+                user_role: document.getElementById('user_role').value,
+                epistemologic_stance: document.getElementById('epistemologic_stance').value,
+                research_maturity_stage: document.getElementById('research_maturity_stage').value,
+                target_publication_objective: document.getElementById('target_publication_objective').value,
+                orcid: document.getElementById('orcid').value,
+                target_fund_usd: parseFloat(document.getElementById('target_fund_usd').value) || 2500000.0,
+                discount_rate: 0.10
+            };
+
+            try {
+                const response = await fetch('/api/profile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    // Si la madurez es Ideación, generar pilotos automáticamente
+                    if (payload.research_maturity_stage === 'Ideación') {
+                        await fetch('/api/data/synthetic', { method: 'POST' });
+                    }
+                    window.location.href = '/dashboard';
+                } else {
+                    alert('Error guardando perfil: ' + result.message);
+                }
+            } catch (err) {
+                alert('Error de conexión: ' + err.message);
+            }
+        });
+
+        // File upload handling
+        document.getElementById('academicFile').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const statusDiv = document.getElementById('uploadStatus');
+            statusDiv.className = "block font-label-md p-4 rounded-lg bg-primary-container/10 text-primary text-left";
+            statusDiv.innerHTML = "Procesando archivo e integrando genoma intelectual...";
+
+            try {
+                const response = await fetch('/api/profile/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    statusDiv.className = "block font-label-md p-4 rounded-lg bg-success/10 text-success text-left";
+                    statusDiv.innerHTML = `🧬 Ingesta exitosa! Perfil extraído: ${result.message}. Cargando valores en el formulario...`;
+                    
+                    // Actualizar formulario
+                    if (result.profile) {
+                        document.getElementById('name').value = result.profile.name || '';
+                        document.getElementById('institution').value = result.profile.institution || '';
+                        document.getElementById('user_role').value = result.profile.user_role || 'classic_researcher';
+                        document.getElementById('epistemologic_stance').value = result.profile.epistemologic_stance || 'Mixed_Methods';
+                        document.getElementById('research_maturity_stage').value = result.profile.research_maturity_stage || 'En Curso';
+                        document.getElementById('target_publication_objective').value = result.profile.target_publication_objective || 'Nature';
+                        document.getElementById('orcid').value = result.profile.orcid || '';
+                        document.getElementById('target_fund_usd').value = result.profile.target_fund_usd || 2500000;
+                    }
+                } else {
+                    statusDiv.className = "block font-label-md p-4 rounded-lg bg-danger/10 text-danger text-left";
+                    statusDiv.innerHTML = "Error: " + result.detail;
+                }
+            } catch (err) {
+                statusDiv.className = "block font-label-md p-4 rounded-lg bg-danger/10 text-danger text-left";
+                statusDiv.innerHTML = "Error de conexión: " + err.message;
+            }
         });
     </script>
+
 <!-- Enthema AI Coach Right Sidebar -->
 <aside class="fixed right-0 top-0 h-screen w-80 border-l border-outline-variant bg-surface-container-lowest flex flex-col z-40 shadow-lg text-left">
   <!-- Coach Header -->
@@ -554,7 +711,7 @@
         <span class="material-symbols-outlined text-[14px]">smart_toy</span>
       </div>
       <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed">
-        Hola, soy su <strong>AI Coach</strong> técnico. Estoy listo para guiarle de forma segura sin costo de API ($0.00). ¿En qué área técnica o solver financiero desea profundizar hoy?
+        Hola, soy tu <strong>AI Coach</strong>. Estoy aquí para asistirte de forma segura y resolver tus dudas en tu proyecto {% if qualitative_db and qualitative_db.project_title %}<strong>"{{ qualitative_db.project_title }}"</strong>{% elif profile.core_research_lines %}<strong>"{{ profile.core_research_lines[0] }}"</strong>{% else %}<strong>"Investigación Local"</strong>{% endif %}. ¿En qué te puedo ayudar hoy?
       </div>
     </div>
   </div>

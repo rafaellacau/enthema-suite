@@ -9,6 +9,7 @@ import re
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
+TEMPLATE_BACKUP_DIR = os.path.join(BASE_DIR, "templates_backup")
 
 
 def get_standard_aside(is_fixed=True):
@@ -292,8 +293,12 @@ def get_active_nav_script():
 
 def update_dashboard():
     path = os.path.join(TEMPLATE_DIR, "dashboard.html")
-    with open(path, "r", encoding="utf-8") as f:
+    backup_path = os.path.join(TEMPLATE_BACKUP_DIR, "dashboard.html")
+    with open(backup_path, "r", encoding="utf-8") as f:
         html = f.read()
+
+    # Pre-cleaning: Remove any duplicate aside blocks from pristine backup
+    html = re.sub(r'<!--\s*Enthema\s*AI\s*Coach\s*Right\s*Sidebar\s*-->\s*<aside.*?</aside>', '', html, flags=re.DOTALL)
 
     # Reemplazar aside y header
     html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=False), html, count=1, flags=re.DOTALL)
@@ -346,8 +351,12 @@ def update_dashboard():
 
 def update_data_analysis():
     path = os.path.join(TEMPLATE_DIR, "data_analysis.html")
-    with open(path, "r", encoding="utf-8") as f:
+    backup_path = os.path.join(TEMPLATE_BACKUP_DIR, "data_analysis.html")
+    with open(backup_path, "r", encoding="utf-8") as f:
         html = f.read()
+
+    # Pre-cleaning: Remove any duplicate aside blocks from pristine backup
+    html = re.sub(r'<!--\s*Enthema\s*AI\s*Coach\s*Right\s*Sidebar\s*-->\s*<aside.*?</aside>', '', html, flags=re.DOTALL)
 
     # Standardize navigation and header
     html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
@@ -527,8 +536,12 @@ def update_data_analysis():
 
 def update_semantic_modeling():
     path = os.path.join(TEMPLATE_DIR, "semantic_modeling.html")
-    with open(path, "r", encoding="utf-8") as f:
+    backup_path = os.path.join(TEMPLATE_BACKUP_DIR, "semantic_modeling.html")
+    with open(backup_path, "r", encoding="utf-8") as f:
         html = f.read()
+
+    # Pre-cleaning: Remove any duplicate aside blocks from pristine backup
+    html = re.sub(r'<!--\s*Enthema\s*AI\s*Coach\s*Right\s*Sidebar\s*-->\s*<aside.*?</aside>', '', html, flags=re.DOTALL)
 
     # Standardize navigation and header
     html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
@@ -622,8 +635,12 @@ def update_semantic_modeling():
 
 def update_finance():
     path = os.path.join(TEMPLATE_DIR, "finance.html")
-    with open(path, "r", encoding="utf-8") as f:
+    backup_path = os.path.join(TEMPLATE_BACKUP_DIR, "finance.html")
+    with open(backup_path, "r", encoding="utf-8") as f:
         html = f.read()
+
+    # Pre-cleaning: Remove any duplicate aside blocks from pristine backup
+    html = re.sub(r'<!--\s*Enthema\s*AI\s*Coach\s*Right\s*Sidebar\s*-->\s*<aside.*?</aside>', '', html, flags=re.DOTALL)
 
     # Standardize navigation and header
     html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
@@ -862,19 +879,30 @@ def update_finance():
 
 def update_reports():
     path = os.path.join(TEMPLATE_DIR, "reports.html")
-    with open(path, "r", encoding="utf-8") as f:
+    backup_path = os.path.join(TEMPLATE_BACKUP_DIR, "reports.html")
+    with open(backup_path, "r", encoding="utf-8") as f:
         html = f.read()
+
+    # Pre-cleaning: Remove any duplicate aside blocks from pristine backup
+    html = re.sub(r'<!--\s*Enthema\s*AI\s*Coach\s*Right\s*Sidebar\s*-->\s*<aside.*?</aside>', '', html, flags=re.DOTALL)
 
     # Standardize navigation and header
     html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
     html = re.sub(r'<header.*?</header>', get_standard_header(), html, flags=re.DOTALL)
 
-    # Reemplazar el contenedor principal para agregar el espacio del coach
-    html = html.replace('<main class="ml-64 flex flex-col h-screen">', '<main class="ml-64 flex flex-col h-screen mr-80">')
+    # Reemplazar el contenedor principal de reports para agregar el margen de aside (evitando que se deslice abajo)
+    html = html.replace('<main class="flex-grow flex h-screen overflow-hidden">', '<main class="ml-64 flex-grow flex h-screen overflow-hidden">')
 
-    # Inject Coach Right Sidebar
-    if "fixed right-0" not in html:
-        html = html.replace('</body>', get_standard_coach() + '\n</body>')
+    # reports.html ya cuenta con su propio 'AI Coach Metodológico' integrado en la columna 3 (diseño split-screen premium de 3 columnas),
+    # por lo que NO inyectamos el Coach flotante estándar para evitar duplicidades y superposiciones de layout.
+    # Además, removemos el Coach flotante si existe para que no se superponga con la columna 3.
+    if get_standard_coach() in html:
+        html = html.replace(get_standard_coach(), "")
+    else:
+        # Also handle any minor variations of the standard coach block
+        aside_blocks = list(re.finditer(r'<!--\s*Enthema\s*AI\s*Coach\s*Right\s*Sidebar\s*-->\s*<aside.*?</aside>', html, flags=re.DOTALL))
+        for block in aside_blocks:
+            html = html.replace(block.group(0), "")
 
     # Insert compiled monograph rendering above Integrity Status if not exists
     if "mono_chapters" not in html:
@@ -960,8 +988,12 @@ def update_reports():
 
 def update_compliance():
     path = os.path.join(TEMPLATE_DIR, "compliance.html")
-    with open(path, "r", encoding="utf-8") as f:
+    backup_path = os.path.join(TEMPLATE_BACKUP_DIR, "compliance.html")
+    with open(backup_path, "r", encoding="utf-8") as f:
         html = f.read()
+
+    # Pre-cleaning: Remove any duplicate aside blocks from pristine backup
+    html = re.sub(r'<!--\s*Enthema\s*AI\s*Coach\s*Right\s*Sidebar\s*-->\s*<aside.*?</aside>', '', html, flags=re.DOTALL)
 
     # Standardize navigation and header
     html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
@@ -1167,8 +1199,12 @@ def update_compliance():
 
 def update_configuration():
     path = os.path.join(TEMPLATE_DIR, "configuration.html")
-    with open(path, "r", encoding="utf-8") as f:
+    backup_path = os.path.join(TEMPLATE_BACKUP_DIR, "configuration.html")
+    with open(backup_path, "r", encoding="utf-8") as f:
         html = f.read()
+
+    # Pre-cleaning: Remove any duplicate aside blocks from pristine backup
+    html = re.sub(r'<!--\s*Enthema\s*AI\s*Coach\s*Right\s*Sidebar\s*-->\s*<aside.*?</aside>', '', html, flags=re.DOTALL)
 
     # Standardize navigation and header
     html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)
@@ -1229,8 +1265,12 @@ def update_configuration():
 
 def update_onboarding():
     path = os.path.join(TEMPLATE_DIR, "onboarding.html")
-    with open(path, "r", encoding="utf-8") as f:
+    backup_path = os.path.join(TEMPLATE_BACKUP_DIR, "onboarding.html")
+    with open(backup_path, "r", encoding="utf-8") as f:
         html = f.read()
+
+    # Pre-cleaning: Remove any duplicate aside blocks from pristine backup
+    html = re.sub(r'<!--\s*Enthema\s*AI\s*Coach\s*Right\s*Sidebar\s*-->\s*<aside.*?</aside>', '', html, flags=re.DOTALL)
 
     # Standardize navigation and header
     html = re.sub(r'<aside.*?</aside>', get_standard_aside(is_fixed=True), html, count=1, flags=re.DOTALL)

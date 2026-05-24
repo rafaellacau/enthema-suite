@@ -483,19 +483,40 @@
 </div>
 <!-- Background Atmospheric Effect Script -->
 <script>
-        // Subtle ambient light adjustment logic could go here
-        console.log('Enthema Suite Precision Minimalism Interface Loaded');
         
-        // Active Navigation Logic for SideNavBar
-        const currentPath = "Panel de Control"; // Simplified for this demo
-        document.querySelectorAll('aside nav a').forEach(link => {
-            const labelText = link.querySelector('span:not(.material-symbols-outlined)').innerText;
-            if (labelText === currentPath) {
-                link.classList.add('bg-primary-container/10', 'text-primary', 'font-bold', 'border-primary');
-                link.classList.remove('text-on-surface-variant');
+    // Active Navigation Logic for SideNavBar
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('aside nav a').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPath || (currentPath === '/' && href === '/')) {
+            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-primary font-bold bg-primary-container/10 border-r-4 border-primary transition-all duration-150";
+        } else {
+            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200";
+        }
+    });
+    
+
+        // Auto-refresh telemetry simulation
+        setInterval(async () => {
+            try {
+                const res = await fetch('/api/model/abm', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ duration_months: 12, subsidy_amount: 150000 })
+                });
+                const data = await res.json();
+                if (data.status === 'success' && data.reactor_telemetry.length > 0) {
+                    const latest = data.reactor_telemetry[data.reactor_telemetry.length - 1];
+                    document.getElementById('temp-val').innerText = latest.temp;
+                    document.getElementById('press-val').innerText = latest.pres;
+                    document.getElementById('ph-val').innerText = latest.ph;
+                }
+            } catch (err) {
+                console.warn('Error refreshing telemetry:', err);
             }
-        });
+        }, 5000);
     </script>
+
 <!-- Enthema AI Coach Right Sidebar -->
 <aside class="fixed right-0 top-0 h-screen w-80 border-l border-outline-variant bg-surface-container-lowest flex flex-col z-40 shadow-lg text-left">
   <!-- Coach Header -->
@@ -517,7 +538,7 @@
         <span class="material-symbols-outlined text-[14px]">smart_toy</span>
       </div>
       <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed">
-        Hola, soy su <strong>AI Coach</strong> técnico. Estoy listo para guiarle de forma segura sin costo de API ($0.00). ¿En qué área técnica o solver financiero desea profundizar hoy?
+        Hola, soy tu <strong>AI Coach</strong>. Estoy aquí para asistirte de forma segura y resolver tus dudas en tu proyecto {% if qualitative_db and qualitative_db.project_title %}<strong>"{{ qualitative_db.project_title }}"</strong>{% elif profile.core_research_lines %}<strong>"{{ profile.core_research_lines[0] }}"</strong>{% else %}<strong>"Investigación Local"</strong>{% endif %}. ¿En qué te puedo ayudar hoy?
       </div>
     </div>
   </div>
