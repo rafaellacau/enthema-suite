@@ -60,7 +60,7 @@ logger = logging.getLogger("uvicorn.error")
 app = FastAPI(
     title="Enthema Suite Precision Intelligence",
     description="Motor científico y financiero de precisión con interfaz de diseño Stitch (Tailwind CSS/HTML5)",
-    version="2.5.0"
+    version="3.0.0-SOVEREIGN"
 )
 
 import traceback
