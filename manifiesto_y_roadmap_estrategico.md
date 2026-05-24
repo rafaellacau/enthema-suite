@@ -175,6 +175,79 @@ graph TD
 
 ---
 
+## 🏛️ VII. Addendum v3.1: Mitigación de Fricción Epistémica y Burocracia Real (Resolución a los 12 Gaps del Piloto)
+
+A partir del estrés de diseño y las preguntas planteadas de cara al piloto de **INTEC**, actualizamos nuestra directiva estratégica para definir cómo la suite abordará operacionalmente la fricción del usuario real:
+
+### 1. Co-Autoría y Conflictos Epistémicos (Multi-researcher)
+* **Gap**: Conflicto invisible de paradigmas entre investigadores de un mismo proyecto.
+* **Resolución Operativa**: Diseñamos el motor de **Puentes Epistémicos Colaborativos**. Si un Profesor (Paradigma Cuantitativo Positivista) y un Asistente (Paradigma Hermenéutico Cualitativo) comparten un proyecto, al redactar en el mismo lienzo, si una sección cruza conceptos restringidos del otro sin declarar un puente socrático, el sistema bloquea temporalmente la compilación formal del documento generando una **Fricción Declarada**. El linaje SHA-256 registrará la justificación firmada por ambos coautores sobre cómo balancearon la cuantitativa de sargazo y la hermenéutica comunitaria para poder continuar.
+
+### 2. Snapshots y Ramas de Investigación (Iteración Destructiva)
+* **Gap**: Pérdida de borradores y reescritura total al recibir revisiones negativas de comités o directores.
+* **Resolución Operativa**: Implementamos un **Control de Versión Epistémica (Git-like Snapshots)**. Cada cierre de fase o envío a auditoría (`/admin`) genera un snapshot criptográfico inmutable. Si el auditor rechaza el modelo en la semana 8, el investigador puede ramificar el proyecto:
+  * `rama_principal` (congelada con el rechazo del auditor y el linaje intacto).
+  * `rama_alternativa_monod` (donde se altera la constante cinetica para re-simular y volver a escribir).
+  Esto permite que el fracaso científico forme parte del valor inmutable del proyecto, eliminando el miedo al borrado completo de prosa.
+
+### 3. Integración Burocrática Dominicana (FONDOCYT / INTEC)
+* **Gap**: El manuscrito o memorándum generado no calza con los formatos regulatorios rígidos exigidos por la burocracia local.
+* **Resolución Operativa**: Desarrollamos una **Plantilla de Adaptación Burocrática Directa**. Enthema no generará textos genéricos, sino que se programarán conversores de formato específicos:
+  1. *Anexo FONDOCYT*: Formateo automático de presupuestos en la estructura de partidas del Ministerio de Educación Superior, Ciencia y Tecnología (MESCyT).
+  2. *Checklist del Comité de Bioética de INTEC*: Generación automatizada de un PDF de declaración ética que cubre punto por punto las directivas de consentimiento dominicanas.
+  El sello QR SHA-256 no es una curiosidad técnica; encripta las firmas de los revisores locales para agilizar el visado de actas directamente en los comités.
+
+### 4. Transparencia de Telemetría (Dashboard del Investigador)
+* **Gap**: Asimetría de información y sensación de vigilancia/hostilidad por parte de la Torre de Control (`/admin`).
+* **Resolución Operativa**: Exponemos el widget **"Mi Balanza Epistémica"** en la barra lateral del investigador. El usuario verá sus propios ratios de aceptación literal vs. modificada en tiempo real. Lejos de ser un castigo, el Coach le explicará: *"Tu ratio de aceptación literal está en 68%. Recuerda que para mantener tu soberanía intelectual en el manuscrito final, se recomienda enriquecer o rechazar el 40% de mis sugerencias. Aquí tienes cómo argumentar tu propia postura científica"*.
+
+### 5. Flexibilidad Psicológica del Coach
+* **Gap**: Un tono severo de crítica puede ser hostil para investigadores jóvenes e insuficiente para autores senior.
+* **Resolución Operativa**: Inyectamos el parámetro **Tono de Acompañamiento** en el Onboarding cognitivo (D0):
+  * *Modo Socrático Interrogativo (Gentil)*: El Coach guiará mediante preguntas abiertas, ideal para tesis de grado y dinámicas de aprendizaje reflexivo.
+  * *Modo Directivo Severo (Brutal)*: El Coach omitirá preámbulos diplomáticos y confrontará duramente la consistencia matemática de los datos e hipótesis (el estándar del piloto INTEC actual).
+  El rigor científico y la Constitución se mantienen intactos; cambia únicamente el envoltorio semántico del feedback.
+
+### 6. Garantía de Portabilidad Total (Exit Strategy)
+* **Gap**: Dependencia forzada o bloqueo de datos (Vendor Lock-in) mediante cifrado local AES-256.
+* **Resolución Operativa**: Implementamos el botón **"Sovereign Decrypt & Export"** en el panel de control. El investigador puede, en cualquier momento y de forma gratuita, descargar una carpeta ZIP descifrada que contiene:
+  * Manuscritos científicos en Markdown limpio y HTML estructurado.
+  * Datasets de telemetría purificados en formato estándar CSV.
+  * Notas y referencias bibliográficas en formato RIS compatible con Zotero, Obsidian y Mendeley.
+  La lealtad del investigador se gana con valor soberano, no con secuestro de datos.
+
+### 7. Determinismo Socrático como Sandbox Seguro
+* **Gap**: El bloqueo/degradación de la inferencia IA se siente como una penalización confusa.
+* **Resolución Operativa**: Redefinimos la degradación a un **Modo de Contención Epistémica (Epistemic Sandbox)**. Al violar constantes oNagoya, la inferencia de IA generativa se bloquea, pero el editor y los cargadores siguen 100% operativos. El Coach cambia a modo "Sócrates Guardián", inyectando únicamente advertencias en rojo sobre la línea inconsistente y abriendo un botón de **Apelación al Auditor Humano** para que el docente decida si desbloquea el bypass.
+
+### 8. Representación de Humanidades y Arte-Creador
+* **Gap**: Ausencia de capturas o flujos aplicados a disciplinas artísticas o cualitativas en la documentación.
+* **Resolución Operativa**: Añadiremos dos casos de estudio reales al manual de usuario final:
+  1. *Cine Dominicano*: Mapeo visual de líneas de tiempo cinematográficas conectadas a códigos semánticos cualitativos sobre identidades locales caribeñas.
+  2. *Instalación Sonora*: Integración del dossier técnico transmedia de pistas binaurales y justificaciones poéticas aptas para registro en la Oficina Nacional de Derecho de Autor (ONDA).
+
+### 9. Modo de Investigación Lenta (Incertidumbre Productiva)
+* **Gap**: El software incentiva la aceleración continua, enemiga de la profundidad científica.
+* **Resolución Operativa**: Creamos el **"Espacio de Incertidumbre Activa"**. El investigador puede pausar simulaciones pesadas para deliberar, programar que el AI Coach le envíe sus respuestas 12 horas después para permitirle digerir su propio manuscrito, y declarar "Variables No Resueltas" donde el sistema tolera y respeta la falta de datos temporal sin encender semáforos de advertencia.
+
+### 10. Diferenciador Operativo en Vivo
+* **Gap**: La competencia se percibe similar en marketing de alto nivel.
+* **Resolución Operativa**: Diseñamos una tabla comparativa física en la web de bienvenida que detalla la infraestructura:
+  * *NotebookLM / Elicit*: Datos procesados y re-entrenados en servidores multinacionales fuera del control legal dominicano.
+  * *Enthema*: Local-first absoluto, base de datos encriptada en el cliente con la directiva `data-no-ai` inyectada en el DOM que inactiva cualquier socket externo.
+
+### 11. Living Lab (Feedback Loops de 7 Días)
+* **Gap**: Ciclos de recolección de feedback lentos y desconectados.
+* **Resolución Operativa**: Durante las 6 semanas del piloto INTEC, el equipo de ingeniería operará como un **Living Lab de micro-despliegue continuo**. Los martes se entrevistará a 3 investigadores piloto de forma rotativa, los miércoles se depurarán las incidencias de UX identificadas, y los viernes se lanzará la actualización en caliente a producción, haciendo que los investigadores colaboren activamente en el pulido del sistema.
+
+### 12. Criterios de Exclusión (Anti-Marketing Honesto)
+* **Gap**: Investigadores con expectativas erróneas que buscan atajos fáciles o autocompletado automatizado masivo.
+* **Resolución Operativa**: Publicamos la advertencia **"Enthema NO es para ti si..."** en la pantalla de onboarding:
+  * *"...buscas un robot que escriba la tesis por ti"*: Enthema exige redacción humana y rigor; el Coach te cuestionará, no te ahorrará el esfuerzo.
+  * *"...tienes prisa por terminar en una semana"*: La suite ralentiza para asegurar la calidad de la proveniencia y el cumplimiento regulatorio Nagoya.
+
+---
+
 > [!IMPORTANT]
 > **Compromiso Criptográfico de Enthema:**
 > Ninguna simplificación comercial o fragmentación de APIs alterará la existencia del Core Ledger. La inmutabilidad de la verdad científica, el blindaje contra la falsificación en licitaciones y el registro forense de IPs de auditoría seguirán siendo los cimientos sobre los cuales se erige la soberanía intelectual de Enthema Suite.
