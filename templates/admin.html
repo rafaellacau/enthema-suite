@@ -527,7 +527,7 @@
         const data = await res.json();
         if (res.ok && data.status === 'success') {
           alert('💧 ' + data.message);
-          window.location.href = '/dashboard'; // Redirigir a la suite científica para ver el proyecto
+          window.location.reload(); // Recargar la consola administrativa para ver los cambios
         } else {
           alert('❌ Error: ' + (data.detail || 'No se pudo inicializar el proyecto.'));
         }
