@@ -917,6 +917,11 @@
     function tick() {
         if (!physicsEnabled) return;
         
+        // Dynamically track current bounds so they automatically respond to CSS transitions, flex layouts and window sizes
+        const rect = svg.getBoundingClientRect();
+        svgWidth = rect.width || svg.clientWidth || 900;
+        svgHeight = rect.height || svg.clientHeight || 650;
+        
         // 1. Repulsion between all node pairs (Coulomb's Law)
         for (let i = 0; i < nodes.length; i++) {
             for (let j = i + 1; j < nodes.length; j++) {
