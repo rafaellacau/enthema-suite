@@ -1,764 +1,490 @@
-<!DOCTYPE html>
+{% extends "base_layout.html" %}
 
-<html class="light" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Enthema Suite - Análisis de Datos</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Roboto+Flex:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "on-error-container": "#93000a",
-                    "on-tertiary-container": "#0e0200",
-                    "inverse-primary": "#adc7ff",
-                    "on-surface-variant": "#414754",
-                    "on-secondary-fixed-variant": "#004494",
-                    "success": "#34a853",
-                    "surface-container-lowest": "#ffffff",
-                    "surface-container-high": "#e5e8ee",
-                    "background": "#f7f9ff",
-                    "secondary-fixed": "#d8e2ff",
-                    "error-container": "#ffdad6",
-                    "surface-container-low": "#f1f4fa",
-                    "surface-variant": "#dfe3e8",
-                    "surface": "#f7f9ff",
-                    "error": "#ba1a1a",
-                    "border-subtle": "#dadce0",
-                    "danger": "#ea4335",
-                    "tertiary-container": "#c55500",
-                    "surface-tint": "#005bc0",
-                    "on-surface": "#181c20",
-                    "on-error": "#ffffff",
-                    "tertiary-fixed-dim": "#ffb691",
-                    "warning": "#f9ab00",
-                    "surface-base": "#ffffff",
-                    "primary-fixed": "#d8e2ff",
-                    "on-secondary-fixed": "#001a41",
-                    "secondary": "#005ac1",
-                    "primary": "#005bbf",
-                    "on-primary": "#ffffff",
-                    "inverse-surface": "#2d3135",
-                    "outline-variant": "#c1c6d6",
-                    "secondary-fixed-dim": "#adc6ff",
-                    "data-viz-purple": "#DFD1FF",
-                    "on-tertiary": "#ffffff",
-                    "secondary-container": "#4d8efe",
-                    "on-primary-fixed": "#001a41",
-                    "on-secondary": "#ffffff",
-                    "tertiary-fixed": "#ffdbcb",
-                    "surface-container-highest": "#dfe3e8",
-                    "surface-bright": "#f7f9ff",
-                    "tertiary": "#9e4300",
-                    "on-primary-container": "#ffffff",
-                    "on-secondary-container": "#00285c",
-                    "on-primary-fixed-variant": "#004493",
-                    "on-tertiary-fixed": "#341100",
-                    "surface-dim": "#d7dae0",
-                    "surface-container": "#ebeef4",
-                    "outline": "#727785",
-                    "data-viz-lime": "#E4F222",
-                    "on-background": "#181c20",
-                    "on-tertiary-fixed-variant": "#783100",
-                    "primary-container": "#1a73e8",
-                    "inverse-on-surface": "#eef1f7",
-                    "primary-fixed-dim": "#adc7ff"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.25rem",
-                    "lg": "0.5rem",
-                    "xl": "0.75rem",
-                    "full": "9999px"
-            },
-            "spacing": {
-                    "unit": "4px",
-                    "container-max-width": "1440px",
-                    "margin-mobile": "16px",
-                    "margin-page": "48px",
-                    "gutter": "24px"
-            },
-            "fontFamily": {
-                    "headline-md": ["Plus Jakarta Sans"],
-                    "label-sm": ["JetBrains Mono"],
-                    "body-lg": ["Roboto Flex"],
-                    "headline-lg": ["Plus Jakarta Sans"],
-                    "display-lg": ["Plus Jakarta Sans"],
-                    "body-md": ["Roboto Flex"],
-                    "headline-lg-mobile": ["Plus Jakarta Sans"],
-                    "label-md": ["JetBrains Mono"]
-            },
-            "fontSize": {
-                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
-                    "label-sm": ["10px", {"lineHeight": "14px", "fontWeight": "500"}],
-                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
-                    "display-lg": ["44px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
-            }
-          },
-        },
-      }
-    </script>
+{% block title %}Enthema Suite - Análisis de Datos{% endblock %}
+
+{% block head %}
 <style>
-        body {
-            background-color: #f7f9ff;
-            color: #181c20;
-            overflow-x: hidden;
-        }
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .molecular-dot {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .molecular-dot:hover {
-            transform: scale(2.5);
-            filter: brightness(1.2);
-            z-index: 50;
-        }
-        .heatmap-cell {
-            transition: opacity 0.2s ease;
-        }
-        .heatmap-cell:hover {
-            opacity: 0.6;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #dfe3e8;
-            border-radius: 10px;
-        }
-    </style>
-</head>
-<body class="font-body-md text-body-md flex">
-<!-- SideNavBar Component -->
-<aside class="fixed left-0 top-0 h-screen w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col py-4 z-50">
-  <div class="px-6 mb-8 flex items-center gap-3">
-    <img alt="Logo Enthema Suite" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
-    <div>
-      <h1 class="font-headline-lg text-primary font-bold tracking-tight text-[18px] leading-tight">Enthema Suite</h1>
-      <p class="font-label-md text-on-surface-variant text-[10px]">Precisión Técnica</p>
-    </div>
-  </div>
-  <nav class="flex-grow space-y-1 px-4">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/dashboard">
-      <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-      <span class="font-label-md text-label-md">Panel de Control</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/">
-      <span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
-      <span class="font-label-md text-label-md">Proyectos (Onboarding)</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/data-analysis">
-      <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
-      <span class="font-label-md text-label-md">Análisis de Datos</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/modeling">
-      <span class="material-symbols-outlined" data-icon="biotech">biotech</span>
-      <span class="font-label-md text-label-md">Modelado Semántico</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/finance">
-      <span class="material-symbols-outlined" data-icon="payments">payments</span>
-      <span class="font-label-md text-label-md">Finanzas</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/reports">
-      <span class="material-symbols-outlined" data-icon="description">description</span>
-      <span class="font-label-md text-label-md">Informes</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/compliance">
-      <span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
-      <span class="font-label-md text-label-md">Cumplimiento</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/configuration">
-      <span class="material-symbols-outlined" data-icon="settings">settings</span>
-      <span class="font-label-md text-label-md">Configuración</span>
-    </a>
-    {% if profile.user_role in ['admin', 'auditor'] %}
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-secondary hover:bg-secondary-container/10 border-r-4 border-secondary transition-colors duration-200" href="/admin">
-      <span class="material-symbols-outlined" data-icon="shield">shield</span>
-      <span class="font-label-md text-label-md font-bold">Consola Auditoría</span>
-    </a>
-    {% endif %}
-  </nav>
-  <div class="px-4 py-2 border-t border-outline-variant">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-danger hover:bg-danger/10 transition-colors duration-200 cursor-pointer" onclick="logout()">
-      <span class="material-symbols-outlined" data-icon="logout">logout</span>
-      <span class="font-label-md text-label-md font-bold">Cerrar Sesión</span>
-    </a>
-  </div>
-</aside>
-<!-- Main Content Canvas -->
-<main class="ml-64 flex-1 min-h-screen mr-80">
-<!-- TopAppBar Component -->
-<header class="flex justify-between items-center px-6 h-16 sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
-  <div class="flex items-center w-1/3">
-    <div class="relative w-full max-w-md">
-      <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]" data-icon="search">search</span>
-      <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Buscar parámetros, sensores o informes..." type="text"/>
-    </div>
-  </div>
-  <div class="flex items-center gap-2">
-    <button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all">
-      <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-    </button>
-    <button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all">
-      <span class="material-symbols-outlined" data-icon="settings">settings</span>
-    </button>
-    <div class="h-8 w-px bg-outline-variant mx-2"></div>
-    <div class="flex items-center gap-3 pl-2">
-      <div class="text-right">
-        <p class="font-label-md text-on-surface font-bold leading-none">{{ profile.name }}</p>
-        <p class="font-label-sm text-outline">{% if profile.user_role == 'investment_consultant' %}Consultor de Inversión{% else %}Investigador Principal{% endif %}</p>
-      </div>
-      <div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">
-        {{ profile.name[:2].upper() }}
-      </div>
-    </div>
-  </div>
-</header>
+    .molecular-dot {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+    }
+    .molecular-dot:hover {
+        transform: scale(2.2);
+        filter: brightness(1.15);
+        box-shadow: 0 0 10px rgba(0, 91, 191, 0.5);
+        z-index: 50;
+    }
+    .heatmap-cell {
+        transition: all 0.2s ease;
+    }
+    .heatmap-cell:hover {
+        transform: scale(1.25);
+        z-index: 10;
+        opacity: 0.9;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
 <!-- Page Content -->
-<div class="p-margin-page max-w-container-max-width mx-auto">
-<div class="mb-8">
-<h2 class="font-headline-lg text-on-surface mb-2">Análisis Cuantitativo Molecular</h2>
-<p class="font-body-lg text-on-surface-variant max-w-3xl">Visualización en tiempo real de interacciones enzimáticas y dispersión de masa molecular para la secuencia E-114. Los datos se actualizan cada 300ms.</p>
-</div>
-<!-- Bento Grid Layout -->
-<div class="grid grid-cols-12 gap-gutter">
-<!-- Molecular Scatter Plot Card -->
-<div class="col-span-8 bg-surface-base border border-border-subtle rounded-xl p-6 shadow-sm">
-<div class="flex items-center justify-between mb-8">
-<div>
-<h3 class="font-headline-md text-on-surface">Dispersión Molecular de Masa</h3>
-<p class="font-label-sm text-on-surface-variant">CORRELACIÓN DINÁMICA DE PARTÍCULAS (µm)</p>
-</div>
-<div class="flex gap-2">
-<span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed font-label-sm rounded-full">Ref: Delta-09</span>
-<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant font-label-sm rounded-full">Automático</span>
-</div>
-</div>
-<div class="relative h-[400px] w-full bg-surface-container-low rounded-lg border border-outline-variant/30 overflow-hidden">
-<!-- Simulated Scatter Plot -->
-<div class="absolute inset-0 p-8 grid grid-cols-10 grid-rows-10 opacity-40 border-l border-b border-outline" id="scatter-plot"></div>
-<div class="absolute inset-0 p-8 overflow-hidden" id="dot-container">
-<!-- JS will populate some dots for authenticity -->
-</div>
-<!-- Axis Labels -->
-<div class="absolute left-2 top-1/2 -rotate-90 origin-left font-label-sm text-on-surface-variant/60">FRECUENCIA (Hz)</div>
-<div class="absolute bottom-2 left-1/2 -translate-x-1/2 font-label-sm text-on-surface-variant/60">DENSIDAD (ρ)</div>
-</div>
-<div class="mt-4 flex gap-6">
-<div class="flex items-center gap-2">
-<div class="w-3 h-3 rounded-full bg-primary"></div>
-<span class="font-label-sm text-on-surface">Complejo Alfa</span>
-</div>
-<div class="flex items-center gap-2">
-<div class="w-3 h-3 rounded-full bg-tertiary-container"></div>
-<span class="font-label-sm text-on-surface">Proteína S-1</span>
-</div>
-<div class="flex items-center gap-2">
-<div class="w-3 h-3 rounded-full bg-secondary"></div>
-<span class="font-label-sm text-on-surface">Enlace Fluido</span>
-</div>
-</div>
-</div>
-<!-- Stats Sidebar -->
-<div class="col-span-4 flex flex-col gap-gutter">
-  <!-- Controles de Datos -->
-  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm space-y-4 text-left">
-    <h3 class="font-headline-md text-on-surface text-[18px]">⚡ Controles de Datos</h3>
-    <p class="font-body-md text-on-surface-variant">Genere datos piloto sintéticos o cargue su dataset de laboratorio.</p>
-    
-    <div class="space-y-3 pt-2">
-      <!-- Botón Piloto -->
-      <button id="btn-synthetic" class="w-full bg-primary text-white py-2.5 px-4 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto
-      </button>
-      
-      <!-- Cargador CSV -->
-      <div class="border border-dashed border-outline-variant rounded-lg p-4 text-center space-y-2 hover:border-primary transition-all">
-        <span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
-        <p class="text-xs text-on-surface-variant">Cargar archivo de Muestras (.csv)</p>
-        <input type="file" id="quantCsvFile" class="hidden" accept=".csv" />
-        <button type="button" onclick="document.getElementById('quantCsvFile').click()" class="text-xs px-3 py-1 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-all">Seleccionar</button>
-      </div>
-      <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
-    </div>
+<div class="p-margin-page max-w-container-max-width mx-auto animate-fade-in">
+  <div class="mb-8">
+    <h2 class="font-headline-lg text-on-surface mb-2 text-[28px] font-bold">Análisis Cuantitativo Hídrico</h2>
+    <p class="font-body-lg text-on-surface-variant max-w-3xl">Visualización en tiempo real de dispersión de metales pesados (Plomo) y bacterias coliformes en muestras de Barahona. Los datos se actualizan cada 300ms.</p>
   </div>
-  <!-- Controles de Datos -->
-  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm space-y-4 text-left">
-    <h3 class="font-headline-md text-on-surface text-[18px]">⚡ Controles de Datos</h3>
-    <p class="font-body-md text-on-surface-variant">Genere datos piloto sintéticos o cargue su dataset de laboratorio.</p>
-    
-    <div class="space-y-3 pt-2">
-      <!-- Botón Piloto -->
-      <button id="btn-synthetic" class="w-full bg-primary text-white py-2.5 px-4 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto
-      </button>
-      
-      <!-- Cargador CSV -->
-      <div class="border border-dashed border-outline-variant rounded-lg p-4 text-center space-y-2 hover:border-primary transition-all">
-        <span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
-        <p class="text-xs text-on-surface-variant">Cargar archivo de Muestras (.csv)</p>
-        <input type="file" id="quantCsvFile" class="hidden" accept=".csv" />
-        <button type="button" onclick="document.getElementById('quantCsvFile').click()" class="text-xs px-3 py-1 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-all">Seleccionar</button>
+  
+  <!-- Bento Grid Layout -->
+  <div class="grid grid-cols-12 gap-gutter">
+    <!-- Water Scatter Plot Card -->
+    <div class="col-span-12 lg:col-span-8 bg-surface-base border border-border-subtle rounded-xl p-6 shadow-sm">
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <h3 class="font-headline-md text-on-surface text-[20px] font-semibold">Dispersión de Concentración de Metales</h3>
+          <p class="font-label-sm text-on-surface-variant text-[11px] tracking-wider font-mono">CORRELACIÓN DINÁMICA DE CONTAMINANTES EN EFLUENTES</p>
+        </div>
+        <div class="flex gap-2">
+          <span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed font-label-sm rounded-full text-[10px] font-mono">Muestra: BH-2026</span>
+          <button onclick="toggleIngestionSource(this)" class="px-3 py-1 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-all font-label-sm rounded-full cursor-pointer border border-outline-variant/30 flex items-center gap-1.5 text-[11px]">
+            <span class="w-1.5 h-1.5 rounded-full bg-success animate-pulse"></span>
+            <span id="txt-source-mode">Automático</span>
+          </button>
+        </div>
       </div>
-      <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
-    </div>
-  </div>
-  <!-- Controles de Datos -->
-  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm space-y-4 text-left">
-    <h3 class="font-headline-md text-on-surface text-[18px]">⚡ Controles de Datos</h3>
-    <p class="font-body-md text-on-surface-variant">Genere datos piloto sintéticos o cargue su dataset de laboratorio.</p>
-    
-    <div class="space-y-3 pt-2">
-      <!-- Botón Piloto -->
-      <button id="btn-synthetic" class="w-full bg-primary text-white py-2.5 px-4 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto
-      </button>
       
-      <!-- Cargador CSV -->
-      <div class="border border-dashed border-outline-variant rounded-lg p-4 text-center space-y-2 hover:border-primary transition-all">
-        <span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
-        <p class="text-xs text-on-surface-variant">Cargar archivo de Muestras (.csv)</p>
-        <input type="file" id="quantCsvFile" class="hidden" accept=".csv" />
-        <button type="button" onclick="document.getElementById('quantCsvFile').click()" class="text-xs px-3 py-1 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-all">Seleccionar</button>
+      <div class="relative h-[400px] w-full bg-surface-container-low rounded-lg border border-outline-variant/30 overflow-hidden">
+        <!-- Simulated Scatter Plot -->
+        <div class="absolute inset-0 p-8 grid grid-cols-10 grid-rows-10 opacity-30 border-l border-b border-outline" id="scatter-plot"></div>
+        <div class="absolute inset-0 p-8 overflow-hidden" id="dot-container"></div>
+        <!-- Axis Labels -->
+        <div class="absolute left-2 top-1/2 -rotate-90 origin-left font-label-sm text-on-surface-variant/60 font-mono text-[10px] tracking-widest">TURBIDEZ DEL AGUA (NTU)</div>
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 font-label-sm text-on-surface-variant/60 font-mono text-[10px] tracking-widest">CONCENTRACIÓN DE PLOMO (ppm)</div>
       </div>
-      <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
-    </div>
-  </div>
-  <!-- Controles de Datos -->
-  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm space-y-4 text-left">
-    <h3 class="font-headline-md text-on-surface text-[18px]">⚡ Controles de Datos</h3>
-    <p class="font-body-md text-on-surface-variant">Genere datos piloto sintéticos o cargue su dataset de laboratorio.</p>
-    
-    <div class="space-y-3 pt-2">
-      <!-- Botón Piloto -->
-      <button id="btn-synthetic" class="w-full bg-primary text-white py-2.5 px-4 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto
-      </button>
       
-      <!-- Cargador CSV -->
-      <div class="border border-dashed border-outline-variant rounded-lg p-4 text-center space-y-2 hover:border-primary transition-all">
-        <span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
-        <p class="text-xs text-on-surface-variant">Cargar archivo de Muestras (.csv)</p>
-        <input type="file" id="quantCsvFile" class="hidden" accept=".csv" />
-        <button type="button" onclick="document.getElementById('quantCsvFile').click()" class="text-xs px-3 py-1 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-all">Seleccionar</button>
+      <div class="mt-4 flex gap-6">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-primary"></div>
+          <span class="font-label-sm text-on-surface font-mono text-[11px]">Muestras Policlínica (Barahona)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-tertiary-container"></div>
+          <span class="font-label-sm text-on-surface font-mono text-[11px]">Muestras Acueducto Rural</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-secondary"></div>
+          <span class="font-label-sm text-on-surface font-mono text-[11px]">Muestras Tratadas (Zeolita)</span>
+        </div>
       </div>
-      <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
     </div>
-  </div>
-  <!-- Controles de Datos -->
-  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm space-y-4 text-left">
-    <h3 class="font-headline-md text-on-surface text-[18px]">⚡ Controles de Datos</h3>
-    <p class="font-body-md text-on-surface-variant">Genere datos piloto sintéticos o cargue su dataset de laboratorio.</p>
-    
-    <div class="space-y-3 pt-2">
-      <!-- Botón Piloto -->
-      <button id="btn-synthetic" class="w-full bg-primary text-white py-2.5 px-4 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto
-      </button>
-      
-      <!-- Cargador CSV -->
-      <div class="border border-dashed border-outline-variant rounded-lg p-4 text-center space-y-2 hover:border-primary transition-all">
-        <span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
-        <p class="text-xs text-on-surface-variant">Cargar archivo de Muestras (.csv)</p>
-        <input type="file" id="quantCsvFile" class="hidden" accept=".csv" />
-        <button type="button" onclick="document.getElementById('quantCsvFile').click()" class="text-xs px-3 py-1 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-all">Seleccionar</button>
-      </div>
-      <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
-    </div>
-  </div>
-  <!-- Controles de Datos -->
-  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm space-y-4 text-left">
-    <h3 class="font-headline-md text-on-surface text-[18px]">⚡ Controles de Datos</h3>
-    <p class="font-body-md text-on-surface-variant">Genere datos piloto sintéticos o cargue su dataset de laboratorio.</p>
-    
-    <div class="space-y-3 pt-2">
-      <!-- Botón Piloto -->
-      <button id="btn-synthetic" class="w-full bg-primary text-white py-2.5 px-4 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto
-      </button>
-      
-      <!-- Cargador CSV -->
-      <div class="border border-dashed border-outline-variant rounded-lg p-4 text-center space-y-2 hover:border-primary transition-all">
-        <span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
-        <p class="text-xs text-on-surface-variant">Cargar archivo de Muestras (.csv)</p>
-        <input type="file" id="quantCsvFile" class="hidden" accept=".csv" />
-        <button type="button" onclick="document.getElementById('quantCsvFile').click()" class="text-xs px-3 py-1 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-all">Seleccionar</button>
-      </div>
-      <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
-    </div>
-  </div>
-  <!-- Controles de Datos -->
-  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm space-y-4 text-left">
-    <h3 class="font-headline-md text-on-surface text-[18px]">⚡ Controles de Datos</h3>
-    <p class="font-body-md text-on-surface-variant">Genere datos piloto sintéticos o cargue su dataset de laboratorio.</p>
-    
-    <div class="space-y-3 pt-2">
-      <!-- Botón Piloto -->
-      <button id="btn-synthetic" class="w-full bg-primary text-white py-2.5 px-4 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto
-      </button>
-      
-      <!-- Cargador CSV -->
-      <div class="border border-dashed border-outline-variant rounded-lg p-4 text-center space-y-2 hover:border-primary transition-all">
-        <span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
-        <p class="text-xs text-on-surface-variant">Cargar archivo de Muestras (.csv)</p>
-        <input type="file" id="quantCsvFile" class="hidden" accept=".csv" />
-        <button type="button" onclick="document.getElementById('quantCsvFile').click()" class="text-xs px-3 py-1 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-all">Seleccionar</button>
-      </div>
-      <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
-    </div>
-  </div>
-  <!-- Controles de Datos -->
-  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm space-y-4 text-left">
-    <h3 class="font-headline-md text-on-surface text-[18px]">⚡ Controles de Datos</h3>
-    <p class="font-body-md text-on-surface-variant">Genere datos piloto sintéticos o cargue su dataset de laboratorio.</p>
-    
-    <div class="space-y-3 pt-2">
-      <!-- Botón Piloto -->
-      <button id="btn-synthetic" class="w-full bg-primary text-white py-2.5 px-4 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto
-      </button>
-      
-      <!-- Cargador CSV -->
-      <div class="border border-dashed border-outline-variant rounded-lg p-4 text-center space-y-2 hover:border-primary transition-all">
-        <span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
-        <p class="text-xs text-on-surface-variant">Cargar archivo de Muestras (.csv)</p>
-        <input type="file" id="quantCsvFile" class="hidden" accept=".csv" />
-        <button type="button" onclick="document.getElementById('quantCsvFile').click()" class="text-xs px-3 py-1 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-all">Seleccionar</button>
-      </div>
-      <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
-    </div>
-  </div>
-  <!-- Controles de Datos -->
-  <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm space-y-4 text-left">
-    <h3 class="font-headline-md text-on-surface text-[18px]">⚡ Controles de Datos</h3>
-    <p class="font-body-md text-on-surface-variant">Genere datos piloto sintéticos o cargue su dataset de laboratorio.</p>
-    
-    <div class="space-y-3 pt-2">
-      <!-- Botón Piloto -->
-      <button id="btn-synthetic" class="w-full bg-primary text-white py-2.5 px-4 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto
-      </button>
-      
-      <!-- Cargador CSV -->
-      <div class="border border-dashed border-outline-variant rounded-lg p-4 text-center space-y-2 hover:border-primary transition-all">
-        <span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
-        <p class="text-xs text-on-surface-variant">Cargar archivo de Muestras (.csv)</p>
-        <input type="file" id="quantCsvFile" class="hidden" accept=".csv" />
-        <button type="button" onclick="document.getElementById('quantCsvFile').click()" class="text-xs px-3 py-1 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-all">Seleccionar</button>
-      </div>
-      <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
-    </div>
-  </div>
-<!-- Enzime Heatmap Card -->
-<div class="bg-surface-base border border-border-subtle rounded-xl p-6 shadow-sm flex-1">
-<div class="mb-4">
-<h3 class="font-headline-md text-on-surface text-[18px]">Calor Enzimático</h3>
-<p class="font-label-sm text-on-surface-variant uppercase">Matriz de Reacción 12x8</p>
-</div>
-<div class="grid grid-cols-12 gap-1" id="heatmap">
-<!-- Heatmap Cells will be generated -->
-</div>
-<div class="mt-6 flex items-center justify-between font-label-sm text-on-surface-variant">
-<span>0% Inhibición</span>
-<div class="flex-1 mx-3 h-2 rounded-full bg-gradient-to-r from-blue-100 via-primary to-danger"></div>
-<span>100% Pico</span>
-</div>
-</div>
-<!-- Small Meta Card -->
-<div class="bg-primary-container p-6 rounded-xl text-on-primary-container">
-<div class="flex items-center justify-between mb-2">
-<span class="material-symbols-outlined text-[32px]" data-icon="bolt">bolt</span>
-<span class="font-label-sm bg-white/20 px-2 py-0.5 rounded">LIVE</span>
-</div>
-<p class="font-label-md opacity-90 uppercase mb-1">Carga Computacional</p>
-<h4 class="font-display-lg text-[32px] mb-4">84.2 TFlops</h4>
-<div class="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
-<div class="h-full bg-white w-[84%]"></div>
-</div>
-</div>
-</div>
-<!-- Bottom Full-Width Section: Event List & Detailed Table -->
-<div class="col-span-12 bg-surface-base border border-border-subtle rounded-xl shadow-sm overflow-hidden">
-<div class="p-6 border-b border-outline-variant flex items-center justify-between bg-surface-container-lowest">
-<h3 class="font-headline-md text-on-surface">Eventos del Sistema y Registro de Secuencia</h3>
-<div class="flex gap-2">
-<button class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg font-label-md hover:bg-surface-container transition-all">
-<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
-                                Filtrar
-                            </button>
-<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-label-md hover:opacity-90 transition-all">
-<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
-                                Exportar CSV
-                            </button>
-</div>
-</div>
-<table class="w-full text-left border-collapse">
-<thead class="bg-surface-container-low text-on-surface-variant font-label-sm uppercase tracking-wider">
-<tr>
-<th class="px-6 py-3 border-b border-outline-variant">ID Evento</th>
-<th class="px-6 py-3 border-b border-outline-variant">Marcador Temporal</th>
-<th class="px-6 py-3 border-b border-outline-variant">Descripción de Actividad</th>
-<th class="px-6 py-3 border-b border-outline-variant">Estado</th>
-<th class="px-6 py-3 border-b border-outline-variant text-right">Prioridad</th>
-</tr>
-</thead>
-<tbody class="text-body-md divide-y divide-outline-variant/30">
-<!-- Row 1 -->
-<tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-6 py-4 font-label-md text-primary">#SEQ-9902</td>
-<td class="px-6 py-4 text-on-surface-variant">14:22:05.12</td>
-<td class="px-6 py-4">Validación de enlace peptídico exitosa en cadena Beta</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-100 text-success text-[11px] font-bold">
-<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
-                                        Completado
-                                    </span>
-</td>
-<td class="px-6 py-4 text-right">Media</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-6 py-4 font-label-md text-primary">#ALRT-104</td>
-<td class="px-6 py-4 text-on-surface-variant">14:21:58.90</td>
-<td class="px-6 py-4 text-error font-medium">Desviación térmica detectada en reactor 04 (+2.4°C)</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-100 text-error text-[11px] font-bold">
-<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
-                                        Crítico
-                                    </span>
-</td>
-<td class="px-6 py-4 text-right">Inmediata</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-6 py-4 font-label-md text-primary">#ANLY-441</td>
-<td class="px-6 py-4 text-on-surface-variant">14:18:32.44</td>
-<td class="px-6 py-4">Procesamiento de imagen crioelectrónica 3D</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-100 text-primary text-[11px] font-bold">
-<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-                                        En Progreso
-                                    </span>
-</td>
-<td class="px-6 py-4 text-right">Baja</td>
-</tr>
-<!-- Row 4 -->
-<tr class="hover:bg-surface-container-low transition-colors">
-<td class="px-6 py-4 font-label-md text-primary">#SEQ-9901</td>
-<td class="px-6 py-4 text-on-surface-variant">14:15:10.02</td>
-<td class="px-6 py-4">Mapeo genómico de nucleótidos complementarios</td>
-<td class="px-6 py-4">
-<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-100 text-success text-[11px] font-bold">
-<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
-                                        Completado
-                                    </span>
-</td>
-<td class="px-6 py-4 text-right">Alta</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</main>
-<script>
+
+    <!-- Stats Sidebar -->
+    <div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+      <!-- Controles de Datos -->
+      <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-sm space-y-4 text-left">
+        <h3 class="font-headline-md text-on-surface text-[18px] font-semibold">⚡ Controles de Datos</h3>
+        <p class="font-body-md text-on-surface-variant text-[13px]">Genere datos piloto sintéticos o cargue su dataset de laboratorio para Barahona.</p>
         
-    // Active Navigation Logic for SideNavBar
-    const currentPath = window.location.pathname;
-    document.querySelectorAll('aside nav a').forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === currentPath || (currentPath === '/' && href === '/')) {
-            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-primary font-bold bg-primary-container/10 border-r-4 border-primary transition-all duration-150";
+        <div class="space-y-3 pt-2">
+          <!-- Botón Piloto -->
+          <button id="btn-synthetic" class="w-full bg-primary text-white py-2.5 px-4 rounded-lg font-label-md hover:opacity-90 transition-all flex items-center justify-center gap-2 text-[12px] font-bold">
+            <span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto
+          </button>
+          
+          <!-- Cargador CSV -->
+          <div class="border border-dashed border-outline-variant rounded-lg p-4 text-center space-y-2 hover:border-primary transition-all cursor-pointer" onclick="document.getElementById('quantCsvFile').click()">
+            <span class="material-symbols-outlined text-primary text-[28px]">cloud_upload</span>
+            <p class="text-xs text-on-surface-variant font-medium">Cargar archivo de Muestras (.csv)</p>
+            <input type="file" id="quantCsvFile" class="hidden" accept=".csv" />
+            <button type="button" class="text-xs px-3 py-1 bg-surface-container border border-outline-variant rounded hover:bg-surface-container-high transition-all pointer-events-none">Seleccionar</button>
+          </div>
+          <div id="dataUploadStatus" class="hidden text-xs p-2 rounded text-left"></div>
+        </div>
+      </div>
+
+      <!-- Contamination Heatmap Card -->
+      <div class="bg-surface-base border border-border-subtle rounded-xl p-6 shadow-sm flex-grow">
+        <div class="mb-4">
+          <h3 class="font-headline-md text-on-surface text-[18px] font-semibold">Calor de Contaminación</h3>
+          <p class="font-label-sm text-on-surface-variant uppercase text-[10px] tracking-wider font-mono">Matriz Hídrica de Barahona 12x8</p>
+        </div>
+        <div class="grid grid-cols-12 gap-1" id="heatmap"></div>
+        <div class="mt-6 flex items-center justify-between font-label-sm text-on-surface-variant text-[11px] font-mono">
+          <span>0% Plomo</span>
+          <div class="flex-1 mx-3 h-2 rounded-full bg-gradient-to-r from-blue-100 via-primary to-danger"></div>
+          <span>100% Nivel Crítico</span>
+        </div>
+      </div>
+
+      <!-- Small Meta Card -->
+      <div class="bg-primary-container p-6 rounded-xl text-on-primary-container shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="material-symbols-outlined text-[32px] text-white" data-icon="bolt">bolt</span>
+            <span class="font-label-sm bg-white/20 px-2 py-0.5 rounded text-[10px] text-white font-mono">LIVE</span>
+          </div>
+          <p class="font-label-md opacity-90 uppercase mb-1 text-[11px] tracking-wider text-white font-mono">Carga Computacional</p>
+          <h4 class="font-display-lg text-[32px] mb-4 text-white font-bold leading-none">84.2 TFlops</h4>
+        </div>
+        <div>
+          <div class="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full bg-white w-[84%]"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Full-Width Section: Event List & Detailed Table -->
+    <div class="col-span-12 bg-surface-base border border-border-subtle rounded-xl shadow-sm overflow-hidden mt-6">
+      <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+        <h3 class="font-headline-md text-on-surface text-[20px] font-semibold">Registro de Muestras e Incidentes Hídricos</h3>
+        <div class="flex gap-2">
+          <div class="relative">
+            <button onclick="toggleEventsFilterDropdown(event)" class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg font-label-md hover:bg-surface-container transition-all text-[12px] font-bold">
+              <span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+              <span id="active-event-filter-text">Filtrar</span>
+            </button>
+            <div id="events-filter-dropdown" class="absolute right-0 mt-2 w-40 bg-white border border-outline-variant rounded-xl shadow-xl py-1 z-50 hidden text-xs text-left">
+              <button onclick="applyEventStatusFilter('Todos')" class="w-full text-left px-4 py-2 hover:bg-slate-50 text-slate-700 font-semibold transition-all">Todos</button>
+              <button onclick="applyEventStatusFilter('Completado')" class="w-full text-left px-4 py-2 hover:bg-slate-50 text-emerald-600 font-semibold transition-all">Completado</button>
+              <button onclick="applyEventStatusFilter('Crítico')" class="w-full text-left px-4 py-2 hover:bg-slate-50 text-red-600 font-semibold transition-all">Crítico</button>
+              <button onclick="applyEventStatusFilter('En Progreso')" class="w-full text-left px-4 py-2 hover:bg-slate-50 text-blue-600 font-semibold transition-all">En Progreso</button>
+            </div>
+          </div>
+          <button onclick="exportTableToCSV()" class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-label-md hover:opacity-90 transition-all text-[12px] font-bold">
+            <span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+            Exportar CSV
+          </button>
+        </div>
+      </div>
+      
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-surface-container-low text-on-surface-variant font-label-sm uppercase tracking-wider text-[11px] font-mono">
+            <tr>
+              <th class="px-6 py-3 border-b border-outline-variant">ID Muestra</th>
+              <th class="px-6 py-3 border-b border-outline-variant">Marcador Temporal</th>
+              <th class="px-6 py-3 border-b border-outline-variant">Descripción de Actividad</th>
+              <th class="px-6 py-3 border-b border-outline-variant">Estado</th>
+              <th class="px-6 py-3 border-b border-outline-variant text-right">Prioridad</th>
+            </tr>
+          </thead>
+          <tbody class="text-body-md divide-y divide-outline-variant/30 text-[13px]">
+            <tr class="hover:bg-surface-container-low transition-colors">
+              <td class="px-6 py-4 font-mono font-bold text-primary">#BH-0992</td>
+              <td class="px-6 py-4 text-on-surface-variant font-mono">14:22:05.12</td>
+              <td class="px-6 py-4 font-medium text-on-surface">Remoción catiónica de plomo por Zeolita exitosa en muestra BH-01</td>
+              <td class="px-6 py-4">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-success text-[11px] font-bold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                  Completado
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right font-mono font-medium">Media</td>
+            </tr>
+            <tr class="hover:bg-surface-container-low transition-colors">
+              <td class="px-6 py-4 font-mono font-bold text-primary">#ALRT-104</td>
+              <td class="px-6 py-4 text-on-surface-variant font-mono">14:21:58.90</td>
+              <td class="px-6 py-4 text-error font-semibold">Pico de plomo detectado en Acueducto Rural (+2.4 ppm)</td>
+              <td class="px-6 py-4">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-50 text-error text-[11px] font-bold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  Crítico
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right font-mono font-medium">Inmediata</td>
+            </tr>
+            <tr class="hover:bg-surface-container-low transition-colors">
+              <td class="px-6 py-4 font-mono font-bold text-primary">#ANLY-441</td>
+              <td class="px-6 py-4 text-on-surface-variant font-mono">14:18:32.44</td>
+              <td class="px-6 py-4 font-medium text-on-surface">Lectura de coliformes fecales en efluente A-12</td>
+              <td class="px-6 py-4">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 text-primary text-[11px] font-bold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                  En Progreso
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right font-mono font-medium">Baja</td>
+            </tr>
+            <tr class="hover:bg-surface-container-low transition-colors">
+              <td class="px-6 py-4 font-mono font-bold text-primary">#BH-0991</td>
+              <td class="px-6 py-4 text-on-surface-variant font-mono">14:15:10.02</td>
+              <td class="px-6 py-4 font-medium text-on-surface">Calibración del medidor de turbidez en muestra piloto</td>
+              <td class="px-6 py-4">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-success text-[11px] font-bold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                  Completado
+                </span>
+              </td>
+              <td class="px-6 py-4 text-right font-mono font-medium">Alta</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function toggleEventsFilterDropdown(event) {
+        event.stopPropagation();
+        const dropdown = document.getElementById('events-filter-dropdown');
+        if (dropdown) dropdown.classList.toggle('hidden');
+    }
+
+    document.addEventListener('click', () => {
+        const dropdown = document.getElementById('events-filter-dropdown');
+        if (dropdown) dropdown.classList.add('hidden');
+    });
+
+    function applyEventStatusFilter(status) {
+        const textSpan = document.getElementById('active-event-filter-text');
+        if (textSpan) textSpan.innerText = status === 'Todos' ? 'Filtrar' : 'Filtro: ' + status;
+        
+        const rows = document.querySelectorAll('table tbody tr');
+        rows.forEach(row => {
+            const statusCell = row.querySelector('td:nth-child(4)');
+            if (statusCell) {
+                const statusText = statusCell.innerText.trim().toUpperCase();
+                if (status === 'Todos' || statusText.includes(status.toUpperCase())) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    function exportTableToCSV() {
+        const rows = document.querySelectorAll('table tbody tr');
+        let csvContent = "ID Muestra,Marcador Temporal,Descripción,Estado,Prioridad\n";
+        
+        rows.forEach(row => {
+            if (row.style.display !== 'none') {
+                const cols = row.querySelectorAll('td');
+                const rowData = [];
+                cols.forEach((col, index) => {
+                    let text = col.innerText.trim().replace(/"/g, '""');
+                    if (index === 3) {
+                        text = text.replace(/\s+/g, ' ');
+                    }
+                    rowData.push(`"${text}"`);
+                });
+                csvContent += rowData.join(",") + "\n";
+            }
+        });
+        
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "registro_muestras_incidentes_hidricos.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Populate Heatmap
+    const heatmap = document.getElementById('heatmap');
+    const rows = 8;
+    const cols = 12;
+    const colors = [
+        'bg-blue-100', 'bg-blue-200', 'bg-blue-300', 
+        'bg-primary/40', 'bg-primary/60', 'bg-primary/80', 'bg-primary',
+        'bg-danger/40', 'bg-danger/60', 'bg-danger/80'
+    ];
+
+    function rebuildHeatmap() {
+        heatmap.innerHTML = '';
+        for (let i = 0; i < rows * cols; i++) {
+            const cell = document.createElement('div');
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            cell.className = `h-6 w-full rounded-[2px] heatmap-cell ${randomColor} cursor-pointer`;
+            cell.title = `Sector ${String.fromCharCode(65 + Math.floor(i/12))}-${(i%12)+1}: ${(Math.random() * 5).toFixed(2)} ppm Plomo`;
+            heatmap.appendChild(cell);
+        }
+    }
+    rebuildHeatmap();
+
+    // Populate Scatter Plot
+    const dotContainer = document.getElementById('dot-container');
+    const palette = ['#005bbf', '#c55500', '#005ac1', '#4d8efe'];
+    let ingestionMode = 'auto';
+
+    function addScatterDots(count = 80) {
+        dotContainer.innerHTML = '';
+        for (let i = 0; i < count; i++) {
+            const dot = document.createElement('div');
+            const size = Math.random() * 8 + 4;
+            const x = Math.random() * 90 + 5;
+            const y = Math.random() * 90 + 5;
+            const color = palette[Math.floor(Math.random() * palette.length)];
+            const opacity = Math.random() * 0.5 + 0.5;
+
+            dot.className = 'absolute molecular-dot rounded-full';
+            dot.style.width = `${size}px`;
+            dot.style.height = `${size}px`;
+            dot.style.left = `${x}%`;
+            dot.style.top = `${y}%`;
+            dot.style.backgroundColor = color;
+            dot.style.opacity = opacity;
+            
+            // Tooltip info for premium UX
+            const pppm = (x * 0.05).toFixed(2);
+            const ntu = (y * 0.1).toFixed(1);
+            dot.title = `Muestra BH-P${i}: Plomo = ${pppm} ppm, Turbidez = ${ntu} NTU`;
+            
+            dotContainer.appendChild(dot);
+        }
+    }
+    addScatterDots();
+
+    function addSpecificWaterDots() {
+        dotContainer.innerHTML = '';
+        const waterSamples = [
+            { x: 12, y: 15, color: '#005bbf', size: 8, label: "BH-01 (Zeolita): Plomo = 0.6 ppm, Turbidez = 1.5 NTU" },
+            { x: 18, y: 22, color: '#005bbf', size: 9, label: "BH-02 (Zeolita): Plomo = 0.9 ppm, Turbidez = 2.2 NTU" },
+            { x: 25, y: 30, color: '#005bbf', size: 8, label: "BH-03 (Zeolita): Plomo = 1.25 ppm, Turbidez = 3.0 NTU" },
+            { x: 45, y: 55, color: '#c55500', size: 10, label: "BH-11 (Acueducto): Plomo = 2.25 ppm, Turbidez = 5.5 NTU" },
+            { x: 50, y: 62, color: '#c55500', size: 11, label: "BH-12 (Acueducto): Plomo = 2.5 ppm, Turbidez = 6.2 NTU" },
+            { x: 55, y: 70, color: '#c55500', size: 9, label: "BH-13 (Acueducto): Plomo = 2.75 ppm, Turbidez = 7.0 NTU" },
+            { x: 75, y: 80, color: '#005ac1', size: 9, label: "BH-21 (Policlínica): Plomo = 3.75 ppm, Turbidez = 8.0 NTU" },
+            { x: 80, y: 85, color: '#005ac1', size: 11, label: "BH-22 (Policlínica): Plomo = 4.0 ppm, Turbidez = 8.5 NTU" },
+            { x: 85, y: 90, color: '#005ac1', size: 10, label: "BH-23 (Policlínica): Plomo = 4.25 ppm, Turbidez = 9.0 NTU" }
+        ];
+        
+        waterSamples.forEach(s => {
+            const dot = document.createElement('div');
+            dot.className = 'absolute molecular-dot rounded-full';
+            dot.style.width = `${s.size}px`;
+            dot.style.height = `${s.size}px`;
+            dot.style.left = `${s.x}%`;
+            dot.style.top = `${s.y}%`;
+            dot.style.backgroundColor = s.color;
+            dot.style.opacity = '0.95';
+            dot.title = s.label;
+            dotContainer.appendChild(dot);
+        });
+    }
+
+    function toggleIngestionSource(btn) {
+        const txtMode = document.getElementById('txt-source-mode');
+        const badge = btn.querySelector('.w-1.5');
+        
+        if (ingestionMode === 'auto') {
+            ingestionMode = 'manual';
+            txtMode.innerText = 'Dataset Fijo (Barahona)';
+            badge.className = 'w-1.5 h-1.5 rounded-full bg-primary';
+            addSpecificWaterDots();
+            if (typeof showToast === 'function') {
+                showToast('Origen cambiado: Dataset Fijo de Barahona (FONDOCYT)', 'info');
+            }
         } else {
-            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200";
+            ingestionMode = 'auto';
+            txtMode.innerText = 'Automático';
+            badge.className = 'w-1.5 h-1.5 rounded-full bg-success animate-pulse';
+            addScatterDots(80);
+            if (typeof showToast === 'function') {
+                showToast('Origen cambiado: Flujo de Simulación en Tiempo Real (300ms)', 'success');
+            }
+        }
+    }
+
+    // Micro-interaction: random subtle movement for dots in auto mode
+    setInterval(() => {
+        if (ingestionMode !== 'auto') return;
+        const dots = document.querySelectorAll('.molecular-dot');
+        dots.forEach(dot => {
+            const moveX = (Math.random() - 0.5) * 4;
+            const moveY = (Math.random() - 0.5) * 4;
+            const currentLeft = parseFloat(dot.style.left) || 50;
+            const currentTop = parseFloat(dot.style.top) || 50;
+            
+            // Constrain within bounds
+            const newLeft = Math.max(5, Math.min(95, currentLeft + moveX * 0.1));
+            const newTop = Math.max(5, Math.min(95, currentTop + moveY * 0.1));
+            dot.style.left = `${newLeft}%`;
+            dot.style.top = `${newTop}%`;
+        });
+    }, 1500);
+
+    // Grid lines for scatter plot
+    const scatterGrid = document.getElementById('scatter-plot');
+    for (let i = 0; i < 100; i++) {
+        const line = document.createElement('div');
+        line.className = 'border-[0.5px] border-outline-variant/20';
+        scatterGrid.appendChild(line);
+    }
+
+    // API Wiring: Generate synthetic pilot
+    document.getElementById('btn-synthetic').addEventListener('click', async () => {
+        const btn = document.getElementById('btn-synthetic');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">sync</span> Generando...';
+        
+        try {
+            const res = await fetch('/api/data/synthetic', { method: 'POST' });
+            const data = await res.json();
+            if (data.status === 'success') {
+                alert('💧 Piloto autogenerado exitosamente para ' + data.quantitative.title + '\nVariables: ' + data.quantitative.variables.map(v => v.name).join(', '));
+                if (ingestionMode === 'auto') {
+                    addScatterDots(120);
+                } else {
+                    addSpecificWaterDots();
+                }
+                rebuildHeatmap();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        } catch (err) {
+            alert('Error de conexión: ' + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto';
         }
     });
-    
 
-        // Populate initial Scatter Plot and Heatmap
-        const heatmap = document.getElementById('heatmap');
-        const rows = 8;
-        const cols = 12;
-        const colors = [
-            'bg-blue-100', 'bg-blue-200', 'bg-blue-300', 
-            'bg-primary/40', 'bg-primary/60', 'bg-primary/80', 'bg-primary',
-            'bg-danger/40', 'bg-danger/60', 'bg-danger/80'
-        ];
+    // API Wiring: Upload CSV
+    document.getElementById('quantCsvFile').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
 
-        function rebuildHeatmap() {
-            heatmap.innerHTML = '';
-            for (let i = 0; i < rows * cols; i++) {
-                const cell = document.createElement('div');
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                cell.className = `h-6 w-full rounded-[2px] heatmap-cell ${randomColor}`;
-                heatmap.appendChild(cell);
-            }
-        }
-        rebuildHeatmap();
+        const formData = new FormData();
+        formData.append('file', file);
 
-        // Scatter plot functionality
-        const dotContainer = document.getElementById('dot-container');
-        const palette = ['#005bbf', '#c55500', '#005ac1', '#4d8efe'];
+        const status = document.getElementById('dataUploadStatus');
+        status.className = "block text-xs p-2 rounded bg-primary-container/10 text-primary font-mono";
+        status.innerText = "Procesando dataset y winsorizando outliers...";
 
-        function addScatterDots(count = 80) {
-            dotContainer.innerHTML = '';
-            for (let i = 0; i < count; i++) {
-                const dot = document.createElement('div');
-                const size = Math.random() * 8 + 4;
-                const x = Math.random() * 90 + 5;
-                const y = Math.random() * 90 + 5;
-                const color = palette[Math.floor(Math.random() * palette.length)];
-                const opacity = Math.random() * 0.5 + 0.5;
-
-                dot.className = 'absolute molecular-dot rounded-full';
-                dot.style.width = `${size}px`;
-                dot.style.height = `${size}px`;
-                dot.style.left = `${x}%`;
-                dot.style.top = `${y}%`;
-                dot.style.backgroundColor = color;
-                dot.style.opacity = opacity;
-                
-                dotContainer.appendChild(dot);
-            }
-        }
-        addScatterDots();
-
-        // Micro-interaction: random subtle movement for dots
-        setInterval(() => {
-            const dots = document.querySelectorAll('.molecular-dot');
-            dots.forEach(dot => {
-                const moveX = (Math.random() - 0.5) * 4;
-                const moveY = (Math.random() - 0.5) * 4;
-                const currentLeft = parseFloat(dot.style.left) || 50;
-                const currentTop = parseFloat(dot.style.top) || 50;
-                dot.style.left = `${currentLeft + moveX * 0.1}%`;
-                dot.style.top = `${currentTop + moveY * 0.1}%`;
+        try {
+            const res = await fetch('/api/data/upload', {
+                method: 'POST',
+                body: formData
             });
-        }, 1500);
-
-        // Grid lines for scatter plot
-        const scatterGrid = document.getElementById('scatter-plot');
-        for (let i = 0; i < 100; i++) {
-            const line = document.createElement('div');
-            line.className = 'border-[0.5px] border-outline-variant/20';
-            scatterGrid.appendChild(line);
+            const result = await res.json();
+            if (res.ok) {
+                status.className = "block text-xs p-2 rounded bg-success/10 text-success font-mono";
+                status.innerText = `✅ Ingesta exitosa! Registros: ${result.total_records}, Anomalías corregidas: ${result.anomalies}`;
+                
+                ingestionMode = 'manual';
+                const txtMode = document.getElementById('txt-source-mode');
+                const btn = document.querySelector('button[onclick="toggleIngestionSource(this)"]');
+                const badge = btn.querySelector('.w-1.5');
+                txtMode.innerText = 'Dataset Fijo (Cargado)';
+                badge.className = 'w-1.5 h-1.5 rounded-full bg-primary';
+                
+                addScatterDots(100);
+                rebuildHeatmap();
+            } else {
+                status.className = "block text-xs p-2 rounded bg-danger/10 text-danger font-mono";
+                status.innerText = "Error: " + result.detail;
+            }
+        } catch (err) {
+            status.className = "block text-xs p-2 rounded bg-danger/10 text-danger font-mono";
+            status.innerText = "Error de red: " + err.message;
         }
-
-        // API Wiring: Generate synthetic pilot
-        document.getElementById('btn-synthetic').addEventListener('click', async () => {
-            const btn = document.getElementById('btn-synthetic');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">sync</span> Generando...';
-            
-            try {
-                const res = await fetch('/api/data/synthetic', { method: 'POST' });
-                const data = await res.json();
-                if (data.status === 'success') {
-                    alert('🧬 Piloto autogenerado exitosamente para ' + data.quantitative.title + '
-Variables: ' + data.quantitative.variables.map(v => v.name).join(', '));
-                    addScatterDots(120);
-                    rebuildHeatmap();
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            } catch (err) {
-                alert('Error de conexión: ' + err.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">insights</span> Generar Datos Piloto';
-            }
-        });
-
-        // API Wiring: Upload CSV
-        document.getElementById('quantCsvFile').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const formData = new FormData();
-            formData.append('file', file);
-
-            const status = document.getElementById('dataUploadStatus');
-            status.className = "block text-xs p-2 rounded bg-primary-container/10 text-primary";
-            status.innerText = "Procesando dataset y winsorizando outliers...";
-
-            try {
-                const res = await fetch('/api/data/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-                const result = await res.json();
-                if (res.ok) {
-                    status.className = "block text-xs p-2 rounded bg-success/10 text-success";
-                    status.innerText = `✅ Ingesta exitosa! Registros: ${result.total_records}, Anomalías corregidas: ${result.anomalies}`;
-                    addScatterDots(100);
-                    rebuildHeatmap();
-                } else {
-                    status.className = "block text-xs p-2 rounded bg-danger/10 text-danger";
-                    status.innerText = "Error: " + result.detail;
-                }
-            } catch (err) {
-                status.className = "block text-xs p-2 rounded bg-danger/10 text-danger";
-                status.innerText = "Error de red: " + err.message;
-            }
-        });
-    </script>
-
-<!-- Enthema AI Coach Right Sidebar -->
-<aside class="fixed right-0 top-0 h-screen w-80 border-l border-outline-variant bg-surface-container-lowest flex flex-col z-40 shadow-lg text-left">
-  <!-- Coach Header -->
-  <div class="px-6 py-4 border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-3">
-    <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-      <span class="material-symbols-outlined text-[24px]">psychology</span>
-    </div>
-    <div>
-      <h3 class="font-headline-md text-on-surface text-[15px] font-bold leading-tight text-primary">Enthema AI Coach</h3>
-      <p class="font-label-sm text-outline text-[10px]">ASISTENTE CIENTÍFICO OFFLINE</p>
-    </div>
-  </div>
-
-  <!-- Chat History -->
-  <div id="coach-chat-history" class="flex-grow p-4 overflow-y-auto space-y-3 bg-surface-container-low/20 custom-scrollbar text-xs">
-    <!-- Welcome message -->
-    <div class="flex items-start gap-2 max-w-[85%] mb-2">
-      <div class="w-6 h-6 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
-        <span class="material-symbols-outlined text-[14px]">smart_toy</span>
-      </div>
-      <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed">
-        Hola, soy tu <strong>AI Coach</strong>. Estoy aquí para asistirte de forma segura y resolver tus dudas en tu proyecto {% if qualitative_db and qualitative_db.project_title %}<strong>"{{ qualitative_db.project_title }}"</strong>{% elif profile.core_research_lines %}<strong>"{{ profile.core_research_lines[0] }}"</strong>{% else %}<strong>"Investigación Local"</strong>{% endif %}. ¿En qué te puedo ayudar hoy?
-      </div>
-    </div>
-  </div>
-
-  <!-- Suggestions / Quick Links -->
-  <div class="px-4 py-2 bg-surface-container-low/40 border-t border-outline-variant/30">
-    <p class="text-[10px] font-bold text-primary uppercase mb-1">Consultas Sugeridas</p>
-    <div class="flex flex-wrap gap-1.5">
-      <button onclick="sendQuickQuery('¿Cómo funciona el reactor ABM?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🧬 Bio-reactor ABM</button>
-      <button onclick="sendQuickQuery('¿Cómo interpreto el Solver Financiero?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">💸 Solver TIR/VAN</button>
-      <button onclick="sendQuickQuery('¿Qué validez tiene el Sello del Acta?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🛡️ Cumplimiento Legal</button>
-    </div>
-  </div>
-
-  <!-- Chat Input Form -->
-  <form id="coach-chat-form" class="p-4 border-t border-outline-variant bg-surface-container-lowest flex items-center gap-2">
-    <input type="text" id="coach-query-input" placeholder="Pregunte algo al AI Coach..." class="flex-grow bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface" required autocomplete="off" />
-    <button type="submit" class="p-2 bg-primary text-white rounded-lg hover:opacity-90 transition-all shrink-0">
-      <span class="material-symbols-outlined text-[16px]">send</span>
-    </button>
-  </form>
-</aside>
-</body></html>
+    });
+</script>
+{% endblock %}

@@ -241,5 +241,245 @@ class TestCoachConstitutionStress(unittest.TestCase):
         self.assertEqual(session_metrics["total_suggestions"], 1)
         self.assertEqual(session_metrics["acceptance_rate_percent"], 100.0)
 
+    # ==============================================================================
+    # TEST 6: RUTEADO Y GOBERNANZA DE ARTES Y CIENCIAS SOCIALES (LAW-HUM-001/002/003)
+    # ==============================================================================
+    
+    def test_qualitative_and_social_sciences_routing(self):
+        """
+        Test 6: Ruteado e Integridad Epistémica de Artes y Ciencias Sociales.
+        Verifica que el GovernanceAgent reconozca de forma cruzada intenciones sobre
+        investigación cualitativa/artística (LAW-HUM-001/002) y ciencias sociales (LAW-HUM-003).
+        """
+        # Iniciar sesión como administrador RL para activar is_admin = True
+        admin_login = self.client.post("/api/login", json={"username": "RL", "password": "lapuesta66"})
+        self.assertEqual(admin_login.status_code, 200)
+        admin_cookie = admin_login.cookies.get("session_id")
+
+        # 1. Test Qualitative/Arts topic detection
+        query_art = "Deseo auditar la integridad de mi estudio cualitativo e investigación artística"
+        response = self.client.post(
+            "/api/copilot/query",
+            json={"query": query_art, "path": "/modeling"},
+            cookies={"session_id": admin_cookie}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        answer = data["answer"]
+        self.assertIn("interlocutor hermeneutico", answer)
+        self.assertIn("LAW-HUM-001", answer)
+        self.assertIn("Trazabilidad Hermeneutica", answer)
+
+        # 2. Test Social Sciences topic detection
+        query_social = "Quiero revisar el enfoque de sociología y antropología bajo justicia algorítmica"
+        response_social = self.client.post(
+            "/api/copilot/query",
+            json={"query": query_social, "path": "/compliance"},
+            cookies={"session_id": admin_cookie}
+        )
+        self.assertEqual(response_social.status_code, 200)
+        data_social = response_social.json()
+        answer_social = data_social["answer"]
+        self.assertIn("mediador sociotecnico", answer_social)
+        self.assertIn("LAW-HUM-003", answer_social)
+        self.assertIn("Justicia Algoritmica", answer_social)
+
+        # 3. Test Cross-Topic Nexus (Social Sciences + Finance)
+        query_nexus = "Cómo se conecta mi análisis de sociología con las finanzas del solver?"
+        response_nexus = self.client.post(
+            "/api/copilot/query",
+            json={"query": query_nexus, "path": "/finance"},
+            cookies={"session_id": admin_cookie}
+        )
+        self.assertEqual(response_nexus.status_code, 200)
+        data_nexus = response_nexus.json()
+        answer_nexus = data_nexus["answer"]
+        self.assertIn("Conexion Semantica Infranodus", answer_nexus)
+        self.assertIn("analisis socioeconomico", answer_nexus)
+        self.assertIn("distribucion estocastica", answer_nexus)
+
+    # ==============================================================================
+    # TEST 7: AUDITORÍA HÍBRIDA NO DETERMINISTA (LAW-HUM-004)
+    # ==============================================================================
+    
+    def test_hybrid_auditor_routing(self):
+        """
+        Test 7: Ruteado e Integridad Epistémica del Auditor Híbrido No Determinista.
+        Verifica que el GovernanceAgent reconozca consultas sobre la naturaleza del auditor,
+        citi la norma LAW-HUM-004 y desglose las tres capas (técnica, probabilística, hermenéutica)
+        así como el principio de auditar el PROCESO de investigación.
+        """
+        # Iniciar sesión como administrador RL para activar is_admin = True
+        admin_login = self.client.post("/api/login", json={"username": "RL", "password": "lapuesta66"})
+        self.assertEqual(admin_login.status_code, 200)
+        admin_cookie = admin_login.cookies.get("session_id")
+
+        # 1. Test Hybrid Auditor topic detection
+        query = "El auditor de IA en Enthema es estrictamente determinista?"
+        response = self.client.post(
+            "/api/copilot/query",
+            json={"query": query, "path": "/compliance"},
+            cookies={"session_id": admin_cookie}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        answer = data["answer"]
+        self.assertIn("no es un verificador puramente determinista", answer)
+        self.assertIn("LAW-HUM-004", answer)
+        self.assertIn("Verificacion Tecnica/Determinista", answer)
+        self.assertIn("Validacion Metodologica/Probabilistica", answer)
+        self.assertIn("Juicio Experto/Hermeneutico", answer)
+        self.assertIn("PROCESO", answer)
+        self.assertIn("INVESTIGACION", answer)
+
+        # 2. Test Cross-Topic Nexus (Hibrido + Finanzas)
+        query_nexus = "Cómo conecta el auditor híbrido con las finanzas del solver?"
+        response_nexus = self.client.post(
+            "/api/copilot/query",
+            json={"query": query_nexus, "path": "/finance"},
+            cookies={"session_id": admin_cookie}
+        )
+        self.assertEqual(response_nexus.status_code, 200)
+        data_nexus = response_nexus.json()
+        answer_nexus = data_nexus["answer"]
+        self.assertIn("Conexion Semantica Infranodus", answer_nexus)
+        self.assertIn("auditoria hibrida", answer_nexus)
+        self.assertIn("analisis probabilisticos Monte Carlo", answer_nexus)
+
+    # ==============================================================================
+    # TEST 8: ANÁLISIS DE REDES TEXTUALES E INTEGRIDAD EPISTÉMICA (LAW-HUM-005)
+    # ==============================================================================
+    
+    def test_text_networks_routing(self):
+        """
+        Test 8: Ruteado e Integridad Epistémica de Redes Textuales / InfraNodus.
+        Verifica que el GovernanceAgent reconozca de forma cruzada intenciones sobre
+        análisis de redes textuales (LAW-HUM-005), calcule pesos de co-ocurrencia y
+        ofrezca exportaciones (CSV, JSON, GEXF) estructuradas.
+        """
+        # Iniciar sesión como administrador RL para activar is_admin = True
+        admin_login = self.client.post("/api/login", json={"username": "RL", "password": "lapuesta66"})
+        self.assertEqual(admin_login.status_code, 200)
+        admin_cookie = admin_login.cookies.get("session_id")
+
+        # 1. Test Text Networks topic detection (LAW-HUM-005)
+        query = "Deseo auditar la integridad de mi estudio usando análisis de redes textuales e InfraNodus"
+        response = self.client.post(
+            "/api/copilot/query",
+            json={"query": query, "path": "/modeling"},
+            cookies={"session_id": admin_cookie}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        answer = data["answer"]
+        self.assertIn("LAW-HUM-005", answer)
+        self.assertIn("Pesos de Co-ocurrencia por Distancia", answer)
+        self.assertIn("Intermediacion y Comunidades de Discurso", answer)
+        self.assertIn("Trazabilidad y Exportacion Semantica", answer)
+
+        # 2. Test Cross-Topic Nexus (Redes + Finanzas)
+        query_nexus = "Cómo se conecta el análisis de redes textuales con la viabilidad financiera?"
+        response_nexus = self.client.post(
+            "/api/copilot/query",
+            json={"query": query_nexus, "path": "/finance"},
+            cookies={"session_id": admin_cookie}
+        )
+        self.assertEqual(response_nexus.status_code, 200)
+        data_nexus = response_nexus.json()
+        answer_nexus = data_nexus["answer"]
+        self.assertIn("Conexion Semantica Infranodus", answer_nexus)
+        self.assertIn("brechas cognitivas", answer_nexus)
+        self.assertIn("viabilidad financiera", answer_nexus)
+
+    # ==============================================================================
+    # TEST 9: AUDITORÍA DE REDES EN CIENCIAS DURAS Y STEM (LAW-HUM-006)
+    # ==============================================================================
+    
+    def test_stem_networks_routing(self):
+        """
+        Test 9: Ruteado e Integridad Epistémica de Redes en Ciencias Duras (LAW-HUM-006).
+        Verifica que el GovernanceAgent reconozca de forma cruzada intenciones sobre
+        análisis de redes textuales en STEM (LAW-HUM-006), valide los límites de
+        falsa causalidad y deconstruya la auditoría diferencial por capas.
+        """
+        # Iniciar sesión como administrador RL para activar is_admin = True
+        admin_login = self.client.post("/api/login", json={"username": "RL", "password": "lapuesta66"})
+        self.assertEqual(admin_login.status_code, 200)
+        admin_cookie = admin_login.cookies.get("session_id")
+
+        # 1. Test STEM topic detection (LAW-HUM-006)
+        query = "Aplica el marco de infranodus por igual a las ciencias duras y STEM?"
+        response = self.client.post(
+            "/api/copilot/query",
+            json={"query": query, "path": "/modeling"},
+            cookies={"session_id": admin_cookie}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        answer = data["answer"]
+        self.assertIn("LAW-HUM-006", answer)
+        self.assertIn("Mapeo del Conocimiento vs Datos Experimentales", answer)
+        self.assertIn("Auditoria Diferencial por Capas", answer)
+        self.assertIn("Riesgo de Falsa Causalidad", answer)
+
+        # 2. Test Cross-Topic Nexus (STEM + Redes)
+        query_nexus = "Cómo conecta infranodus con las ciencias duras en la red?"
+        response_nexus = self.client.post(
+            "/api/copilot/query",
+            json={"query": query_nexus, "path": "/modeling"},
+            cookies={"session_id": admin_cookie}
+        )
+        self.assertEqual(response_nexus.status_code, 200)
+        data_nexus = response_nexus.json()
+        answer_nexus = data_nexus["answer"]
+        self.assertIn("Conexion Semantica Infranodus", answer_nexus)
+        self.assertIn("mapeo de redes textuales en STEM", answer_nexus)
+        self.assertIn("falsa causalidad", answer_nexus)
+
+    # ==============================================================================
+    # TEST 10: LA PARADOJA DEL PUENTE DE CITACIÓN Y FUGA EPISTÉMICA (LAW-HUM-007)
+    # ==============================================================================
+    
+    def test_citation_firewall_routing(self):
+        """
+        Test 10: Ruteado e Integridad Epistémica del Cortafuegos Semántico y Citación (LAW-HUM-007).
+        Verifica que el GovernanceAgent reconozca de forma cruzada intenciones sobre
+        el cortafuegos semántico, el puente de citación explícito, la fuga epistémica
+        y deconstruya el pipeline de aislamiento léxico y auditoría post-hoc.
+        """
+        # Iniciar sesión como administrador RL para activar is_admin = True
+        admin_login = self.client.post("/api/login", json={"username": "RL", "password": "lapuesta66"})
+        self.assertEqual(admin_login.status_code, 200)
+        admin_cookie = admin_login.cookies.get("session_id")
+
+        # 1. Test Citation Firewall topic detection (LAW-HUM-007)
+        query = "Cómo funciona el cortafuegos semántico ante la paradoja del puente de citación y fuga epistémica?"
+        response = self.client.post(
+            "/api/copilot/query",
+            json={"query": query, "path": "/compliance"},
+            cookies={"session_id": admin_cookie}
+        )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        answer = data["answer"]
+        self.assertIn("LAW-HUM-007", answer)
+        self.assertIn("Aislamiento Léxico por Parser de Tokens", answer)
+        self.assertIn("Segregacion de Ventanas de Contexto", answer)
+        self.assertIn("Auditoria Semantica Post-Hoc", answer)
+
+        # 2. Test Cross-Topic Nexus (Firewall + Hibrido)
+        query_nexus = "Cómo se conectan el cortafuegos semántico y la auditoría híbrida?"
+        response_nexus = self.client.post(
+            "/api/copilot/query",
+            json={"query": query_nexus, "path": "/compliance"},
+            cookies={"session_id": admin_cookie}
+        )
+        self.assertEqual(response_nexus.status_code, 200)
+        data_nexus = response_nexus.json()
+        answer_nexus = data_nexus["answer"]
+        self.assertIn("Conexion Semantica Infranodus", answer_nexus)
+        self.assertIn("Capa 1 de verificacion de inmutabilidad", answer_nexus)
+        self.assertIn("Capa 3 hermeneutica", answer_nexus)
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,737 +1,390 @@
-<!DOCTYPE html>
+{% extends "base_layout.html" %}
+{% set show_sidebar = false %}
+{% set show_coach = false %}
 
-<html class="light" lang="es"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Roboto+Flex:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+{% block title %}Enthema Suite - Configuración Científica y Académica (Onboarding){% endblock %}
+
+{% block head %}
 <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
-        }
-        body {
-            font-family: 'Roboto Flex', sans-serif;
-            background-color: #f7f9ff;
-            color: #181c20;
-        }
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 24px;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid #dadce0;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-    </style>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-error-container": "#93000a",
-                        "on-tertiary-container": "#0e0200",
-                        "inverse-primary": "#adc7ff",
-                        "on-surface-variant": "#414754",
-                        "on-secondary-fixed-variant": "#004494",
-                        "success": "#34a853",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container-high": "#e5e8ee",
-                        "background": "#f7f9ff",
-                        "secondary-fixed": "#d8e2ff",
-                        "error-container": "#ffdad6",
-                        "surface-container-low": "#f1f4fa",
-                        "surface-variant": "#dfe3e8",
-                        "surface": "#f7f9ff",
-                        "error": "#ba1a1a",
-                        "border-subtle": "#dadce0",
-                        "danger": "#ea4335",
-                        "tertiary-container": "#c55500",
-                        "surface-tint": "#005bc0",
-                        "on-surface": "#181c20",
-                        "on-error": "#ffffff",
-                        "tertiary-fixed-dim": "#ffb691",
-                        "warning": "#f9ab00",
-                        "surface-base": "#ffffff",
-                        "primary-fixed": "#d8e2ff",
-                        "on-secondary-fixed": "#001a41",
-                        "secondary": "#005ac1",
-                        "primary": "#005bbf",
-                        "on-primary": "#ffffff",
-                        "inverse-surface": "#2d3135",
-                        "outline-variant": "#c1c6d6",
-                        "secondary-fixed-dim": "#adc6ff",
-                        "data-viz-purple": "#DFD1FF",
-                        "on-tertiary": "#ffffff",
-                        "secondary-container": "#4d8efe",
-                        "on-primary-fixed": "#001a41",
-                        "on-secondary": "#ffffff",
-                        "tertiary-fixed": "#ffdbcb",
-                        "surface-container-highest": "#dfe3e8",
-                        "surface-bright": "#f7f9ff",
-                        "tertiary": "#9e4300",
-                        "on-primary-container": "#ffffff",
-                        "on-secondary-container": "#00285c",
-                        "on-primary-fixed-variant": "#004493",
-                        "on-tertiary-fixed": "#341100",
-                        "surface-dim": "#d7dae0",
-                        "surface-container": "#ebeef4",
-                        "outline": "#727785",
-                        "data-viz-lime": "#E4F222",
-                        "on-background": "#181c20",
-                        "on-tertiary-fixed-variant": "#783100",
-                        "primary-container": "#1a73e8",
-                        "inverse-on-surface": "#eef1f7",
-                        "primary-fixed-dim": "#adc7ff"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "unit": "4px",
-                        "container-max-width": "1440px",
-                        "margin-mobile": "16px",
-                        "margin-page": "48px",
-                        "gutter": "24px"
-                    },
-                    "fontFamily": {
-                        "headline-md": ["Plus Jakarta Sans"],
-                        "label-sm": ["JetBrains Mono"],
-                        "body-lg": ["Roboto Flex"],
-                        "headline-lg": ["Plus Jakarta Sans"],
-                        "display-lg": ["Plus Jakarta Sans"],
-                        "body-md": ["Roboto Flex"],
-                        "headline-lg-mobile": ["Plus Jakarta Sans"],
-                        "label-md": ["JetBrains Mono"]
-                    },
-                    "fontSize": {
-                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
-                        "label-sm": ["10px", {"lineHeight": "14px", "fontWeight": "500"}],
-                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
-                        "display-lg": ["44px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
-                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
-                    }
-                },
-            },
-        }
-    </script>
-</head>
-<body class="flex min-h-screen overflow-x-hidden bg-background">
-<!-- SideNavBar (Fixed) -->
-<aside class="fixed left-0 top-0 h-screen w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col py-4 z-50">
-  <div class="px-6 mb-8 flex items-center gap-3">
-    <img alt="Logo Enthema Suite" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
-    <div>
-      <h1 class="font-headline-lg text-primary font-bold tracking-tight text-[18px] leading-tight">Enthema Suite</h1>
-      <p class="font-label-md text-on-surface-variant text-[10px]">Precisión Técnica</p>
-    </div>
-  </div>
-  <nav class="flex-grow space-y-1 px-4">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/dashboard">
-      <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-      <span class="font-label-md text-label-md">Panel de Control</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/">
-      <span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
-      <span class="font-label-md text-label-md">Proyectos (Onboarding)</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/data-analysis">
-      <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
-      <span class="font-label-md text-label-md">Análisis de Datos</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/modeling">
-      <span class="material-symbols-outlined" data-icon="biotech">biotech</span>
-      <span class="font-label-md text-label-md">Modelado Semántico</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/finance">
-      <span class="material-symbols-outlined" data-icon="payments">payments</span>
-      <span class="font-label-md text-label-md">Finanzas</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/reports">
-      <span class="material-symbols-outlined" data-icon="description">description</span>
-      <span class="font-label-md text-label-md">Informes</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/compliance">
-      <span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
-      <span class="font-label-md text-label-md">Cumplimiento</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/configuration">
-      <span class="material-symbols-outlined" data-icon="settings">settings</span>
-      <span class="font-label-md text-label-md">Configuración</span>
-    </a>
-    {% if profile.user_role in ['admin', 'auditor'] %}
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-secondary hover:bg-secondary-container/10 border-r-4 border-secondary transition-colors duration-200" href="/admin">
-      <span class="material-symbols-outlined" data-icon="shield">shield</span>
-      <span class="font-label-md text-label-md font-bold">Consola Auditoría</span>
-    </a>
-    {% endif %}
-  </nav>
-  <div class="px-4 py-2 border-t border-outline-variant">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-danger hover:bg-danger/10 transition-colors duration-200 cursor-pointer" onclick="logout()">
-      <span class="material-symbols-outlined" data-icon="logout">logout</span>
-      <span class="font-label-md text-label-md font-bold">Cerrar Sesión</span>
-    </a>
-  </div>
-</aside>
-<!-- Main Content Area -->
-<main class="flex-grow ml-64 min-w-0 mr-80">
-<!-- TopAppBar -->
-<header class="flex justify-between items-center px-6 h-16 sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
-  <div class="flex items-center w-1/3">
-    <div class="relative w-full max-w-md">
-      <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]" data-icon="search">search</span>
-      <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Buscar parámetros, sensores o informes..." type="text"/>
-    </div>
-  </div>
-  <div class="flex items-center gap-2">
-    <button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all">
-      <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-    </button>
-    <button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all">
-      <span class="material-symbols-outlined" data-icon="settings">settings</span>
-    </button>
-    <div class="h-8 w-px bg-outline-variant mx-2"></div>
-    <div class="flex items-center gap-3 pl-2">
-      <div class="text-right">
-        <p class="font-label-md text-on-surface font-bold leading-none">{{ profile.name }}</p>
-        <p class="font-label-sm text-outline">{% if profile.user_role == 'investment_consultant' %}Consultor de Inversión{% else %}Investigador Principal{% endif %}</p>
-      </div>
-      <div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">
-        {{ profile.name[:2].upper() }}
-      </div>
-    </div>
-  </div>
-</header>
+    .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border: 1px solid #dadce0;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
 <!-- Page Canvas - Full Width Container -->
-<div class="w-full pt-16">
-<div class="w-full max-w-full px-8 md:px-12 lg:px-16 py-12 space-y-16">
-<!-- Hero Section -->
-<section class="flex flex-col items-center text-center space-y-6">
-<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-container/10 border border-primary/20 text-primary font-label-md">
-<span class="material-symbols-outlined text-[16px]" data-icon="auto_awesome">auto_awesome</span>
-                        BIENVENIDO A LA NUEVA ERA DE LA INVESTIGACIÓN
-                    </div>
-<h1 class="font-display-lg text-display-lg max-w-5xl tracking-tight text-on-surface">
-                        Optimice su flujo científico con <span class="text-primary italic">precisión algorítmica</span>
-</h1>
-<p class="font-body-lg text-on-surface-variant max-w-3xl">
-                        Enthema Suite centraliza el análisis de datos, el modelado molecular y la gestión financiera en una plataforma unificada diseñada para el rigor académico y la eficiencia industrial.
-                    </p>
-<div class="flex gap-4 pt-4">
-<button class="px-8 py-3 bg-primary text-on-primary rounded-lg font-headline-md text-body-lg hover:shadow-lg transition-all flex items-center gap-2">
-                            Comenzar Onboarding <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
-</button>
-<button class="px-8 py-3 border border-outline-variant text-primary rounded-lg font-headline-md text-body-lg hover:bg-surface-container transition-all">
-                            Explorar Manual
-                        </button>
-</div>
-</section>
-<!-- Video Demo Section - Fluid Width -->
-<section class="relative group w-full">
-<div class="rounded-2xl overflow-hidden border border-outline-variant shadow-2xl bg-surface-container-low aspect-video relative w-full">
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10"></div>
-<div class="absolute inset-0 flex items-center justify-center z-20">
-<button class="w-24 h-24 bg-primary text-on-primary rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-2xl">
-<span class="material-symbols-outlined text-[48px]" data-icon="play_arrow" data-weight="fill">play_arrow</span>
-</button>
-</div>
-<div class="absolute bottom-0 left-0 right-0 p-8 z-20 flex items-center justify-between">
-<div class="flex items-center gap-4 text-white">
-<span class="material-symbols-outlined cursor-pointer" data-icon="volume_up">volume_up</span>
-<div class="w-64 h-1.5 bg-white/30 rounded-full overflow-hidden">
-<div class="w-2/3 h-full bg-primary"></div>
-</div>
-<span class="font-label-md">03:45 / 12:00</span>
-</div>
-<div class="flex items-center gap-6 text-white">
-<span class="material-symbols-outlined cursor-pointer" data-icon="closed_caption">closed_caption</span>
-<span class="material-symbols-outlined cursor-pointer" data-icon="settings">settings</span>
-<span class="material-symbols-outlined cursor-pointer" data-icon="fullscreen">fullscreen</span>
-</div>
-</div>
-<img alt="Laboratory Monitor Dashboard" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQP8Y8pt8EevX8nYrOAWglb6VJlLlY0qzQjhSmTGX8DhrNimsvQfqQ-cUwp69rKlPhw-Mt_nXDSzqo9Sy_XyygellSr1gilZmy2rEdQsvS3tpSpK1VapL5UJWw_gP3ovQ9u_cioRttzESXb9TmCukwlFh4-RBCQgLd54gp-gBJhseLQ6Y50dePkwSZZBYIIdIqvpDeaE7w4VFzAIHsHIEPdgZDZcmmYLqQb5CWv81BVuDX700QQtqCnF4Yk86fRiHc7FGKlrtARH3h"/>
-</div>
-<div class="absolute -bottom-8 -right-4 p-6 glass-card rounded-xl border border-outline-variant max-w-xs z-30 shadow-xl hidden lg:block">
-<p class="font-label-sm text-primary mb-2 font-bold">VISTA PREVIA DE MODELADO</p>
-<p class="font-body-md text-on-surface">"La integración del módulo de biomecánica redujo nuestro tiempo de cálculo en un 40%."</p>
-</div>
-</section>
-<!-- Onboarding Guided Steps - Full Bento Grid -->
-<section class="space-y-8">
-<div class="flex items-end justify-between border-b border-outline-variant pb-6">
-<div>
-<h2 class="font-headline-lg text-on-surface">Configuración de Entorno</h2>
-<p class="font-body-md text-on-surface-variant">Siga estos pasos para optimizar su espacio de trabajo científico.</p>
-</div>
-<div class="flex gap-4 items-center">
-<span class="font-label-md text-primary font-bold">PROGRESO: 25%</span>
-<div class="w-48 h-2 bg-surface-container-high rounded-full overflow-hidden">
-<div class="w-1/4 h-full bg-primary rounded-full"></div>
-</div>
-</div>
-</div>
-<div class="bento-grid">
-<!-- Step 1 -->
-<div class="col-span-12 md:col-span-4 p-8 bg-surface-container-lowest border border-outline-variant rounded-2xl space-y-4 hover:border-primary transition-all cursor-pointer relative overflow-hidden group">
-<div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-<span class="material-symbols-outlined text-8xl" data-icon="cloud_sync">cloud_sync</span>
-</div>
-<div class="w-12 h-12 bg-success/10 text-success rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
-</div>
-<h3 class="font-headline-md text-on-surface">Sincronizar Datos</h3>
-<p class="font-body-md text-on-surface-variant">Conecte sus repositorios externos y bases de datos institucionales de forma segura.</p>
-<button class="text-primary font-label-md flex items-center gap-1 mt-4">
-                                CONFIGURADO <span class="material-symbols-outlined text-sm" data-icon="done_all">done_all</span>
-</button>
-</div>
-<!-- Step 2 -->
-<div class="col-span-12 md:col-span-4 p-8 bg-surface-container-lowest border border-primary border-2 rounded-2xl space-y-4 shadow-lg relative overflow-hidden">
-<div class="absolute -top-4 -right-4 w-24 h-24 bg-primary/5 rounded-full"></div>
-<div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
-</div>
-<h3 class="font-headline-md text-on-surface">Módulos de Análisis</h3>
-<p class="font-body-md text-on-surface-variant">Seleccione los motores de procesamiento y bibliotecas estadísticas para su proyecto.</p>
-<button class="mt-4 px-6 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-all shadow-md">
-                                Configurar Ahora
-                            </button>
-</div>
-<!-- Step 3 -->
-<div class="col-span-12 md:col-span-4 p-8 bg-surface-container-lowest border border-outline-variant rounded-2xl space-y-4 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
-<div class="w-12 h-12 bg-surface-container-high text-outline rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="group">group</span>
-</div>
-<h3 class="font-headline-md text-on-surface">Invitar Colaboradores</h3>
-<p class="font-body-md text-on-surface-variant">Defina roles de acceso, permisos de edición y protocolos de revisión por pares.</p>
-<p class="font-label-sm text-outline mt-4 italic">Desbloqueado tras completar paso 2</p>
-</div>
-</div>
-</section>
-<!-- Onboarding Form Section -->
-<section id="onboarding-form-section" class="bg-surface-container-lowest border border-outline-variant rounded-3xl p-10 lg:p-12 shadow-sm space-y-8">
-  <div class="border-b border-outline-variant pb-6">
-    <h2 class="font-headline-lg text-on-surface">🧬 Configuración Científica y Académica (Onboarding)</h2>
-    <p class="font-body-md text-on-surface-variant">Establezca los parámetros clave de su ADN intelectual y defina la revista o patente destino para su investigación.</p>
+<div class="w-full">
+  <div class="w-full max-w-full px-8 md:px-12 lg:px-16 py-12 space-y-16">
+    <!-- Hero Section -->
+    <section class="flex flex-col items-center text-center space-y-6">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-container/10 border border-primary/20 text-primary font-label-md">
+        <span class="material-symbols-outlined text-[16px]" data-icon="auto_awesome">auto_awesome</span>
+        BIENVENIDO A LA NUEVA ERA DE LA INVESTIGACIÓN
+      </div>
+      <h1 class="font-display-lg text-display-lg max-w-5xl tracking-tight text-on-surface">
+        Optimice su flujo científico con <span class="text-primary italic">precisión algorítmica</span>
+      </h1>
+      <p class="font-body-lg text-on-surface-variant max-w-3xl">
+        Enthema Suite centraliza el análisis de datos, el modelado molecular y la gestión financiera en una plataforma unificada diseñada para el rigor académico y la eficiencia industrial.
+      </p>
+      <div class="flex gap-4 pt-4">
+        <button class="px-8 py-3 bg-primary text-on-primary rounded-lg font-headline-md text-body-lg hover:shadow-lg transition-all flex items-center gap-2">
+          Comenzar Onboarding <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+        </button>
+        <button class="px-8 py-3 border border-outline-variant text-primary rounded-lg font-headline-md text-body-lg hover:bg-surface-container transition-all">
+          Explorar Manual
+        </button>
+      </div>
+    </section>
+
+    <!-- Video Demo Section - Fluid Width -->
+    <section class="relative group w-full">
+      <div class="rounded-2xl overflow-hidden border border-outline-variant shadow-2xl bg-surface-container-low aspect-video relative w-full">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10"></div>
+        <div class="absolute inset-0 flex items-center justify-center z-20">
+          <button class="w-24 h-24 bg-primary text-on-primary rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-2xl">
+            <span class="material-symbols-outlined text-[48px]" data-icon="play_arrow" data-weight="fill">play_arrow</span>
+          </button>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-8 z-20 flex items-center justify-between">
+          <div class="flex items-center gap-4 text-white">
+            <span class="material-symbols-outlined cursor-pointer" data-icon="volume_up">volume_up</span>
+            <div class="w-64 h-1.5 bg-white/30 rounded-full overflow-hidden">
+              <div class="w-2/3 h-full bg-primary"></div>
+            </div>
+            <span class="font-label-md">03:45 / 12:00</span>
+          </div>
+          <div class="flex items-center gap-6 text-white">
+            <span class="material-symbols-outlined cursor-pointer" data-icon="closed_caption">closed_caption</span>
+            <span class="material-symbols-outlined cursor-pointer" data-icon="settings">settings</span>
+            <span class="material-symbols-outlined cursor-pointer" data-icon="fullscreen">fullscreen</span>
+          </div>
+        </div>
+        <img alt="Laboratory Monitor Dashboard" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQP8Y8pt8EevX8nYrOAWglb6VJlLlY0qzQjhSmTGX8DhrNimsvQfqQ-cUwp69rKlPhw-Mt_nXDSzqo9Sy_XyygellSr1gilZmy2rEdQsvS3tpSpK1VapL5UJWw_gP3ovQ9u_cioRttzESXb9TmCukwlFh4-RBCQgLd54gp-gBJhseLQ6Y50dePkwSZZBYIIdIqvpDeaE7w4VFzAIHsHIEPdgZDZcmmYLqQb5CWv81BVuDX700QQtqCnF4Yk86fRiHc7FGKlrtARH3h"/>
+      </div>
+      <div class="absolute -bottom-8 -right-4 p-6 glass-card rounded-xl border border-outline-variant max-w-xs z-30 shadow-xl hidden lg:block">
+        <p class="font-label-sm text-primary mb-2 font-bold">VISTA PREVIA DE MODELADO</p>
+        <p class="font-body-md text-on-surface">"La integración del módulo de biomecánica redujo nuestro tiempo de cálculo en un 40%."</p>
+      </div>
+    </section>
+
+    <!-- Onboarding Guided Steps - Full Bento Grid -->
+    <section class="space-y-8 text-left">
+      <div class="flex items-end justify-between border-b border-outline-variant pb-6">
+        <div>
+          <h2 class="font-headline-lg text-on-surface">Configuración de Entorno</h2>
+          <p class="font-body-md text-on-surface-variant">Siga estos pasos para optimizar su espacio de trabajo científico.</p>
+        </div>
+        <div class="flex gap-4 items-center">
+          <span class="font-label-md text-primary font-bold">PROGRESO: 25%</span>
+          <div class="w-48 h-2 bg-surface-container-high rounded-full overflow-hidden">
+            <div class="w-1/4 h-full bg-primary rounded-full"></div>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-12 gap-6">
+        <!-- Step 1 -->
+        <div class="col-span-12 md:col-span-4 p-8 bg-surface-container-lowest border border-outline-variant rounded-2xl space-y-4 hover:border-primary transition-all cursor-pointer relative overflow-hidden group">
+          <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+            <span class="material-symbols-outlined text-8xl" data-icon="cloud_sync">cloud_sync</span>
+          </div>
+          <div class="w-12 h-12 bg-success/10 text-success rounded-full flex items-center justify-center">
+            <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+          </div>
+          <h3 class="font-headline-md text-on-surface">Sincronizar Datos</h3>
+          <p class="font-body-md text-on-surface-variant">Conecte sus repositorios externos y bases de datos institucionales de forma segura.</p>
+          <button class="text-primary font-label-md flex items-center gap-1 mt-4">
+            CONFIGURADO <span class="material-symbols-outlined text-sm" data-icon="done_all">done_all</span>
+          </button>
+        </div>
+        <!-- Step 2 -->
+        <div class="col-span-12 md:col-span-4 p-8 bg-surface-container-lowest border border-primary border-2 rounded-2xl space-y-4 shadow-lg relative overflow-hidden">
+          <div class="absolute -top-4 -right-4 w-24 h-24 bg-primary/5 rounded-full"></div>
+          <div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center">
+            <span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+          </div>
+          <h3 class="font-headline-md text-on-surface">Módulos de Análisis</h3>
+          <p class="font-body-md text-on-surface-variant">Seleccione los motores de procesamiento y bibliotecas estadísticas para su proyecto.</p>
+          <button class="mt-4 px-6 py-2 bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-all shadow-md">
+            Configurar Ahora
+          </button>
+        </div>
+        <!-- Step 3 -->
+        <div class="col-span-12 md:col-span-4 p-8 bg-surface-container-lowest border border-outline-variant rounded-2xl space-y-4 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all">
+          <div class="w-12 h-12 bg-surface-container-high text-outline rounded-full flex items-center justify-center">
+            <span class="material-symbols-outlined" data-icon="group">group</span>
+          </div>
+          <h3 class="font-headline-md text-on-surface">Invitar Colaboradores</h3>
+          <p class="font-body-md text-on-surface-variant">Defina roles de acceso, permisos de edición y protocolos de revisión por pares.</p>
+          <p class="font-label-sm text-outline mt-4 italic">Desbloqueado tras completar paso 2</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Onboarding Form Section -->
+    <section id="onboarding-form-section" class="bg-surface-container-lowest border border-outline-variant rounded-3xl p-10 lg:p-12 shadow-sm space-y-8">
+      <div class="border-b border-outline-variant pb-6 text-left">
+        <h2 class="font-headline-lg text-on-surface">🧬 Configuración Científica y Académica (Onboarding)</h2>
+        <p class="font-body-md text-on-surface-variant">Establezca los parámetros clave de su ADN intelectual y defina la revista o patente destino para su investigación.</p>
+      </div>
+      
+      <form id="profileForm" class="grid grid-cols-12 gap-6">
+        <!-- Col 1: Nombre del Investigador -->
+        <div class="col-span-12 md:col-span-6 space-y-2 text-left">
+          <label class="block font-label-md text-primary tracking-wide text-xs">NOMBRE COMPLETO</label>
+          <input type="text" id="name" name="name" value="{{ profile.name }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" required />
+        </div>
+
+        <!-- Col 2: Institución -->
+        <div class="col-span-12 md:col-span-6 space-y-2 text-left">
+          <label class="block font-label-md text-primary tracking-wide text-xs">INSTITUCIÓN O FIRMA CONSULTORA</label>
+          <input type="text" id="institution" name="institution" value="{{ profile.institution }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" required />
+        </div>
+
+        <!-- Col 3: Rol del Usuario -->
+        <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+          <label class="block font-label-md text-primary tracking-wide text-xs">ROL DE OPERACIÓN EN LA SUITE</label>
+          <select id="user_role" name="user_role" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
+            <option value="classic_researcher" {% if profile.user_role == 'classic_researcher' %}selected{% endif %}>Investigador Clásico</option>
+            <option value="investment_consultant" {% if profile.user_role == 'investment_consultant' %}selected{% endif %}>Consultor de Inversión</option>
+          </select>
+        </div>
+
+        <!-- Col 4: Postura Epistémica -->
+        <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+          <label class="block font-label-md text-primary tracking-wide text-xs">POSTURA EPISTÉMICA</label>
+          <select id="epistemologic_stance" name="epistemologic_stance" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
+            <option value="Positivista" {% if profile.epistemologic_stance == 'Positivista' %}selected{% endif %}>Positivista (Experimental/Matemático)</option>
+            <option value="Constructivista" {% if profile.epistemologic_stance == 'Constructivista' %}selected{% endif %}>Constructivista (Cualitativo/Social)</option>
+            <option value="Hermenéutica" {% if profile.epistemologic_stance == 'Hermenéutica' %}selected{% endif %}>Hermenéutica (Arte/Vanguardias)</option>
+            <option value="Mixed_Methods" {% if profile.epistemologic_stance == 'Mixed_Methods' %}selected{% endif %}>Métodos Mixtos (Cuali-Cuanti)</option>
+          </select>
+        </div>
+
+        <!-- Col 5: Fase de Madurez -->
+        <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+          <label class="block font-label-md text-primary tracking-wide text-xs">FASE DE MADUREZ CIENTÍFICA</label>
+          <select id="research_maturity_stage" name="research_maturity_stage" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
+            <option value="Ideación" {% if profile.research_maturity_stage == 'Ideación' %}selected{% endif %}>Ideación Activa (Early-stage sin datos reales)</option>
+            <option value="En Curso" {% if profile.research_maturity_stage == 'En Curso' %}selected{% endif %}>En Curso (Con recolección de muestras)</option>
+            <option value="Consolidado" {% if profile.research_maturity_stage == 'Consolidado' %}selected{% endif %}>Consolidado (Dataset completo)</option>
+          </select>
+        </div>
+
+        <!-- Col 6: Canal / Revista Objetivo -->
+        <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+          <label class="block font-label-md text-primary tracking-wide text-xs">REVISTA O PATENTE OBJETIVO</label>
+          <select id="target_publication_objective" name="target_publication_objective" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
+            <option value="Nature" {% if profile.target_publication_objective == 'Nature' %}selected{% endif %}>Nature (STEM)</option>
+            <option value="IEEE" {% if profile.target_publication_objective == 'IEEE' %}selected{% endif %}>IEEE (Ingeniería y Materiales)</option>
+            <option value="World Development" {% if profile.target_publication_objective == 'World Development' %}selected{% endif %}>World Development (Sociales/Gini)</option>
+            <option value="Leonardo" {% if profile.target_publication_objective == 'Leonardo' %}selected{% endif %}>Leonardo (Arte/Interactivos)</option>
+            <option value="HBR" {% if profile.target_publication_objective == 'HBR' %}selected{% endif %}>Harvard Business Review (Negocios)</option>
+            <option value="ONAPI" {% if profile.target_publication_objective == 'ONAPI' %}selected{% endif %}>ONAPI (Registro de Patentes)</option>
+            <option value="ONDA" {% if profile.target_publication_objective == 'ONDA' %}selected{% endif %}>ONDA (Registro de Obras Artísticas)</option>
+          </select>
+        </div>
+
+        <!-- Col 7: ORCID -->
+        <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+          <label class="block font-label-md text-primary tracking-wide text-xs">IDENTIFICADOR CIENTÍFICO ORCID</label>
+          <input type="text" id="orcid" name="orcid" value="{{ profile.orcid or '' }}" placeholder="0000-0000-0000-0000" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" />
+        </div>
+
+        <!-- Col 8: Financiamiento Objetivo (USD) -->
+        <div class="col-span-12 md:col-span-4 space-y-2 text-left">
+          <label class="block font-label-md text-primary tracking-wide text-xs">FINANCIAMIENTO OBJETIVO (USD)</label>
+          <input type="number" id="target_fund_usd" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" />
+        </div>
+
+        <div class="col-span-12 flex justify-end gap-4 pt-4">
+          <button type="submit" class="px-8 py-3 bg-primary text-on-primary rounded-lg font-headline-md text-body-lg hover:shadow-lg hover:bg-primary/95 transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined" data-icon="save">save</span> Guardar Configuración
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Import Panel -->
+    <section class="bg-surface-container-lowest border border-outline-variant rounded-3xl p-10 lg:p-12 shadow-sm space-y-8">
+      <div class="border-b border-outline-variant pb-6 text-left">
+        <h2 class="font-headline-lg text-on-surface">📂 Ingesta de Historial de Investigación (Importación Pasiva)</h2>
+        <p class="font-body-md text-on-surface-variant">Cargue sus notas de Obsidian (.md), reportes en formato RIS de Zotero (.ris), BibTeX (.bib) o cuadernos de Jupyter (.ipynb) para compilar su perfil científico de forma automática.</p>
+      </div>
+      
+      <div class="border-2 border-dashed border-outline-variant rounded-2xl p-8 text-center space-y-4 hover:border-primary transition-all bg-surface-container-low/20">
+        <span class="material-symbols-outlined text-[48px] text-primary" data-icon="cloud_upload">cloud_upload</span>
+        <p class="font-body-md text-on-surface">Arrastre su archivo de investigación aquí o haga clic para cargarlo</p>
+        <input type="file" id="academicFile" class="hidden" accept=".md,.ris,.bib,.bibtex,.ipynb" />
+        <button type="button" onclick="document.getElementById('academicFile').click()" class="px-6 py-2 border border-outline-variant text-primary rounded-lg font-label-md hover:bg-surface-container transition-all">Seleccionar Archivo</button>
+        <p class="font-label-sm text-outline">Formatos válidos: Markdown (.md), RIS (.ris), BibTeX (.bib), Jupyter Notebook (.ipynb)</p>
+      </div>
+      
+      <div id="uploadStatus" class="hidden font-label-md p-4 rounded-lg text-left"></div>
+    </section>
+
+    <!-- Testimonials - Impacto Global -->
+    <section class="space-y-8 bg-surface-container-low rounded-3xl p-12 lg:p-16">
+      <div class="flex flex-col items-center text-center space-y-4 mb-8">
+        <h2 class="font-headline-lg text-on-surface">Impacto Global</h2>
+        <p class="font-body-md text-on-surface-variant max-w-2xl">Enthema Suite es la herramienta de confianza para instituciones de vanguardia en todo el mundo.</p>
+      </div>
+      <div class="flex gap-8 overflow-x-auto pb-6 scrollbar-hide">
+        <!-- Testimonial 1 -->
+        <div class="min-w-[450px] glass-card p-10 rounded-2xl border border-outline-variant flex flex-col justify-between shadow-sm text-left">
+          <div class="space-y-6">
+            <div class="flex text-warning">
+              <span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
+              <span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
+              <span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
+              <span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
+              <span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
+            </div>
+            <p class="font-body-lg italic text-on-surface leading-relaxed">"La capacidad de Enthema para manejar petabytes de datos genómicos sin latencia ha transformado nuestra metodología de trabajo en el MIT."</p>
+          </div>
+          <div class="mt-10 flex items-center gap-5">
+            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary/20">
+              <img alt="Dra. Elena Vance" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwJgYbNXt-qJBcDEuyeifj1NpxbpNf9HrAUSZMlVVUhNjLMNBNLQxrnzjw9UyWCblxy30bw7ZDafnnCRMc6wXXLKncKGX9dsnKjN7rUdwbNX5hazgaPo6Eqp0erLxskgHqw2rRNii60HzMepDvtUh16sOo-QyGB6wsAcUZXdqh3Ex1YUs8qXlEbW5b9TLpSRngv7CTQoZSi0EPhfsLwcyU06bEoSNfZXBktnhk0VFE8I5pW4-Gde0VyPCOiJSki1dihKV_7uiCN8tA"/>
+            </div>
+            <div>
+              <p class="font-label-md text-on-surface font-bold text-[14px]">Dra. Elena Vance</p>
+              <p class="font-label-sm text-outline">Directora de Bioinformática</p>
+            </div>
+          </div>
+        </div>
+        <!-- Testimonial 2 -->
+        <div class="min-w-[450px] glass-card p-10 rounded-2xl border border-outline-variant flex flex-col justify-between shadow-sm text-left">
+          <div class="space-y-6">
+            <div class="flex text-warning">
+              <span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
+              <span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
+              <span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
+              <span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
+              <span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
+            </div>
+            <p class="font-body-lg italic text-on-surface leading-relaxed">"Un estándar en la industria. El cumplimiento normativo integrado nos ahorra meses de trámites burocráticos."</p>
+          </div>
+          <div class="mt-10 flex items-center gap-5">
+            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary/20">
+              <img alt="Dr. Marcus Wright" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA16oXTYY0UIPtEiXVR8NO35WF5GlmiOBTkFbxv67GenjSppziet6XOt4qpF74YKpj1cg7yPvZP3GjWTZevvzMu9i7rmAt6mSJBCYhEWEApuymPhVQl9aUIcD4SlFEXQD9VXto_b57RH5QEth2f3qGDv1BeT2jdXyCb2KvBNfmApHMX7cC0y_vBk9HG0vB-TqIZ6JJb90Pu0wfNyYJ5UxngEZXkbH3SmpKaz7fVlxhz6N_mnCoQHwBx5P03y5cGEDHZpS39c7AGLBL"/>
+            </div>
+            <div>
+              <p class="font-label-md text-on-surface font-bold text-[14px]">Dr. Marcus Wright</p>
+              <p class="font-label-sm text-outline">Lead Engineer, Wright Aerospace</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
-  
-  <form id="profileForm" class="grid grid-cols-12 gap-6">
-    <!-- Col 1: Nombre del Investigador -->
-    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">NOMBRE COMPLETO</label>
-      <input type="text" id="name" name="name" value="{{ profile.name }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" required />
+
+  <!-- Footer - Fixed at bottom of content -->
+  <footer class="w-full border-t border-outline-variant bg-surface-container-lowest px-8 lg:px-16 py-12 mt-12">
+    <div class="w-full flex flex-col md:flex-row justify-between items-center gap-8">
+      <div class="flex items-center gap-6">
+        <img alt="Logo Enthema" class="w-8 h-8 object-contain opacity-50 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
+        <p class="font-label-md text-outline">© 2024 Enthema Suite Precision Intelligence. Todos los derechos reservados.</p>
+      </div>
+      <div class="flex gap-10">
+        <a class="font-label-md text-outline hover:text-primary transition-colors" href="#">Términos de Servicio</a>
+        <a class="font-label-md text-outline hover:text-primary transition-colors" href="#">Política de Privacidad</a>
+        <a class="font-label-md text-outline hover:text-primary transition-colors" href="#">Seguridad de Datos</a>
+      </div>
     </div>
-
-    <!-- Col 2: Institución -->
-    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">INSTITUCIÓN O FIRMA CONSULTORA</label>
-      <input type="text" id="institution" name="institution" value="{{ profile.institution }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" required />
-    </div>
-
-    <!-- Col 3: Rol del Usuario -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">ROL DE OPERACIÓN EN LA SUITE</label>
-      <select id="user_role" name="user_role" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
-        <option value="classic_researcher" {% if profile.user_role == 'classic_researcher' %}selected{% endif %}>Investigador Clásico</option>
-        <option value="investment_consultant" {% if profile.user_role == 'investment_consultant' %}selected{% endif %}>Consultor de Inversión</option>
-      </select>
-    </div>
-
-    <!-- Col 4: Postura Epistémica -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">POSTURA EPISTÉMICA</label>
-      <select id="epistemologic_stance" name="epistemologic_stance" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
-        <option value="Positivista" {% if profile.epistemologic_stance == 'Positivista' %}selected{% endif %}>Positivista (Experimental/Matemático)</option>
-        <option value="Constructivista" {% if profile.epistemologic_stance == 'Constructivista' %}selected{% endif %}>Constructivista (Cualitativo/Social)</option>
-        <option value="Hermenéutica" {% if profile.epistemologic_stance == 'Hermenéutica' %}selected{% endif %}>Hermenéutica (Arte/Vanguardias)</option>
-        <option value="Mixed_Methods" {% if profile.epistemologic_stance == 'Mixed_Methods' %}selected{% endif %}>Métodos Mixtos (Cuali-Cuanti)</option>
-      </select>
-    </div>
-
-    <!-- Col 5: Fase de Madurez -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">FASE DE MADUREZ CIENTÍFICA</label>
-      <select id="research_maturity_stage" name="research_maturity_stage" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
-        <option value="Ideación" {% if profile.research_maturity_stage == 'Ideación' %}selected{% endif %}>Ideación Activa (Early-stage sin datos reales)</option>
-        <option value="En Curso" {% if profile.research_maturity_stage == 'En Curso' %}selected{% endif %}>En Curso (Con recolección de muestras)</option>
-        <option value="Consolidado" {% if profile.research_maturity_stage == 'Consolidado' %}selected{% endif %}>Consolidado (Dataset completo)</option>
-      </select>
-    </div>
-
-    <!-- Col 6: Canal / Revista Objetivo -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">REVISTA O PATENTE OBJETIVO</label>
-      <select id="target_publication_objective" name="target_publication_objective" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
-        <option value="Nature" {% if profile.target_publication_objective == 'Nature' %}selected{% endif %}>Nature (STEM)</option>
-        <option value="IEEE" {% if profile.target_publication_objective == 'IEEE' %}selected{% endif %}>IEEE (Ingeniería y Materiales)</option>
-        <option value="World Development" {% if profile.target_publication_objective == 'World Development' %}selected{% endif %}>World Development (Sociales/Gini)</option>
-        <option value="Leonardo" {% if profile.target_publication_objective == 'Leonardo' %}selected{% endif %}>Leonardo (Arte/Interactivos)</option>
-        <option value="HBR" {% if profile.target_publication_objective == 'HBR' %}selected{% endif %}>Harvard Business Review (Negocios)</option>
-        <option value="ONAPI" {% if profile.target_publication_objective == 'ONAPI' %}selected{% endif %}>ONAPI (Registro de Patentes)</option>
-        <option value="ONDA" {% if profile.target_publication_objective == 'ONDA' %}selected{% endif %}>ONDA (Registro de Obras Artísticas)</option>
-      </select>
-    </div>
-
-    <!-- Col 7: ORCID -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">IDENTIFICADOR CIENTÍFICO ORCID</label>
-      <input type="text" id="orcid" name="orcid" value="{{ profile.orcid or '' }}" placeholder="0000-0000-0000-0000" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" />
-    </div>
-
-    <!-- Col 8: Financiamiento Objetivo (USD) -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">FINANCIAMIENTO OBJETIVO (USD)</label>
-      <input type="number" id="target_fund_usd" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" />
-    </div>
-
-    <div class="col-span-12 flex justify-end gap-4 pt-4">
-      <button type="submit" class="px-8 py-3 bg-primary text-on-primary rounded-lg font-headline-md text-body-lg hover:shadow-lg hover:bg-primary/95 transition-all flex items-center gap-2">
-        <span class="material-symbols-outlined" data-icon="save">save</span> Guardar Configuración
-      </button>
-    </div>
-  </form>
-</section>
-
-<!-- Import Panel -->
-<section class="bg-surface-container-lowest border border-outline-variant rounded-3xl p-10 lg:p-12 shadow-sm space-y-8">
-  <div class="border-b border-outline-variant pb-6 text-left">
-    <h2 class="font-headline-lg text-on-surface">📂 Ingesta de Historial de Investigación (Importación Pasiva)</h2>
-    <p class="font-body-md text-on-surface-variant">Cargue sus notas de Obsidian (.md), reportes en formato RIS de Zotero (.ris), BibTeX (.bib) o cuadernos de Jupyter (.ipynb) para compilar su perfil científico de forma automática.</p>
-  </div>
-  
-  <div class="border-2 border-dashed border-outline-variant rounded-2xl p-8 text-center space-y-4 hover:border-primary transition-all bg-surface-container-low/20">
-    <span class="material-symbols-outlined text-[48px] text-primary" data-icon="cloud_upload">cloud_upload</span>
-    <p class="font-body-md text-on-surface">Arrastre su archivo de investigación aquí o haga clic para cargarlo</p>
-    <input type="file" id="academicFile" class="hidden" accept=".md,.ris,.bib,.bibtex,.ipynb" />
-    <button type="button" onclick="document.getElementById('academicFile').click()" class="px-6 py-2 border border-outline-variant text-primary rounded-lg font-label-md hover:bg-surface-container transition-all">Seleccionar Archivo</button>
-    <p class="font-label-sm text-outline">Formatos válidos: Markdown (.md), RIS (.ris), BibTeX (.bib), Jupyter Notebook (.ipynb)</p>
-  </div>
-  
-  <div id="uploadStatus" class="hidden font-label-md p-4 rounded-lg text-left"></div>
-</section>
-
-<!-- Onboarding Form Section -->
-<section id="onboarding-form-section" class="bg-surface-container-lowest border border-outline-variant rounded-3xl p-10 lg:p-12 shadow-sm space-y-8">
-  <div class="border-b border-outline-variant pb-6">
-    <h2 class="font-headline-lg text-on-surface">🧬 Configuración Científica y Académica (Onboarding)</h2>
-    <p class="font-body-md text-on-surface-variant">Establezca los parámetros clave de su ADN intelectual y defina la revista o patente destino para su investigación.</p>
-  </div>
-  
-  <form id="profileForm" class="grid grid-cols-12 gap-6">
-    <!-- Col 1: Nombre del Investigador -->
-    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">NOMBRE COMPLETO</label>
-      <input type="text" id="name" name="name" value="{{ profile.name }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" required />
-    </div>
-
-    <!-- Col 2: Institución -->
-    <div class="col-span-12 md:col-span-6 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">INSTITUCIÓN O FIRMA CONSULTORA</label>
-      <input type="text" id="institution" name="institution" value="{{ profile.institution }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" required />
-    </div>
-
-    <!-- Col 3: Rol del Usuario -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">ROL DE OPERACIÓN EN LA SUITE</label>
-      <select id="user_role" name="user_role" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
-        <option value="classic_researcher" {% if profile.user_role == 'classic_researcher' %}selected{% endif %}>Investigador Clásico</option>
-        <option value="investment_consultant" {% if profile.user_role == 'investment_consultant' %}selected{% endif %}>Consultor de Inversión</option>
-      </select>
-    </div>
-
-    <!-- Col 4: Postura Epistémica -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">POSTURA EPISTÉMICA</label>
-      <select id="epistemologic_stance" name="epistemologic_stance" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
-        <option value="Positivista" {% if profile.epistemologic_stance == 'Positivista' %}selected{% endif %}>Positivista (Experimental/Matemático)</option>
-        <option value="Constructivista" {% if profile.epistemologic_stance == 'Constructivista' %}selected{% endif %}>Constructivista (Cualitativo/Social)</option>
-        <option value="Hermenéutica" {% if profile.epistemologic_stance == 'Hermenéutica' %}selected{% endif %}>Hermenéutica (Arte/Vanguardias)</option>
-        <option value="Mixed_Methods" {% if profile.epistemologic_stance == 'Mixed_Methods' %}selected{% endif %}>Métodos Mixtos (Cuali-Cuanti)</option>
-      </select>
-    </div>
-
-    <!-- Col 5: Fase de Madurez -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">FASE DE MADUREZ CIENTÍFICA</label>
-      <select id="research_maturity_stage" name="research_maturity_stage" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
-        <option value="Ideación" {% if profile.research_maturity_stage == 'Ideación' %}selected{% endif %}>Ideación Activa (Early-stage sin datos reales)</option>
-        <option value="En Curso" {% if profile.research_maturity_stage == 'En Curso' %}selected{% endif %}>En Curso (Con recolección de muestras)</option>
-        <option value="Consolidado" {% if profile.research_maturity_stage == 'Consolidado' %}selected{% endif %}>Consolidado (Dataset completo)</option>
-      </select>
-    </div>
-
-    <!-- Col 6: Canal / Revista Objetivo -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">REVISTA O PATENTE OBJETIVO</label>
-      <select id="target_publication_objective" name="target_publication_objective" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all">
-        <option value="Nature" {% if profile.target_publication_objective == 'Nature' %}selected{% endif %}>Nature (STEM)</option>
-        <option value="IEEE" {% if profile.target_publication_objective == 'IEEE' %}selected{% endif %}>IEEE (Ingeniería y Materiales)</option>
-        <option value="World Development" {% if profile.target_publication_objective == 'World Development' %}selected{% endif %}>World Development (Sociales/Gini)</option>
-        <option value="Leonardo" {% if profile.target_publication_objective == 'Leonardo' %}selected{% endif %}>Leonardo (Arte/Interactivos)</option>
-        <option value="HBR" {% if profile.target_publication_objective == 'HBR' %}selected{% endif %}>Harvard Business Review (Negocios)</option>
-        <option value="ONAPI" {% if profile.target_publication_objective == 'ONAPI' %}selected{% endif %}>ONAPI (Registro de Patentes)</option>
-        <option value="ONDA" {% if profile.target_publication_objective == 'ONDA' %}selected{% endif %}>ONDA (Registro de Obras Artísticas)</option>
-      </select>
-    </div>
-
-    <!-- Col 7: ORCID -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">IDENTIFICADOR CIENTÍFICO ORCID</label>
-      <input type="text" id="orcid" name="orcid" value="{{ profile.orcid or '' }}" placeholder="0000-0000-0000-0000" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" />
-    </div>
-
-    <!-- Col 8: Financiamiento Objetivo (USD) -->
-    <div class="col-span-12 md:col-span-4 space-y-2 text-left">
-      <label class="block font-label-md text-primary tracking-wide text-xs">FINANCIAMIENTO OBJETIVO (USD)</label>
-      <input type="number" id="target_fund_usd" name="target_fund_usd" value="{{ profile.target_fund_usd }}" class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:border-2 focus:border-primary focus:ring-0 outline-none transition-all" />
-    </div>
-
-    <div class="col-span-12 flex justify-end gap-4 pt-4">
-      <button type="submit" class="px-8 py-3 bg-primary text-on-primary rounded-lg font-headline-md text-body-lg hover:shadow-lg hover:bg-primary/95 transition-all flex items-center gap-2">
-        <span class="material-symbols-outlined" data-icon="save">save</span> Guardar Configuración
-      </button>
-    </div>
-  </form>
-</section>
-
-<!-- Import Panel -->
-<section class="bg-surface-container-lowest border border-outline-variant rounded-3xl p-10 lg:p-12 shadow-sm space-y-8">
-  <div class="border-b border-outline-variant pb-6 text-left">
-    <h2 class="font-headline-lg text-on-surface">📂 Ingesta de Historial de Investigación (Importación Pasiva)</h2>
-    <p class="font-body-md text-on-surface-variant">Cargue sus notas de Obsidian (.md), reportes en formato RIS de Zotero (.ris), BibTeX (.bib) o cuadernos de Jupyter (.ipynb) para compilar su perfil científico de forma automática.</p>
-  </div>
-  
-  <div class="border-2 border-dashed border-outline-variant rounded-2xl p-8 text-center space-y-4 hover:border-primary transition-all bg-surface-container-low/20">
-    <span class="material-symbols-outlined text-[48px] text-primary" data-icon="cloud_upload">cloud_upload</span>
-    <p class="font-body-md text-on-surface">Arrastre su archivo de investigación aquí o haga clic para cargarlo</p>
-    <input type="file" id="academicFile" class="hidden" accept=".md,.ris,.bib,.bibtex,.ipynb" />
-    <button type="button" onclick="document.getElementById('academicFile').click()" class="px-6 py-2 border border-outline-variant text-primary rounded-lg font-label-md hover:bg-surface-container transition-all">Seleccionar Archivo</button>
-    <p class="font-label-sm text-outline">Formatos válidos: Markdown (.md), RIS (.ris), BibTeX (.bib), Jupyter Notebook (.ipynb)</p>
-  </div>
-  
-  <div id="uploadStatus" class="hidden font-label-md p-4 rounded-lg text-left"></div>
-</section>
-
-<!-- Testimonials - Impacto Global -->
-<section class="space-y-8 bg-surface-container-low rounded-3xl p-12 lg:p-16">
-<div class="flex flex-col items-center text-center space-y-4 mb-8">
-<h2 class="font-headline-lg text-on-surface">Impacto Global</h2>
-<p class="font-body-md text-on-surface-variant max-w-2xl">Enthema Suite es la herramienta de confianza para instituciones de vanguardia en todo el mundo.</p>
+  </footer>
 </div>
-<div class="flex gap-8 overflow-x-auto pb-6 scrollbar-hide">
-<!-- Testimonial 1 -->
-<div class="min-w-[450px] glass-card p-10 rounded-2xl border border-outline-variant flex flex-col justify-between shadow-sm">
-<div class="space-y-6">
-<div class="flex text-warning">
-<span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
-<span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
-<span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
-<span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
-<span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
-</div>
-<p class="font-body-lg italic text-on-surface leading-relaxed">"La capacidad de Enthema para manejar petabytes de datos genómicos sin latencia ha transformado nuestra metodología de trabajo en el MIT."</p>
-</div>
-<div class="mt-10 flex items-center gap-5">
-<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary/20">
-<img alt="Dra. Elena Vance" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwJgYbNXt-qJBcDEuyeifj1NpxbpNf9HrAUSZMlVVUhNjLMNBNLQxrnzjw9UyWCblxy30bw7ZDafnnCRMc6wXXLKncKGX9dsnKjN7rUdwbNX5hazgaPo6Eqp0erLxskgHqw2rRNii60HzMepDvtUh16sOo-QyGB6wsAcUZXdqh3Ex1YUs8qXlEbW5b9TLpSRngv7CTQoZSi0EPhfsLwcyU06bEoSNfZXBktnhk0VFE8I5pW4-Gde0VyPCOiJSki1dihKV_7uiCN8tA"/>
-</div>
-<div>
-<p class="font-label-md text-on-surface font-bold text-[14px]">Dra. Elena Vance</p>
-<p class="font-label-sm text-outline">Directora de Bioinformática</p>
-</div>
-</div>
-</div>
-<!-- Testimonial 2 -->
-<div class="min-w-[450px] glass-card p-10 rounded-2xl border border-outline-variant flex flex-col justify-between shadow-sm">
-<div class="space-y-6">
-<div class="flex text-warning">
-<span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
-<span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
-<span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
-<span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
-<span class="material-symbols-outlined" data-icon="star" data-weight="fill">star</span>
-</div>
-<p class="font-body-lg italic text-on-surface leading-relaxed">"Un estándar en la industria. El cumplimiento normativo integrado nos ahorra meses de trámites burocráticos."</p>
-</div>
-<div class="mt-10 flex items-center gap-5">
-<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary/20">
-<img alt="Dr. Marcus Wright" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA16oXTYY0UIPtEiXVR8NO35WF5GlmiOBTkFbxv67GenjSppziet6XOt4qpF74YKpj1cg7yPvZP3GjWTZevvzMu9i7rmAt6mSJBCYhEWEApuymPhVQl9aUIcD4SlFEXQD9VXto_b57RH5QEth2f3qGDv1BeT2jdXyCb2KvBNfmApHMX7cC0y_vBk9HG0vB-TqIZ6JJb90Pu0wfNyYJ5UxngEZXkbH3SmpKaz7fVlxhz6N_mnCoQHwBx5P03y5cGEDHZpS39c7AGLBL"/>
-</div>
-<div>
-<p class="font-label-md text-on-surface font-bold text-[14px]">Dr. Marcus Wright</p>
-<p class="font-label-sm text-outline">Lead Engineer, Wright Aerospace</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-</div>
-<!-- Footer - Fixed at bottom of content -->
-<footer class="w-full border-t border-outline-variant bg-surface-container-lowest px-8 lg:px-16 py-12 mt-12">
-<div class="w-full flex flex-col md:flex-row justify-between items-center gap-8">
-<div class="flex items-center gap-6">
-<img alt="Logo Enthema" class="w-8 h-8 object-contain opacity-50 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
-<p class="font-label-md text-outline">© 2024 Enthema Suite Precision Intelligence. Todos los derechos reservados.</p>
-</div>
-<div class="flex gap-10">
-<a class="font-label-md text-outline hover:text-primary transition-colors" href="#">Términos de Servicio</a>
-<a class="font-label-md text-outline hover:text-primary transition-colors" href="#">Política de Privacidad</a>
-<a class="font-label-md text-outline hover:text-primary transition-colors" href="#">Seguridad de Datos</a>
-</div>
-</div>
-</footer>
-</div>
-</main>
+
 <!-- Floating Action Button -->
 <button class="fixed bottom-10 right-10 w-16 h-16 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform z-50">
-<span class="material-symbols-outlined text-[32px]" data-icon="add">add</span>
+  <span class="material-symbols-outlined text-[32px]" data-icon="add">add</span>
 </button>
+{% endblock %}
+
+{% block scripts %}
 <script>
-        // Active Navigation Logic for SideNavBar
-        const currentPath = window.location.pathname;
-        document.querySelectorAll('aside nav a').forEach(link => {
-            const href = link.getAttribute('href');
-            if (href === currentPath || (currentPath === '/' && href === '/')) {
-                link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-primary font-bold bg-primary-container/10 border-r-4 border-primary transition-all duration-150";
+    // Submit Profile Form
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const payload = {
+            name: document.getElementById('name').value,
+            institution: document.getElementById('institution').value,
+            user_role: document.getElementById('user_role').value,
+            epistemologic_stance: document.getElementById('epistemologic_stance').value,
+            research_maturity_stage: document.getElementById('research_maturity_stage').value,
+            target_publication_objective: document.getElementById('target_publication_objective').value,
+            orcid: document.getElementById('orcid').value,
+            target_fund_usd: parseFloat(document.getElementById('target_fund_usd').value) || 2500000.0,
+            discount_rate: 0.10
+        };
+
+        try {
+            const response = await fetch('/api/profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            if (result.status === 'success') {
+                // Si la madurez es Ideación, generar pilotos automáticamente
+                if (payload.research_maturity_stage === 'Ideación') {
+                    await fetch('/api/data/synthetic', { method: 'POST' });
+                }
+                window.location.href = '/dashboard';
             } else {
-                link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200";
+                alert('Error guardando perfil: ' + result.message);
             }
-        });
+        } catch (err) {
+            alert('Error de conexión: ' + err.message);
+        }
+    });
 
-        // Submit Profile Form
-        document.getElementById('profileForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const payload = {
-                name: document.getElementById('name').value,
-                institution: document.getElementById('institution').value,
-                user_role: document.getElementById('user_role').value,
-                epistemologic_stance: document.getElementById('epistemologic_stance').value,
-                research_maturity_stage: document.getElementById('research_maturity_stage').value,
-                target_publication_objective: document.getElementById('target_publication_objective').value,
-                orcid: document.getElementById('orcid').value,
-                target_fund_usd: parseFloat(document.getElementById('target_fund_usd').value) || 2500000.0,
-                discount_rate: 0.10
-            };
+    // File upload handling
+    document.getElementById('academicFile').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
 
-            try {
-                const response = await fetch('/api/profile', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const result = await response.json();
-                if (result.status === 'success') {
-                    // Si la madurez es Ideación, generar pilotos automáticamente
-                    if (payload.research_maturity_stage === 'Ideación') {
-                        await fetch('/api/data/synthetic', { method: 'POST' });
-                    }
-                    window.location.href = '/dashboard';
-                } else {
-                    alert('Error guardando perfil: ' + result.message);
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const statusDiv = document.getElementById('uploadStatus');
+        statusDiv.className = "block font-label-md p-4 rounded-lg bg-primary-container/10 text-primary text-left";
+        statusDiv.innerHTML = "Procesando archivo e integrando genoma intelectual...";
+
+        try {
+            const response = await fetch('/api/profile/upload', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            if (response.ok) {
+                statusDiv.className = "block font-label-md p-4 rounded-lg bg-success/10 text-success text-left";
+                statusDiv.innerHTML = `🧬 Ingesta exitosa! Perfil extraído: ${result.message}. Cargando valores en el formulario...`;
+                
+                // Actualizar formulario
+                if (result.profile) {
+                    document.getElementById('name').value = result.profile.name || '';
+                    document.getElementById('institution').value = result.profile.institution || '';
+                    document.getElementById('user_role').value = result.profile.user_role || 'classic_researcher';
+                    document.getElementById('epistemologic_stance').value = result.profile.epistemologic_stance || 'Mixed_Methods';
+                    document.getElementById('research_maturity_stage').value = result.profile.research_maturity_stage || 'En Curso';
+                    document.getElementById('target_publication_objective').value = result.profile.target_publication_objective || 'Nature';
+                    document.getElementById('orcid').value = result.profile.orcid || '';
+                    document.getElementById('target_fund_usd').value = result.profile.target_fund_usd || 2500000;
                 }
-            } catch (err) {
-                alert('Error de conexión: ' + err.message);
-            }
-        });
-
-        // File upload handling
-        document.getElementById('academicFile').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const formData = new FormData();
-            formData.append('file', file);
-
-            const statusDiv = document.getElementById('uploadStatus');
-            statusDiv.className = "block font-label-md p-4 rounded-lg bg-primary-container/10 text-primary text-left";
-            statusDiv.innerHTML = "Procesando archivo e integrando genoma intelectual...";
-
-            try {
-                const response = await fetch('/api/profile/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-                const result = await response.json();
-                if (response.ok) {
-                    statusDiv.className = "block font-label-md p-4 rounded-lg bg-success/10 text-success text-left";
-                    statusDiv.innerHTML = `🧬 Ingesta exitosa! Perfil extraído: ${result.message}. Cargando valores en el formulario...`;
-                    
-                    // Actualizar formulario
-                    if (result.profile) {
-                        document.getElementById('name').value = result.profile.name || '';
-                        document.getElementById('institution').value = result.profile.institution || '';
-                        document.getElementById('user_role').value = result.profile.user_role || 'classic_researcher';
-                        document.getElementById('epistemologic_stance').value = result.profile.epistemologic_stance || 'Mixed_Methods';
-                        document.getElementById('research_maturity_stage').value = result.profile.research_maturity_stage || 'En Curso';
-                        document.getElementById('target_publication_objective').value = result.profile.target_publication_objective || 'Nature';
-                        document.getElementById('orcid').value = result.profile.orcid || '';
-                        document.getElementById('target_fund_usd').value = result.profile.target_fund_usd || 2500000;
-                    }
-                } else {
-                    statusDiv.className = "block font-label-md p-4 rounded-lg bg-danger/10 text-danger text-left";
-                    statusDiv.innerHTML = "Error: " + result.detail;
-                }
-            } catch (err) {
+            } else {
                 statusDiv.className = "block font-label-md p-4 rounded-lg bg-danger/10 text-danger text-left";
-                statusDiv.innerHTML = "Error de conexión: " + err.message;
+                statusDiv.innerHTML = "Error: " + result.detail;
             }
-        });
-    </script>
-
-<!-- Enthema AI Coach Right Sidebar -->
-<aside class="fixed right-0 top-0 h-screen w-80 border-l border-outline-variant bg-surface-container-lowest flex flex-col z-40 shadow-lg text-left">
-  <!-- Coach Header -->
-  <div class="px-6 py-4 border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-3">
-    <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-      <span class="material-symbols-outlined text-[24px]">psychology</span>
-    </div>
-    <div>
-      <h3 class="font-headline-md text-on-surface text-[15px] font-bold leading-tight text-primary">Enthema AI Coach</h3>
-      <p class="font-label-sm text-outline text-[10px]">ASISTENTE CIENTÍFICO OFFLINE</p>
-    </div>
-  </div>
-
-  <!-- Chat History -->
-  <div id="coach-chat-history" class="flex-grow p-4 overflow-y-auto space-y-3 bg-surface-container-low/20 custom-scrollbar text-xs">
-    <!-- Welcome message -->
-    <div class="flex items-start gap-2 max-w-[85%] mb-2">
-      <div class="w-6 h-6 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
-        <span class="material-symbols-outlined text-[14px]">smart_toy</span>
-      </div>
-      <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed">
-        Hola, soy tu <strong>AI Coach</strong>. Estoy aquí para asistirte de forma segura y resolver tus dudas en tu proyecto {% if qualitative_db and qualitative_db.project_title %}<strong>"{{ qualitative_db.project_title }}"</strong>{% elif profile.core_research_lines %}<strong>"{{ profile.core_research_lines[0] }}"</strong>{% else %}<strong>"Investigación Local"</strong>{% endif %}. ¿En qué te puedo ayudar hoy?
-      </div>
-    </div>
-  </div>
-
-  <!-- Suggestions / Quick Links -->
-  <div class="px-4 py-2 bg-surface-container-low/40 border-t border-outline-variant/30">
-    <p class="text-[10px] font-bold text-primary uppercase mb-1">Consultas Sugeridas</p>
-    <div class="flex flex-wrap gap-1.5">
-      <button onclick="sendQuickQuery('¿Cómo funciona el reactor ABM?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🧬 Bio-reactor ABM</button>
-      <button onclick="sendQuickQuery('¿Cómo interpreto el Solver Financiero?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">💸 Solver TIR/VAN</button>
-      <button onclick="sendQuickQuery('¿Qué validez tiene el Sello del Acta?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🛡️ Cumplimiento Legal</button>
-    </div>
-  </div>
-
-  <!-- Chat Input Form -->
-  <form id="coach-chat-form" class="p-4 border-t border-outline-variant bg-surface-container-lowest flex items-center gap-2">
-    <input type="text" id="coach-query-input" placeholder="Pregunte algo al AI Coach..." class="flex-grow bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface" required autocomplete="off" />
-    <button type="submit" class="p-2 bg-primary text-white rounded-lg hover:opacity-90 transition-all shrink-0">
-      <span class="material-symbols-outlined text-[16px]">send</span>
-    </button>
-  </form>
-</aside>
-</body></html>
+        } catch (err) {
+            statusDiv.className = "block font-label-md p-4 rounded-lg bg-danger/10 text-danger text-left";
+            statusDiv.innerHTML = "Error de conexión: " + err.message;
+        }
+    });
+</script>
+{% endblock %}

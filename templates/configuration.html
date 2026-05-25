@@ -1,238 +1,74 @@
-<!DOCTYPE html>
-<html class="light" lang="es">
-<head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Enthema Suite - Configuración</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Roboto+Flex:wght@400;500&family=JetBrains+Mono:wght@500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-  <style>
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      vertical-align: middle;
-    }
-  </style>
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            primary: "#005bbf",
-            danger: "#ea4335",
-            success: "#34a853",
-            warning: "#f9ab00",
-            surface: "#f7f9ff"
-          }
-        }
-      }
-    }
-  </script>
-</head>
-<body class="bg-surface text-on-surface">
+{% extends "base_layout.html" %}
 
-  <!-- Left Sidebar (replaced dynamically by build_all_templates.py) -->
-  <aside class="fixed left-0 top-0 h-screen w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col py-4 z-50">
-  <div class="px-6 mb-8 flex items-center gap-3">
-    <img alt="Logo Enthema Suite" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
-    <div>
-      <h1 class="font-headline-lg text-primary font-bold tracking-tight text-[18px] leading-tight">Enthema Suite</h1>
-      <p class="font-label-md text-on-surface-variant text-[10px]">Precisión Técnica</p>
+{% block title %}Enthema Suite - Configuración{% endblock %}
+
+{% block content %}
+<!-- Scrollable Page Content -->
+<div class="flex-grow overflow-y-auto p-8 max-w-5xl space-y-6">
+  <!-- Section 7 Card -->
+  <section class="bg-white border border-outline-variant rounded-xl p-8 shadow-sm space-y-6">
+    <div class="space-y-2">
+      <h2 class="text-2xl font-bold text-on-surface tracking-tight flex items-center gap-2">
+        <span class="material-symbols-outlined text-danger text-[28px]">settings</span>
+        Configuración del Entorno de Simulación
+      </h2>
+      <p class="text-sm text-on-surface-variant">Gestión técnica de la suite y mantenimiento de estados históricos del simulacro.</p>
     </div>
-  </div>
-  <nav class="flex-grow space-y-1 px-4">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/dashboard">
-      <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-      <span class="font-label-md text-label-md">Panel de Control</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/">
-      <span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
-      <span class="font-label-md text-label-md">Proyectos (Onboarding)</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/data-analysis">
-      <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
-      <span class="font-label-md text-label-md">Análisis de Datos</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/modeling">
-      <span class="material-symbols-outlined" data-icon="biotech">biotech</span>
-      <span class="font-label-md text-label-md">Modelado Semántico</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/finance">
-      <span class="material-symbols-outlined" data-icon="payments">payments</span>
-      <span class="font-label-md text-label-md">Finanzas</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/reports">
-      <span class="material-symbols-outlined" data-icon="description">description</span>
-      <span class="font-label-md text-label-md">Informes</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/compliance">
-      <span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
-      <span class="font-label-md text-label-md">Cumplimiento</span>
-    </a>
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/configuration">
-      <span class="material-symbols-outlined" data-icon="settings">settings</span>
-      <span class="font-label-md text-label-md">Configuración</span>
-    </a>
-    {% if profile.user_role in ['admin', 'auditor'] %}
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-secondary hover:bg-secondary-container/10 border-r-4 border-secondary transition-colors duration-200" href="/admin">
-      <span class="material-symbols-outlined" data-icon="shield">shield</span>
-      <span class="font-label-md text-label-md font-bold">Consola Auditoría</span>
-    </a>
-    {% endif %}
-  </nav>
-  <div class="px-4 py-2 border-t border-outline-variant">
-    <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-danger hover:bg-danger/10 transition-colors duration-200 cursor-pointer" onclick="logout()">
-      <span class="material-symbols-outlined" data-icon="logout">logout</span>
-      <span class="font-label-md text-label-md font-bold">Cerrar Sesión</span>
-    </a>
-  </div>
-</aside>
 
-  <div class="ml-64 flex flex-col min-h-screen mr-80">
+    <div class="bg-danger/5 border border-danger/25 rounded-lg p-5 flex items-start gap-4">
+      <span class="material-symbols-outlined text-danger text-[24px] shrink-0">warning</span>
+      <div class="space-y-1 text-left">
+        <h4 class="font-bold text-danger text-sm">⚠️ Zona de Depuración y Pruebas (Provisional)</h4>
+        <p class="text-xs text-on-surface-variant leading-relaxed">
+          Esta opción de borrado y reinicio es <strong>temporal</strong> y ha sido incorporada exclusivamente para facilitar las pruebas de la suite de principio a fin desde cero (0). En el entorno final de producción, esta funcionalidad será removida ya que la plataforma está diseñada para el mantenimiento riguroso de registros históricos y auditoría inmutable de consorcios.
+        </p>
+      </div>
+    </div>
+
+    <div class="pt-4 flex items-center justify-start gap-4">
+      <button id="btn-reset" class="bg-danger hover:bg-danger/90 text-white font-bold py-2.5 px-6 rounded-lg text-sm shadow-md transition-all flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">restart_alt</span> Borrar Historial y Recomenzar desde Cero
+      </button>
+      <span id="reset-status" class="hidden text-xs font-semibold"></span>
+    </div>
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Reset click action
+  document.getElementById('btn-reset').addEventListener('click', async () => {
+    if (!confirm('¿Está seguro de que desea reiniciar completamente el estado de su simulación? Se borrarán todos los perfiles cargados, bases de datos y flujos en memoria.')) {
+      return;
+    }
     
-    <!-- Top Header (replaced dynamically by build_all_templates.py) -->
-    <header class="flex justify-between items-center px-6 h-16 sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
-  <div class="flex items-center w-1/3">
-    <div class="relative w-full max-w-md">
-      <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]" data-icon="search">search</span>
-      <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Buscar parámetros, sensores o informes..." type="text"/>
-    </div>
-  </div>
-  <div class="flex items-center gap-2">
-    <button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all">
-      <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-    </button>
-    <button class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all">
-      <span class="material-symbols-outlined" data-icon="settings">settings</span>
-    </button>
-    <div class="h-8 w-px bg-outline-variant mx-2"></div>
-    <div class="flex items-center gap-3 pl-2">
-      <div class="text-right">
-        <p class="font-label-md text-on-surface font-bold leading-none">{{ profile.name }}</p>
-        <p class="font-label-sm text-outline">{% if profile.user_role == 'investment_consultant' %}Consultor de Inversión{% else %}Investigador Principal{% endif %}</p>
-      </div>
-      <div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">
-        {{ profile.name[:2].upper() }}
-      </div>
-    </div>
-  </div>
-</header>
+    const btn = document.getElementById('btn-reset');
+    const status = document.getElementById('reset-status');
+    btn.disabled = true;
+    status.innerText = "Restableciendo...";
+    status.className = "text-xs font-semibold text-on-surface-variant block animate-pulse";
 
-    <!-- Main Content Container -->
-    <main class="flex-grow p-8 max-w-5xl space-y-6">
+    try {
+      const res = await fetch('/api/configuration/reset', { method: 'POST' });
+      const data = await res.json();
       
-      <!-- Section 7 Card -->
-      <section class="bg-white border border-outline-variant rounded-xl p-8 shadow-sm space-y-6">
-        <div class="space-y-2">
-          <h2 class="text-2xl font-bold text-on-surface tracking-tight flex items-center gap-2">
-            <span class="material-symbols-outlined text-danger text-[28px]">settings</span>
-            Configuración del Entorno de Simulación
-          </h2>
-          <p class="text-sm text-on-surface-variant">Gestión técnica de la suite y mantenimiento de estados históricos del simulacro.</p>
-        </div>
-
-        <div class="bg-danger/5 border border-danger/25 rounded-lg p-5 flex items-start gap-4">
-          <span class="material-symbols-outlined text-danger text-[24px] shrink-0">warning</span>
-          <div class="space-y-1 text-left">
-            <h4 class="font-bold text-danger text-sm">⚠️ Zona de Depuración y Pruebas (Provisional)</h4>
-            <p class="text-xs text-on-surface-variant leading-relaxed">
-              Esta opción de borrado y reinicio es <strong>temporal</strong> y ha sido incorporada exclusivamente para facilitar las pruebas de la suite de principio a fin desde cero (0). En el entorno final de producción, esta funcionalidad será removida ya que la plataforma está diseñada para el mantenimiento riguroso de registros históricos y auditoría inmutable de consorcios.
-            </p>
-          </div>
-        </div>
-
-        <div class="pt-4 flex items-center justify-start gap-4">
-          <button id="btn-reset" class="bg-danger hover:bg-danger/90 text-white font-bold py-2.5 px-6 rounded-lg text-sm shadow-md transition-all flex items-center gap-2">
-            <span class="material-symbols-outlined text-[18px]">restart_alt</span> Borrar Historial y Recomenzar desde Cero
-          </button>
-          <span id="reset-status" class="hidden text-xs font-semibold"></span>
-        </div>
-      </section>
-
-    </main>
-
-  </div>
-
-  <script>
-    // Reset click action
-    document.getElementById('btn-reset').addEventListener('click', async () => {
-      if (!confirm('¿Está seguro de que desea reiniciar completamente el estado de su simulación? Se borrarán todos los perfiles cargados, bases de datos y flujos en memoria.')) {
-        return;
-      }
-      
-      const btn = document.getElementById('btn-reset');
-      const status = document.getElementById('reset-status');
-      btn.disabled = true;
-      status.innerText = "Restableciendo...";
-      status.className = "text-xs font-semibold text-on-surface-variant block animate-pulse";
-
-      try {
-        const res = await fetch('/api/configuration/reset', { method: 'POST' });
-        const data = await res.json();
-        
-        if (res.ok && data.status === 'success') {
-          status.className = "text-xs font-semibold text-success block";
-          status.innerText = "🔄 ¡Estado restablecido con éxito! Redirigiendo...";
-          setTimeout(() => {
-            window.location.href = '/';
-          }, 1200);
-        } else {
-          status.className = "text-xs font-semibold text-danger block";
-          status.innerText = "Error: " + (data.detail || 'No se pudo reiniciar el estado.');
-          btn.disabled = false;
-        }
-      } catch (err) {
+      if (res.ok && data.status === 'success') {
+        status.className = "text-xs font-semibold text-success block";
+        status.innerText = "🔄 ¡Estado restablecido con éxito! Redirigiendo...";
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1200);
+      } else {
         status.className = "text-xs font-semibold text-danger block";
-        status.innerText = "Error de red: " + err.message;
+        status.innerText = "Error: " + (data.detail || 'No se pudo reiniciar el estado.');
         btn.disabled = false;
       }
-    });
-  </script>
-
-
-<!-- Enthema AI Coach Right Sidebar -->
-<aside class="fixed right-0 top-0 h-screen w-80 border-l border-outline-variant bg-surface-container-lowest flex flex-col z-40 shadow-lg text-left">
-  <!-- Coach Header -->
-  <div class="px-6 py-4 border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-3">
-    <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-      <span class="material-symbols-outlined text-[24px]">psychology</span>
-    </div>
-    <div>
-      <h3 class="font-headline-md text-on-surface text-[15px] font-bold leading-tight text-primary">Enthema AI Coach</h3>
-      <p class="font-label-sm text-outline text-[10px]">ASISTENTE CIENTÍFICO OFFLINE</p>
-    </div>
-  </div>
-
-  <!-- Chat History -->
-  <div id="coach-chat-history" class="flex-grow p-4 overflow-y-auto space-y-3 bg-surface-container-low/20 custom-scrollbar text-xs">
-    <!-- Welcome message -->
-    <div class="flex items-start gap-2 max-w-[85%] mb-2">
-      <div class="w-6 h-6 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
-        <span class="material-symbols-outlined text-[14px]">smart_toy</span>
-      </div>
-      <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed">
-        Hola, soy tu <strong>AI Coach</strong>. Estoy aquí para asistirte de forma segura y resolver tus dudas en tu proyecto {% if qualitative_db and qualitative_db.project_title %}<strong>"{{ qualitative_db.project_title }}"</strong>{% elif profile.core_research_lines %}<strong>"{{ profile.core_research_lines[0] }}"</strong>{% else %}<strong>"Investigación Local"</strong>{% endif %}. ¿En qué te puedo ayudar hoy?
-      </div>
-    </div>
-  </div>
-
-  <!-- Suggestions / Quick Links -->
-  <div class="px-4 py-2 bg-surface-container-low/40 border-t border-outline-variant/30">
-    <p class="text-[10px] font-bold text-primary uppercase mb-1">Consultas Sugeridas</p>
-    <div class="flex flex-wrap gap-1.5">
-      <button onclick="sendQuickQuery('¿Cómo funciona el reactor ABM?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🧬 Bio-reactor ABM</button>
-      <button onclick="sendQuickQuery('¿Cómo interpreto el Solver Financiero?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">💸 Solver TIR/VAN</button>
-      <button onclick="sendQuickQuery('¿Qué validez tiene el Sello del Acta?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🛡️ Cumplimiento Legal</button>
-    </div>
-  </div>
-
-  <!-- Chat Input Form -->
-  <form id="coach-chat-form" class="p-4 border-t border-outline-variant bg-surface-container-lowest flex items-center gap-2">
-    <input type="text" id="coach-query-input" placeholder="Pregunte algo al AI Coach..." class="flex-grow bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface" required autocomplete="off" />
-    <button type="submit" class="p-2 bg-primary text-white rounded-lg hover:opacity-90 transition-all shrink-0">
-      <span class="material-symbols-outlined text-[16px]">send</span>
-    </button>
-  </form>
-</aside>
-</body>
-</html>
+    } catch (err) {
+      status.className = "text-xs font-semibold text-danger block";
+      status.innerText = "Error de red: " + err.message;
+      btn.disabled = false;
+    }
+  });
+</script>
+{% endblock %}

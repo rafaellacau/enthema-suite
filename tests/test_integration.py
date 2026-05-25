@@ -360,66 +360,78 @@ Año 5,60000,14000
         import json
         import shutil
 
-        # 1. Asegurar limpieza o estado inicial
+        # 1. Asegurar limpieza o estado inicial resguardando credenciales de desarrollo
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         legal_dir = os.path.join(BASE_DIR, "output", "legal")
+        backup_dir = os.path.join(BASE_DIR, "output", "legal_backup_temp")
+
         if os.path.exists(legal_dir):
+            if os.path.exists(backup_dir):
+                shutil.rmtree(backup_dir)
+            shutil.copytree(legal_dir, backup_dir)
             shutil.rmtree(legal_dir)
 
         self.assertFalse(os.path.exists(legal_dir))
 
-        # 2. Generar datos ficticios
-        profile = ResearcherProfile(
-            id="INV-LEGAL-TEST",
-            name="Dr. Francisco González",
-            institution="INTEC",
-            epistemologic_stance="Constructivista",
-            user_role="classic_researcher",
-            research_maturity_stage="Ideación",
-            target_publication_objective="ONAPI",
-            legal_terms_accepted=True,
-            electronic_signature_name="Dr. Francisco González (Firmado Digitalmente)",
-            orcid="0000-0002-1823-4567"
-        )
-        project_title = "Diseño de Prótesis Paramétrica"
-        qr_svg_mock = "<svg>mock qr</svg>"
+        try:
+            # 2. Generar datos ficticios
+            profile = ResearcherProfile(
+                id="INV-LEGAL-TEST",
+                name="Dr. Francisco González",
+                institution="INTEC",
+                epistemologic_stance="Constructivista",
+                user_role="classic_researcher",
+                research_maturity_stage="Ideación",
+                target_publication_objective="ONAPI",
+                legal_terms_accepted=True,
+                electronic_signature_name="Dr. Francisco González (Firmado Digitalmente)",
+                orcid="0000-0002-1823-4567"
+            )
+            project_title = "Diseño de Prótesis Paramétrica"
+            qr_svg_mock = "<svg>mock qr</svg>"
 
-        # 3. Invocar almacenamiento
-        filepath, hash_proyecto, cloud_record = archive_signed_legal_act(
-            profile=profile,
-            project_title=project_title,
-            qr_svg=qr_svg_mock,
-            db_qual_hash="GT-QUAL-HASH-12345",
-            db_quant_hash="GT-QUANT-HASH-67890"
-        )
+            # 3. Invocar almacenamiento
+            filepath, hash_proyecto, cloud_record = archive_signed_legal_act(
+                profile=profile,
+                project_title=project_title,
+                qr_svg=qr_svg_mock,
+                db_qual_hash="GT-QUAL-HASH-12345",
+                db_quant_hash="GT-QUANT-HASH-67890"
+            )
 
-        # 4. Verificar que se creó la carpeta y el archivo HTML físico
-        self.assertTrue(os.path.exists(legal_dir))
-        self.assertTrue(os.path.exists(filepath))
-        self.assertIn(hash_proyecto, filepath)
+            # 4. Verificar que se creó la carpeta y el archivo HTML físico
+            self.assertTrue(os.path.exists(legal_dir))
+            self.assertTrue(os.path.exists(filepath))
+            self.assertIn(hash_proyecto, filepath)
 
-        # Verificar contenido HTML
-        with open(filepath, "r", encoding="utf-8") as f:
-            html_content = f.read()
-            self.assertIn(hash_proyecto, html_content)
-            self.assertIn("Dr. Francisco González", html_content)
-            self.assertIn("GT-QUAL-HASH-12345", html_content)
+            # Verificar contenido HTML
+            with open(filepath, "r", encoding="utf-8") as f:
+                html_content = f.read()
+                self.assertIn(hash_proyecto, html_content)
+                self.assertIn("Dr. Francisco González", html_content)
+                self.assertIn("GT-QUAL-HASH-12345", html_content)
 
-        # 5. Verificar base de datos NoSQL mock persistida
-        mock_db_path = os.path.join(legal_dir, "cloud_database_mock.json")
-        self.assertTrue(os.path.exists(mock_db_path))
+            # 5. Verificar base de datos NoSQL mock persistida
+            mock_db_path = os.path.join(legal_dir, "cloud_database_mock.json")
+            self.assertTrue(os.path.exists(mock_db_path))
 
-        with open(mock_db_path, "r", encoding="utf-8") as rf:
-            db_data = json.load(rf)
-            self.assertTrue(isinstance(db_data, list))
-            self.assertTrue(len(db_data) > 0)
-            
-            latest_record = db_data[-1]
-            self.assertEqual(latest_record["hash_proyecto"], hash_proyecto)
-            self.assertEqual(latest_record["investigator"]["name"], "Dr. Francisco González")
-            self.assertEqual(latest_record["database_signatures"]["qualitative_sha256"], "GT-QUAL-HASH-12345")
-            self.assertEqual(latest_record["electronic_signature"]["printed_name"], "Dr. Francisco González (Firmado Digitalmente)")
-            self.assertTrue(latest_record["signed_terms_checklist"]["academic_immunity"])
+            with open(mock_db_path, "r", encoding="utf-8") as rf:
+                db_data = json.load(rf)
+                self.assertTrue(isinstance(db_data, list))
+                self.assertTrue(len(db_data) > 0)
+                
+                latest_record = db_data[-1]
+                self.assertEqual(latest_record["hash_proyecto"], hash_proyecto)
+                self.assertEqual(latest_record["investigator"]["name"], "Dr. Francisco González")
+                self.assertEqual(latest_record["database_signatures"]["qualitative_sha256"], "GT-QUAL-HASH-12345")
+                self.assertEqual(latest_record["electronic_signature"]["printed_name"], "Dr. Francisco González (Firmado Digitalmente)")
+                self.assertTrue(latest_record["signed_terms_checklist"]["academic_immunity"])
+        finally:
+            # Restaurar la copia de seguridad para no perder credenciales activas
+            if os.path.exists(backup_dir):
+                if os.path.exists(legal_dir):
+                    shutil.rmtree(legal_dir)
+                shutil.move(backup_dir, legal_dir)
 
     def test_dynamic_monograph_compilation_per_journal(self):
         """Verifica la compilación dinámica de la monografía y los cambios de estilos bibliográficos y fórmulas."""
@@ -522,6 +534,20 @@ Año 5,60000,14000
         
         # Clean up test profile to prevent side-effects on subsequent tests
         ACADEMIC_MONOGRAPH.test_profile = None
+
+    def test_setup_water_quality_project(self):
+        """Verifica que setup_water_quality_project siembre correctamente todo el estado de la sesión."""
+        from app import AppState, setup_water_quality_project
+        state = AppState()
+        setup_water_quality_project(state)
+        
+        self.assertEqual(state.profile.name, "Rafael Lacau (Auditor)")
+        self.assertEqual(state.profile.institution, "FONDOCYT / MESCyT")
+        self.assertEqual(state.qualitative_db.project_title, "Estudio Médico de Calidad del Agua y Salud Pública")
+        self.assertTrue(len(state.qualitative_db.coded_units) > 0)
+        self.assertEqual(state.quantitative_db.project_title, "Estudio Médico de Calidad del Agua y Salud Pública")
+        self.assertEqual(state.reactor_status, "Filtración Activa (Zeolita)")
+        self.assertIn("este estudio aborda la alarmante correlación", state.get_active_phase().draft_sections["abstract"].text.lower())
 
 
 if __name__ == "__main__":

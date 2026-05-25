@@ -22,9 +22,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar el resto del código de la aplicación
 COPY . .
 
-# Compilar todos los templates estáticos de Stitch/onboarding antes de iniciar
-# (esto asegura que todo el frontend premium esté empaquetado para producción)
-RUN python build_all_templates.py
+# Las plantillas heredan nativamente de templates/base_layout.html mediante Jinja2.
+# No es necesario ejecutar ningún compilador estático en tiempo de construcción.
 
 # Exponer el puerto por defecto
 EXPOSE 8501

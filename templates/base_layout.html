@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>{% block title %}Enthema Suite - Precisión Técnica{% endblock %}</title>
+  
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Roboto+Flex:wght@400;500&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-error-container": "#93000a",
+            "on-tertiary-container": "#0e0200",
+            "inverse-primary": "#adc7ff",
+            "on-surface-variant": "#414754",
+            "on-secondary-fixed-variant": "#004494",
+            "success": "#34a853",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-high": "#e5e8ee",
+            "background": "#f7f9ff",
+            "secondary-fixed": "#d8e2ff",
+            "error-container": "#ffdad6",
+            "surface-container-low": "#f1f4fa",
+            "surface-variant": "#dfe3e8",
+            "surface": "#f7f9ff",
+            "error": "#ba1a1a",
+            "border-subtle": "#dadce0",
+            "danger": "#ea4335",
+            "tertiary-container": "#c55500",
+            "surface-tint": "#005bc0",
+            "on-surface": "#181c20",
+            "on-error": "#ffffff",
+            "tertiary-fixed-dim": "#ffb691",
+            "warning": "#f9ab00",
+            "surface-base": "#ffffff",
+            "primary-fixed": "#d8e2ff",
+            "on-secondary-fixed": "#001a41",
+            "secondary": "#005ac1",
+            "primary": "#005bbf",
+            "on-primary": "#ffffff",
+            "inverse-surface": "#2d3135",
+            "outline-variant": "#c1c6d6",
+            "secondary-fixed-dim": "#adc6ff",
+            "data-viz-purple": "#DFD1FF",
+            "on-tertiary": "#ffffff",
+            "secondary-container": "#4d8efe",
+            "on-primary-fixed": "#001a41",
+            "on-secondary": "#ffffff",
+            "tertiary-fixed": "#ffdbcb",
+            "surface-container-highest": "#dfe3e8",
+            "surface-bright": "#f7f9ff",
+            "tertiary": "#9e4300",
+            "on-primary-container": "#ffffff",
+            "on-secondary-container": "#00285c",
+            "on-primary-fixed-variant": "#004493",
+            "on-tertiary-fixed": "#341100",
+            "surface-dim": "#d7dae0",
+            "surface-container": "#ebeef4",
+            "outline": "#727785",
+            "data-viz-lime": "#E4F222",
+            "on-background": "#181c20",
+            "on-tertiary-fixed-variant": "#783100",
+            "primary-container": "#1a73e8",
+            "inverse-on-surface": "#eef1f7",
+            "primary-fixed-dim": "#adc7ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "unit": "4px",
+            "container-max-width": "1440px",
+            "margin-mobile": "16px",
+            "margin-page": "48px",
+            "gutter": "24px"
+          },
+          "fontFamily": {
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-sm": ["JetBrains Mono"],
+            "body-lg": ["Roboto Flex"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "body-md": ["Roboto Flex"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "label-md": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+            "label-sm": ["10px", {"lineHeight": "14px", "fontWeight": "500"}],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+            "display-lg": ["44px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+            "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+          }
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    body {
+      background-color: #f7f9ff;
+      color: #181c20;
+      overflow-x: hidden;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #dfe3e8;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #c1c6d6;
+    }
+    
+    /* Markdown Chat Render Styles */
+    .markdown-content strong {
+      font-weight: 700;
+      color: #181c20;
+    }
+    .markdown-content p {
+      margin-bottom: 0.5rem;
+    }
+    .markdown-content p:last-child {
+      margin-bottom: 0;
+    }
+    .markdown-content ul {
+      list-style-type: disc;
+      padding-left: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .markdown-content li {
+      margin-bottom: 0.25rem;
+    }
+    .markdown-content code {
+      font-family: JetBrains Mono, monospace;
+      background-color: rgba(26, 115, 232, 0.08);
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      color: #005bbf;
+      font-size: 0.9em;
+    }
+    .markdown-content pre {
+      background-color: #1e1e1e;
+      color: #d4d4d4;
+      padding: 0.75rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .markdown-content pre code {
+      background-color: transparent;
+      padding: 0;
+      color: inherit;
+      font-size: 0.85em;
+    }
+    .markdown-content h3 {
+      font-size: 1.1em;
+      font-weight: 700;
+      margin-top: 0.75rem;
+      margin-bottom: 0.25rem;
+      color: #005bbf;
+    }
+    .markdown-content h4 {
+      font-size: 1em;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      margin-bottom: 0.25rem;
+      color: #181c20;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  {% block head %}{% endblock %}
+</head>
+<body class="font-body-md text-body-md flex min-h-screen relative">
+
+  <!-- Modal de Historial Completo (Global) -->
+  <div id="history-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden" style="z-index: 9999;">
+    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-2xl max-w-lg w-full p-6 space-y-4 text-left">
+      <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+        <h3 class="text-lg font-extrabold text-[#181c20] flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">history</span>
+          Historial de Investigación y Telemetría
+        </h3>
+        <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-slate-700 transition-all flex items-center justify-center p-1 rounded-full hover:bg-slate-100">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      
+      <div class="space-y-4 max-h-[350px] overflow-y-auto pr-1 text-xs">
+        <div class="flex gap-3 pb-3 border-b border-slate-50">
+          <span class="w-2 h-2 rounded-full bg-success shrink-0 mt-1.5 animate-pulse"></span>
+          <div class="space-y-0.5">
+            <p class="font-bold text-slate-800">Proyecto Médico Hídrico Inyectado</p>
+            <p class="text-[9px] text-slate-400 font-mono">2026-05-24 17:10:17</p>
+            <p class="text-slate-500">Estudio Médico de Calidad del Agua y Salud Pública inicializado con éxito.</p>
+          </div>
+        </div>
+        
+        <div class="flex gap-3 pb-3 border-b border-slate-50">
+          <span class="w-2 h-2 rounded-full bg-success shrink-0 mt-1.5"></span>
+          <div class="space-y-0.5">
+            <p class="font-bold text-slate-800">Depuración y Perfilado Cuantitativo</p>
+            <p class="text-[9px] text-slate-400 font-mono">2026-05-24 17:10:18</p>
+            <p class="text-slate-500">QuantitativeProfiler aplicó winsorización robusta a 15 registros de control de efluentes (pH, Turbidez, Coliformes, Plomo).</p>
+          </div>
+        </div>
+        
+        <div class="flex gap-3 pb-3 border-b border-slate-50">
+          <span class="w-2 h-2 rounded-full bg-success shrink-0 mt-1.5"></span>
+          <div class="space-y-0.5">
+            <p class="font-bold text-slate-800">Codificación Temática Grounded Theory</p>
+            <p class="text-[9px] text-slate-400 font-mono">2026-05-24 17:10:18</p>
+            <p class="text-slate-500">QualitativeEncoder categorizó de forma socrática el brote epidemiológico y la mitigación por biofiltros de zeolita.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-3 pb-3 border-b border-slate-50">
+          <span class="w-2 h-2 rounded-full bg-primary shrink-0 mt-1.5"></span>
+          <div class="space-y-0.5">
+            <p class="font-bold text-slate-800">Muestra A-12 Procesada</p>
+            <p class="text-[9px] text-slate-400 font-mono">2026-05-24 16:58:32</p>
+            <p class="text-slate-500">Análisis espectrográfico de impurezas disueltas completado con éxito.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-3 pb-3 border-b border-slate-50">
+          <span class="w-2 h-2 rounded-full bg-warning shrink-0 mt-1.5"></span>
+          <div class="space-y-0.5">
+            <p class="font-bold text-slate-800">Alerta de Variación en Bio-Reactor</p>
+            <p class="text-[9px] text-slate-400 font-mono">2026-05-24 16:25:10</p>
+            <p class="text-slate-500">Fluctuación de ±0.05 en el flujo de purificación detectada. Autocorrección hidráulica aplicada.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <span class="w-2 h-2 rounded-full bg-primary shrink-0 mt-1.5"></span>
+          <div class="space-y-0.5">
+            <p class="font-bold text-slate-800">Informe Semanal Generado</p>
+            <p class="text-[9px] text-slate-400 font-mono">2026-05-24 15:10:15</p>
+            <p class="text-slate-500">Documento técnico consolidado listo para auditoría en FONDOCYT.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-end pt-3 border-t border-slate-100">
+        <button onclick="closeHistoryModal()" class="px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs rounded-xl transition-all shadow-md active:scale-95">
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SIDEBAR IZQUIERDO (NAVEGACIÓN) ==================== -->
+  {% if show_sidebar | default(true) %}
+  <aside class="fixed left-0 top-0 h-screen w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col py-4 z-50">
+    <div class="px-6 mb-8 flex items-center gap-3">
+      <img alt="Logo Enthema Suite" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
+      <div>
+        <h1 class="font-headline-lg text-primary font-bold tracking-tight text-[18px] leading-tight">Enthema Suite</h1>
+        <p class="font-label-md text-on-surface-variant text-[10px]">Precisión Técnica</p>
+      </div>
+    </div>
+    <nav class="flex-grow space-y-1 px-4">
+      <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/dashboard">
+        <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+        <span class="font-label-md text-label-md">Panel de Control</span>
+      </a>
+      <a class="flex items-center justify-between px-3 py-3 rounded-lg transition-colors duration-200" href="/investigador/profile-builder">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
+          <span class="font-label-md text-label-md">Proyectos (Onboarding)</span>
+        </div>
+        <span class="px-1.5 py-0.5 bg-success/10 text-success rounded text-[9px] font-bold uppercase tracking-wider flex items-center gap-0.5 border border-success/20 shrink-0">
+          <span class="material-symbols-outlined text-[10px]" style="font-variation-settings: 'FILL' 1;">check</span> Listo
+        </span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/data-analysis">
+        <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+        <span class="font-label-md text-label-md">Análisis de Datos</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/modeling">
+        <span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+        <span class="font-label-md text-label-md">Modelado Semántico</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/finance">
+        <span class="material-symbols-outlined" data-icon="payments">payments</span>
+        <span class="font-label-md text-label-md">Finanzas</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/reports">
+        <span class="material-symbols-outlined" data-icon="description">description</span>
+        <span class="font-label-md text-label-md">Informes</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/compliance">
+        <span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+        <span class="font-label-md text-label-md">Cumplimiento</span>
+      </a>
+      <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/configuration">
+        <span class="material-symbols-outlined" data-icon="settings">settings</span>
+        <span class="font-label-md text-label-md">Configuración</span>
+      </a>
+      {% if profile and profile.user_role in ['admin', 'auditor'] %}
+      <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-secondary hover:bg-secondary-container/10 border-r-4 border-secondary transition-colors duration-200" href="/admin">
+        <span class="material-symbols-outlined" data-icon="shield">shield</span>
+        <span class="font-label-md text-label-md font-bold">Consola Auditoría</span>
+      </a>
+      {% endif %}
+    </nav>
+    <div class="px-4 py-2 border-t border-outline-variant">
+      <a class="flex items-center gap-3 px-3 py-3 rounded-lg text-danger hover:bg-danger/10 transition-colors duration-200 cursor-pointer" onclick="logout()">
+        <span class="material-symbols-outlined" data-icon="logout">logout</span>
+        <span class="font-label-md text-label-md font-bold">Cerrar Sesión</span>
+      </a>
+    </div>
+  </aside>
+  {% endif %}
+
+  <!-- ==================== CONTENEDOR PRINCIPAL ==================== -->
+  <div class="flex-1 flex flex-col min-w-0 relative">
+    
+    <!-- HEADER SUPERIOR -->
+    {% if show_header | default(true) %}
+    <header class="flex justify-between items-center px-6 h-16 sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant {% if show_sidebar | default(true) %}ml-64{% endif %}">
+      <div class="flex items-center w-3/5 gap-4">
+        {% if qualitative_db or quantitative_db %}
+        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20 gap-1.5 shrink-0 max-w-xs truncate shadow-sm">
+          <span class="material-symbols-outlined text-[16px] font-bold" data-icon="folder_open">folder_open</span>
+          PROYECTO: <span class="font-extrabold uppercase ml-1">{{ (qualitative_db.project_title if qualitative_db else quantitative_db.project_title) }}</span>
+        </span>
+        {% else %}
+        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 border border-amber-500/20 gap-1.5 shrink-0 shadow-sm">
+          <span class="material-symbols-outlined text-[16px] font-bold" data-icon="folder_off">folder_off</span>
+          NINGÚN PROYECTO INICIADO
+        </span>
+        {% endif %}
+        <div class="relative w-full max-w-xs">
+          <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]" data-icon="search">search</span>
+          <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-4 py-2 text-body-md focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="Buscar parámetros, sensores o informes..." type="text"/>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="showToast('No tiene notificaciones pendientes de revisión', 'info')" class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all" title="Notificaciones">
+          <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+        </button>
+        <button onclick="showToast('Cargando el panel de configuración global de Enthema Suite...', 'info')" class="p-2 text-on-surface-variant hover:bg-surface-container-high rounded-full transition-all" title="Ajustes Globales">
+          <span class="material-symbols-outlined" data-icon="settings">settings</span>
+        </button>
+        <div class="h-8 w-px bg-outline-variant mx-2"></div>
+        <div class="flex items-center gap-3 pl-2">
+          <div class="text-right">
+            <p class="font-label-md text-on-surface font-bold leading-none">{{ profile.name if profile else 'Investigador Principal' }}</p>
+            <p class="font-label-sm text-outline">{% if profile and profile.user_role == 'investment_consultant' %}Consultor de Inversión{% else %}Investigador Principal{% endif %}</p>
+          </div>
+          <div class="w-8 h-8 rounded-full bg-primary-container text-white flex items-center justify-center font-bold">
+            {{ profile.name[:2].upper() if profile else 'IP' }}
+          </div>
+        </div>
+      </div>
+    </header>
+    {% endif %}
+
+    <!-- CONTENIDO ESPECÍFICO -->
+    <main class="flex-grow {% if show_sidebar | default(true) %}ml-64{% endif %} {% if show_coach | default(true) %}mr-80{% endif %} min-h-screen">
+      {% block content %}{% endblock %}
+    </main>
+    
+  </div>
+
+  <!-- ==================== SIDEBAR DERECHO (ENTHEMA AI COACH) ==================== -->
+  {% if show_coach | default(true) %}
+  <aside class="fixed right-0 top-0 h-screen w-80 border-l border-outline-variant bg-surface-container-lowest flex flex-col z-40 shadow-lg text-left">
+    <!-- Coach Header -->
+    <div class="px-6 py-4 border-b border-outline-variant bg-surface-container-lowest/80 backdrop-blur-md flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+        <span class="material-symbols-outlined text-[24px]">psychology</span>
+      </div>
+      <div>
+        <h3 class="font-headline-md text-on-surface text-[15px] font-bold leading-tight text-primary">Enthema AI Coach</h3>
+        <p class="font-label-sm text-outline text-[10px]">ASISTENTE CIENTÍFICO OFFLINE</p>
+      </div>
+    </div>
+
+    <!-- Chat History -->
+    <div id="coach-chat-history" class="flex-grow p-4 overflow-y-auto space-y-3 bg-surface-container-low/20 custom-scrollbar text-xs">
+      <!-- Welcome message -->
+      <div class="flex items-start gap-2 max-w-[85%] mb-2">
+        <div class="w-6 h-6 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-[14px]">smart_toy</span>
+        </div>
+        <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed">
+          Hola, soy tu <strong>AI Coach</strong>. Estoy aquí para asistirte de forma segura y resolver tus dudas en tu proyecto {% if qualitative_db and qualitative_db.project_title %}<strong>"{{ qualitative_db.project_title }}"</strong>{% elif profile.core_research_lines %}<strong>"{{ profile.core_research_lines[0] }}"</strong>{% else %}<strong>"Investigación Local"</strong>{% endif %}. ¿En qué te puedo ayudar hoy?
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggestions / Quick Links -->
+    <div class="px-4 py-2 bg-surface-container-low/40 border-t border-outline-variant/30">
+      <p class="text-[10px] font-bold text-primary uppercase mb-1">Consultas Sugeridas</p>
+      <div class="flex flex-wrap gap-1.5">
+        <button onclick="sendQuickQuery('¿Cómo funciona el reactor ABM?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🧬 Bio-reactor ABM</button>
+        <button onclick="sendQuickQuery('¿Cómo interpreto el Solver Financiero?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">💸 Solver TIR/VAN</button>
+        <button onclick="sendQuickQuery('¿Qué validez tiene el Sello del Acta?')" class="text-[10px] px-2 py-1 bg-surface-container border border-outline-variant rounded hover:bg-primary-container/10 hover:text-primary transition-all text-left">🛡️ Cumplimiento Legal</button>
+      </div>
+    </div>
+
+    <!-- Chat Input Form -->
+    <form id="coach-chat-form" class="p-4 border-t border-outline-variant bg-surface-container-lowest flex items-center gap-2">
+      <input type="text" id="coach-query-input" placeholder="Pregunte algo al AI Coach..." class="flex-grow bg-surface-container-low border border-outline-variant rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-primary/20 outline-none transition-all text-on-surface" required autocomplete="off" />
+      <button type="submit" class="p-2 bg-primary text-white rounded-lg hover:opacity-90 transition-all shrink-0">
+        <span class="material-symbols-outlined text-[16px]">send</span>
+      </button>
+    </form>
+  </aside>
+  {% endif %}
+
+  <!-- ==================== SCRIPTS GLOBALES ==================== -->
+  <script>
+    // Active Navigation Logic for SideNavBar
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('aside nav a').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPath || (currentPath === '/' && href === '/')) {
+            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-primary font-bold bg-primary-container/10 border-r-4 border-primary transition-all duration-150";
+        } else {
+            link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200";
+        }
+    });
+
+    // Global Logout Handler
+    async function logout() {
+        if (confirm('¿Está seguro de que desea cerrar sesión?')) {
+            try {
+                const res = await fetch('/api/logout', { method: 'POST' });
+                if (res.ok) {
+                    window.location.href = '/login';
+                } else {
+                    alert('Error al cerrar sesión');
+                }
+            } catch (err) {
+                console.error('Error al cerrar sesión:', err);
+            }
+        }
+    }
+
+    // AI Coach Quick Query
+    function sendQuickQuery(text) {
+        const input = document.getElementById('coach-query-input');
+        if (input) {
+            input.value = text;
+            document.getElementById('coach-chat-form').dispatchEvent(new Event('submit'));
+        }
+    }
+
+    function openHistoryModal() {
+        const modal = document.getElementById('history-modal');
+        if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeHistoryModal() {
+        const modal = document.getElementById('history-modal');
+        if (modal) modal.classList.add('hidden');
+    }
+
+    // Global Glassmorphic Toast Notification System
+    function showToast(message, type = 'success') {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'fixed bottom-6 left-6 z-[99999] flex flex-col gap-3 max-w-sm w-full pointer-events-none';
+            document.body.appendChild(container);
+        }
+        
+        const toast = document.createElement('div');
+        toast.className = 'pointer-events-auto transform translate-y-4 opacity-0 transition-all duration-300 ease-out flex items-center gap-3 px-4 py-3.5 rounded-2xl shadow-2xl backdrop-blur-md bg-white/85 dark:bg-slate-900/85 border border-slate-200/50 dark:border-slate-800/50 text-[#181c20] dark:text-white font-medium text-sm';
+        
+        let icon = 'info';
+        let iconColor = 'text-primary';
+        if (type === 'success') {
+            icon = 'check_circle';
+            iconColor = 'text-success';
+        } else if (type === 'error') {
+            icon = 'error';
+            iconColor = 'text-danger';
+        } else if (type === 'warning') {
+            icon = 'warning';
+            iconColor = 'text-warning';
+        }
+        
+        toast.innerHTML = `
+            <span class="material-symbols-outlined ${iconColor} shrink-0 text-[20px]">${icon}</span>
+            <div class="flex-grow">${message}</div>
+            <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-600 transition-colors shrink-0 flex items-center justify-center p-0.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+                <span class="material-symbols-outlined text-[16px]">close</span>
+            </button>
+        `;
+        
+        container.appendChild(toast);
+        
+        // Force reflow
+        toast.offsetHeight;
+        
+        // Animate in
+        toast.classList.remove('translate-y-4', 'opacity-0');
+        
+        // Auto-remove after 4000ms
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.classList.add('opacity-0', 'scale-95');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }
+        }, 4000);
+    }
+
+    // Global Web Speech Synthesis variables
+    let speechSynth = window.speechSynthesis;
+    let currentUtterance = null;
+    let coachMessages = [];
+    
+    function getAgentBadgeHTML(agentName) {
+        if (!agentName) return '';
+        let icon = 'smart_toy';
+        let colorClass = 'bg-primary/10 text-primary border-primary/20';
+        let name = agentName;
+        
+        if (agentName.includes('GovernanceAgent') || agentName.includes('Gobernanza')) {
+            icon = 'shield';
+            colorClass = 'bg-emerald-50 text-emerald-700 border-emerald-200/50 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-800/30';
+            name = '🛡️ Gobernanza & Compliance';
+        } else if (agentName.includes('DataAnalysisAgent') || agentName.includes('Análisis')) {
+            icon = 'analytics';
+            colorClass = 'bg-blue-50 text-blue-700 border-blue-200/50 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-800/30';
+            name = '📊 Análisis de Datos';
+        } else if (agentName.includes('ModelSimAgent') || agentName.includes('Modelado') || agentName.includes('Simulador')) {
+            icon = 'hub';
+            colorClass = 'bg-purple-50 text-purple-700 border-purple-200/50 dark:bg-purple-950/20 dark:text-purple-400 dark:border-purple-800/30';
+            name = '🧬 Modelado y Reactores';
+        }
+        
+        return `<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[9px] font-bold font-mono ${colorClass} mb-1.5 shadow-sm animate-fade-in"><span class="material-symbols-outlined text-[10px]">${icon}</span>${name}</div>`;
+    }
+    
+    function getReasoningTraceHTML(trace) {
+        if (!trace || !Array.isArray(trace) || trace.length === 0) return '';
+        
+        let stepsHTML = trace.map(t => {
+            let statusColor = 'bg-emerald-500';
+            let statusBg = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+            if (t.status === 'BLOCKED' || t.status === 'CONSTANT_VIOLATION_BLOCKED') {
+                statusColor = 'bg-danger';
+                statusBg = 'bg-red-50 text-danger border-red-100';
+            } else if (t.status === 'LAW_DETECTED') {
+                statusColor = 'bg-warning';
+                statusBg = 'bg-amber-50 text-amber-700 border-amber-200';
+            }
+            
+            return `
+                <div class="flex items-start gap-2 border-l border-slate-200 pl-3 pb-3 relative last:pb-0 text-[10px] text-left">
+                    <span class="absolute left-[-4.5px] top-1.5 w-2 h-2 rounded-full ${statusColor}"></span>
+                    <div class="space-y-0.5">
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-bold text-slate-700">${t.step}. ${t.node}</span>
+                            <span class="px-1.5 py-0.2 rounded border text-[8px] font-bold font-mono uppercase ${statusBg}">${t.status}</span>
+                        </div>
+                        <p class="text-slate-500 leading-normal text-left">${t.desc}</p>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        return `
+            <details class="group border border-outline-variant/30 rounded-lg bg-surface-container-low/30 overflow-hidden mb-2 transition-all duration-300 text-left">
+                <summary class="flex items-center justify-between p-2 cursor-pointer select-none text-[9px] font-bold text-outline hover:text-primary transition-colors font-mono uppercase tracking-wide">
+                    <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[13px]">psychology</span> Traza de Razonamiento</span>
+                    <span class="material-symbols-outlined text-[13px] group-open:rotate-180 transition-transform">expand_more</span>
+                </summary>
+                <div class="p-3 border-t border-outline-variant/20 bg-slate-50/50 space-y-3 custom-scrollbar max-h-[160px] overflow-y-auto">
+                    ${stepsHTML}
+                </div>
+            </details>
+        `;
+    }
+    
+    function getContextActionsHTML(text) {
+        let buttons = [];
+        const lower = text.toLowerCase();
+        
+        if (lower.includes('/compliance') || lower.includes('nagoya') || lower.includes('bioética') || lower.includes('ética') || lower.includes('abs')) {
+            buttons.push(`<a href="/compliance" class="text-[9px] px-2 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200/50 hover:bg-emerald-100/50 rounded flex items-center gap-0.5 transition-all font-bold"><span class="material-symbols-outlined text-[11px]">gavel</span> Ir a Cumplimiento</a>`);
+        }
+        if (lower.includes('/admin') || lower.includes('purga') || lower.includes('clave') || lower.includes('accesos')) {
+            buttons.push(`<a href="/admin" class="text-[9px] px-2 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200/50 hover:bg-indigo-100/50 rounded flex items-center gap-0.5 transition-all font-bold"><span class="material-symbols-outlined text-[11px]">shield_person</span> Consola Admin</a>`);
+        }
+        if (lower.includes('/data-analysis') || lower.includes('winsor') || lower.includes('outlier') || lower.includes('datos')) {
+            buttons.push(`<a href="/data-analysis" class="text-[9px] px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200/50 hover:bg-blue-100/50 rounded flex items-center gap-0.5 transition-all font-bold"><span class="material-symbols-outlined text-[11px]">analytics</span> Analizar Datos</a>`);
+        }
+        if (lower.includes('/modeling') || lower.includes('reactor') || lower.includes('monod') || lower.includes('abm')) {
+            buttons.push(`<a href="/modeling" class="text-[9px] px-2 py-1 bg-purple-50 text-purple-700 border border-purple-200/50 hover:bg-purple-100/50 rounded flex items-center gap-0.5 transition-all font-bold"><span class="material-symbols-outlined text-[11px]">hub</span> Modelar Tópicos</a>`);
+        }
+        
+        if (buttons.length === 0) return '';
+        return `<div class="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-outline-variant/10">${buttons.join('')}</div>`;
+    }
+
+    function speakCoachMessage(text, btnId) {
+        const btn = document.getElementById(btnId);
+        if (!speechSynth) {
+            showToast('Text-to-Speech no soportado en este navegador', 'error');
+            return;
+        }
+        
+        if (speechSynth.speaking) {
+            speechSynth.cancel();
+            if (btn && btn.classList.contains('speaking-active')) {
+                btn.classList.remove('speaking-active');
+                btn.querySelector('.material-symbols-outlined').innerText = 'volume_up';
+                btn.title = "Escuchar dictamen";
+                return;
+            }
+            document.querySelectorAll('.btn-coach-tts').forEach(b => {
+                b.classList.remove('speaking-active');
+                b.querySelector('.material-symbols-outlined').innerText = 'volume_up';
+                b.title = "Escuchar dictamen";
+            });
+        }
+        
+        let cleanText = text.replace(/[*#`$\-_[\]()]/g, ' ')
+                            .replace(/&nbsp;/g, ' ')
+                            .replace(/<[^>]*>/g, ' ');
+        
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'es-ES';
+        utterance.rate = 1.05;
+        
+        utterance.onstart = () => {
+            if (btn) {
+                btn.classList.add('speaking-active');
+                btn.querySelector('.material-symbols-outlined').innerText = 'pause_circle';
+                btn.title = "Pausar audio";
+            }
+            showToast('Reproduciendo audio del AI Coach...', 'info');
+        };
+        
+        utterance.onend = () => {
+            if (btn) {
+                btn.classList.remove('speaking-active');
+                btn.querySelector('.material-symbols-outlined').innerText = 'volume_up';
+                btn.title = "Escuchar dictamen";
+            }
+        };
+        
+        utterance.onerror = () => {
+            if (btn) {
+                btn.classList.remove('speaking-active');
+                btn.querySelector('.material-symbols-outlined').innerText = 'volume_up';
+                btn.title = "Escuchar dictamen";
+            }
+        };
+        
+        currentUtterance = utterance;
+        speechSynth.speak(utterance);
+    }
+    
+    function copyCoachMessage(text, btnId) {
+        const btn = document.getElementById(btnId);
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('Respuesta científica copiada al portapapeles', 'success');
+            if (btn) {
+                const icon = btn.querySelector('.material-symbols-outlined');
+                icon.innerText = 'check';
+                setTimeout(() => {
+                    icon.innerText = 'content_copy';
+                }, 2000);
+            }
+        }).catch(err => {
+            showToast('Fallo al copiar texto: ' + err.message, 'error');
+        });
+    }
+
+    // AI Coach AJAX submit handler
+    document.addEventListener('DOMContentLoaded', () => {
+        // Highlight active sidebar navigation item dynamically based on location
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('aside nav a');
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            const isRootMatch = (currentPath === '/' && href === '/');
+            const isSubpathMatch = (href !== '/' && (currentPath === href || currentPath.startsWith(href + '/')));
+            
+            if (isRootMatch || isSubpathMatch) {
+                if (href === '/admin') {
+                    link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-secondary bg-secondary-container/10 border-r-4 border-secondary transition-colors duration-200 font-bold";
+                } else {
+                    link.className = "flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200 bg-primary/10 text-primary font-bold border-r-4 border-primary";
+                }
+                const icon = link.querySelector('.material-symbols-outlined');
+                if (icon) {
+                    icon.style.fontVariationSettings = "'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24";
+                }
+            } else {
+                if (href === '/admin') {
+                    link.className = "flex items-center gap-3 px-3 py-3 rounded-lg text-secondary hover:bg-secondary-container/10 border-r-4 border-secondary transition-colors duration-200";
+                } else {
+                    link.className = "flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200 text-on-surface-variant hover:bg-surface-container-high/50";
+                }
+            }
+        });
+
+        const chatForm = document.getElementById('coach-chat-form');
+        const chatHistory = document.getElementById('coach-chat-history');
+        const queryInput = document.getElementById('coach-query-input');
+        
+        if (chatForm && chatHistory && queryInput) {
+            chatForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const query = queryInput.value.trim();
+                if (!query) return;
+                
+                // Append User Message
+                const userMsgDiv = document.createElement('div');
+                userMsgDiv.className = "flex items-start gap-2 max-w-[85%] ml-auto justify-end mb-2";
+                userMsgDiv.innerHTML = `
+                    <div class="bg-primary text-white rounded-lg p-2.5 leading-relaxed text-right">
+                        ${query}
+                    </div>
+                    <div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center shrink-0 font-bold font-label-sm text-[10px]">
+                        YO
+                    </div>
+                `;
+                chatHistory.appendChild(userMsgDiv);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+                
+                // Clear input and show typing...
+                queryInput.value = '';
+                queryInput.disabled = true;
+                
+                const typingDiv = document.createElement('div');
+                typingDiv.className = "flex items-start gap-2 max-w-[85%] typing-indicator mb-2";
+                typingDiv.innerHTML = `
+                    <div class="w-6 h-6 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-[14px]">smart_toy</span>
+                    </div>
+                    <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed italic animate-pulse" id="typing-text-el">
+                        Ruteando a través de Bounded Autonomy...
+                    </div>
+                `;
+                chatHistory.appendChild(typingDiv);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+                
+                // Dynamic Loading Text Rotation
+                const typingPhases = [
+                    "Ruteando a través de Bounded Autonomy...",
+                    "Evaluando cortafuegos semántico...",
+                    "Consultando base de datos regulatoria...",
+                    "Generando síntesis científica en memoria..."
+                ];
+                let phaseIdx = 0;
+                const typingInterval = setInterval(() => {
+                    const el = document.getElementById('typing-text-el');
+                    if (el) {
+                        phaseIdx = (phaseIdx + 1) % typingPhases.length;
+                        el.innerText = typingPhases[phaseIdx];
+                    }
+                }, 750);
+                
+                try {
+                    const res = await fetch('/api/copilot/query', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ query: query, path: window.location.pathname })
+                    });
+                    
+                    // Clear interval & Remove typing indicator
+                    clearInterval(typingInterval);
+                    const typing = chatHistory.querySelector('.typing-indicator');
+                    if (typing) typing.remove();
+                    
+                    if (res.ok) {
+                        const data = await res.json();
+                        const botMsgDiv = document.createElement('div');
+                        botMsgDiv.className = "flex items-start gap-2 max-w-[85%] mb-2 animate-fade-in";
+                        
+                        let parsedAnswer = data.answer;
+                        if (typeof marked !== 'undefined') {
+                            parsedAnswer = marked.parse(data.answer);
+                        } else {
+                            parsedAnswer = data.answer.replace(/\n/g, '<br>');
+                        }
+                        
+                        // Store index for TTS/Copy without escaping quotes issues
+                        const msgIdx = coachMessages.length;
+                        coachMessages.push(data.answer);
+                        const uniqId = 'id-' + Date.now() + '-' + Math.floor(Math.random()*1000);
+                        
+                        const agentBadge = getAgentBadgeHTML(data.agent);
+                        const reasoningTrace = getReasoningTraceHTML(data.reasoning_trace);
+                        const contextualActions = getContextActionsHTML(data.answer);
+                        
+                        botMsgDiv.innerHTML = `
+                            <div class="w-6 h-6 rounded-full bg-primary/15 text-primary flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-[14px]">smart_toy</span>
+                            </div>
+                            <div class="bg-surface-container border border-outline-variant/30 rounded-lg p-2.5 text-on-surface-variant leading-relaxed text-left flex flex-col w-full">
+                                ${agentBadge}
+                                ${reasoningTrace}
+                                <div class="markdown-content text-left w-full">${parsedAnswer}</div>
+                                ${contextualActions}
+                                <div class="flex justify-end gap-1.5 mt-2 border-t border-outline-variant/10 pt-1.5">
+                                    <button onclick="speakCoachMessage(coachMessages[${msgIdx}], 'tts-${uniqId}')" id="tts-${uniqId}" class="btn-coach-tts text-[10px] text-outline hover:text-primary transition-all p-1 flex items-center justify-center rounded hover:bg-slate-100" title="Escuchar dictamen">
+                                        <span class="material-symbols-outlined text-[13px]">volume_up</span>
+                                    </button>
+                                    <button onclick="copyCoachMessage(coachMessages[${msgIdx}], 'copy-${uniqId}')" id="copy-${uniqId}" class="text-[10px] text-outline hover:text-primary transition-all p-1 flex items-center justify-center rounded hover:bg-slate-100" title="Copiar respuesta">
+                                        <span class="material-symbols-outlined text-[13px]">content_copy</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        chatHistory.appendChild(botMsgDiv);
+                    } else {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = "flex items-start gap-2 max-w-[85%] mb-2";
+                        errorDiv.innerHTML = `
+                            <div class="w-6 h-6 rounded-full bg-danger/15 text-danger flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-[14px]">error</span>
+                            </div>
+                            <div class="bg-danger/5 border border-danger/20 text-danger rounded-lg p-2.5 leading-relaxed">
+                                Error en la conexión offline con el Coach.
+                            </div>
+                        `;
+                        chatHistory.appendChild(errorDiv);
+                    }
+                } catch (err) {
+                    clearInterval(typingInterval);
+                    const typing = chatHistory.querySelector('.typing-indicator');
+                    if (typing) typing.remove();
+                    
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = "flex items-start gap-2 max-w-[85%] mb-2";
+                    errorDiv.innerHTML = `
+                        <div class="w-6 h-6 rounded-full bg-danger/15 text-danger flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-[14px]">error</span>
+                        </div>
+                        <div class="bg-danger/5 border border-danger/20 text-danger rounded-lg p-2.5 leading-relaxed">
+                            Error de red: ${err.message}
+                        </div>
+                    `;
+                    chatHistory.appendChild(errorDiv);
+                } finally {
+                    queryInput.disabled = false;
+                    queryInput.focus();
+                    chatHistory.scrollTop = chatHistory.scrollHeight;
+                }
+            });
+        }
+    });
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

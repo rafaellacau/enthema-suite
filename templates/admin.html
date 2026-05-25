@@ -99,6 +99,11 @@
           <span class="text-xs uppercase tracking-wider font-bold">Ir a Suite Científica</span>
         </a>
 
+        <a href="/onboarding/auditor" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[#10b981] hover:bg-[#84d5c5]/10 border border-[#10b981]/20 transition-all mb-2">
+          <span class="material-symbols-outlined text-[20px]">supervised_user_circle</span>
+          <span class="text-xs uppercase tracking-wider font-bold">Ir a Módulo Auditoría</span>
+        </a>
+
         <a href="/admin/manual" target="_blank" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[#f59e0b] hover:bg-[#78350f]/20 border border-[#d97706]/20 transition-all">
           <span class="material-symbols-outlined text-[20px]">lock</span>
           <span class="text-xs uppercase tracking-wider font-bold">Manual Confidencial</span>
@@ -133,7 +138,7 @@
     <header class="h-16 border-b border-slate-200 bg-white px-8 flex justify-between items-center z-10 shrink-0">
       <div class="flex items-center gap-4">
         <span class="inline-flex items-center px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#10b981]/10 text-[#059669] border border-[#10b981]/20">● ESTADO CENTRAL: ACTIVO</span>
-        <span class="text-xs text-slate-500 font-semibold font-mono">Consorcio INTEC / UNIBE</span>
+        <span class="text-xs text-slate-500 font-semibold font-mono">{{ profile.institution if profile and profile.institution else 'Consorcio de Investigación' }}</span>
       </div>
       <div class="text-xs text-slate-500 font-semibold font-mono">
         Host Seguro: 127.0.0.1:8501
@@ -251,6 +256,34 @@
                 <!-- Dynamic key items -->
               </div>
             </div>
+          </div>
+
+          <!-- Módulo Médico de Calidad de Agua -->
+          <div class="glass-card rounded-2xl p-6 space-y-4 relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-[2.5px] bg-[#10b981]"></div>
+            <h3 class="font-black text-slate-800 text-base flex items-center gap-2">
+              <span class="material-symbols-outlined text-[#10b981]">water_drop</span>
+              Simulador de Calidad de Agua
+            </h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Borre de forma segura los datos anteriores e inyecte reactivamente el <strong>Estudio Médico de Calidad del Agua y Salud Pública</strong>.
+            </p>
+            <div class="bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 text-[11px] text-emerald-800 space-y-1">
+              <p class="font-bold flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">info</span> Módulo Investigador:
+              </p>
+              <ul class="list-disc pl-4 space-y-0.5 font-mono">
+                <li>Perfil: Rafael Lacau (FONDOCYT)</li>
+                <li>Cualitativo: Brotes de gastroenteritis</li>
+                <li>Cuantitativo: pH, Turbidez, Plomo</li>
+                <li>Solver: Viabilidad Biofiltros Zeolita</li>
+                <li>Telemetría: Sensores de purificación</li>
+              </ul>
+            </div>
+            <button onclick="resetToWaterQualityProject()" class="w-full bg-[#10b981] hover:bg-[#059669] text-white py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-md">
+              <span class="material-symbols-outlined text-[16px]">sync_alt</span>
+              Inyectar Estudio Hídrico
+            </button>
           </div>
         </div>
 
@@ -485,6 +518,25 @@
     let activeTab = 'dashboard';
     let currentSessionId = '';
 
+    async function resetToWaterQualityProject() {
+      if (!confirm('¿Desea borrar toda la data actual del Módulo Investigador y cargar el Estudio Médico de Calidad del Agua y Salud Pública de forma íntegra?')) {
+        return;
+      }
+      try {
+        const res = await fetch('/api/admin/reset-water-quality', { method: 'POST' });
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          alert('💧 ' + data.message);
+          window.location.href = '/dashboard'; // Redirigir a la suite científica para ver el proyecto
+        } else {
+          alert('❌ Error: ' + (data.detail || 'No se pudo inicializar el proyecto.'));
+        }
+      } catch (err) {
+        console.error(err);
+        alert('❌ Error de red al inyectar el estudio hídrico.');
+      }
+    }
+
     async function purgeAllData() {
       // Doble confirmación preliminar
       if (!confirm('🚨 ATENCIÓN: Esta acción realizará un HARD RESET y CRIPTO-PURGA (Crypto-Shredding) completa de la auditoría:\n\n1. Destruirá e invalidará permanentemente la clave maestra criptográfica.\n2. Las actas históricas en copias de seguridad se volverán ilegibles de por vida.\n3. Vaciará la base de datos de declaraciones éticas (cloud mock).\n4. Desconectará de inmediato a todos los investigadores activos.\n\n¿Está absolutamente seguro de que desea proceder?')) {
@@ -544,7 +596,7 @@
       buttons.forEach(btn => {
         const el = document.getElementById(`btn-${btn}`);
         if (btn === tabId) {
-          el.className = "nav-btn active w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[#10b981] bg-[#84d5c5]/10 border-right-4 border-[#10b981] transition-all text-left";
+          el.className = "nav-btn active w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[#10b981] bg-[#84d5c5]/10 border-r-4 border-[#10b981] transition-all text-left";
         } else {
           el.className = "nav-btn w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-[#1c2e37] transition-all text-left";
         }
@@ -736,7 +788,7 @@
               CUANT: <span class="text-[#0284c7] font-bold">${d.quantitative_hash ? d.quantitative_hash.substring(0, 10) : 'N/D'}...</span>
             </td>
             <td class="py-3">
-              <div class="w-14 h-14 bg-white border border-slate-200 p-0.5 rounded shadow-inner hover:scale-105 transition-all cursor-pointer flex items-center justify-center" title="Haga clic para expandir y auditar en el panel lateral" onclick="showSecureQrDetails('${d.hash_proyecto}', \`${d.secure_qr_svg}\`, '${d.verify_url}')">
+              <div class="w-14 h-14 bg-white border border-slate-200 p-0.5 rounded shadow-inner hover:scale-105 transition-all cursor-pointer flex items-center justify-center" title="Haga clic para expandir y auditar en el panel lateral" data-hash="${d.hash_proyecto}" data-verify-url="${d.verify_url}" onclick="handleQrClick(this)">
                 ${d.secure_qr_svg}
               </div>
             </td>
@@ -772,6 +824,13 @@
 
     function verifyDeed(hash, qual, quant) {
       alert(`🔐 [VERIFICACIÓN CRIPTOGRÁFICA DE SELLO]\n------------------------------------------------\nID Acta: ${hash}\nSello QR: Validado OK\nFirma SHA-256 Cualitativa: ${qual ? qual : 'No disponible'}\nFirma SHA-256 Cuantitativa: ${quant ? quant : 'No disponible'}\n\nResultado: El acta es 100% auténtica y coincide con el linaje socrático del investigador.`);
+    }
+
+    function handleQrClick(el) {
+      const hash = el.getAttribute('data-hash');
+      const verify_url = el.getAttribute('data-verify-url');
+      const qr_svg = el.innerHTML;
+      showSecureQrDetails(hash, qr_svg, verify_url);
     }
 
     function showSecureQrDetails(hash, qr_svg, verify_url) {
