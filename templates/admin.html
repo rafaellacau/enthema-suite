@@ -66,8 +66,7 @@
 <body class="min-h-screen flex">
 
   <!-- Left Sidebar Navigator (Navy Theme) -->
-  <aside class="w-64 bg-[#111d23] flex flex-col justify-between py-6 px-4 z-20 shrink-0 shadow-xl text-slate-300">
-    <div class="space-y-6">
+  <aside class="w-64 bg-[#111d23] flex flex-col justify-between py-6 px-4 z-20 shrink-0 shadow-xl text-slate-300">    <div class="space-y-8">
       <div class="flex items-center gap-3 px-2">
         <img alt="Logo Enthema" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
         <div>
@@ -75,63 +74,38 @@
           <p class="text-[9px] text-[#84d5c5] font-mono mt-1 uppercase tracking-wider">Consola de Gobernanza</p>
         </div>
       </div>
-
+ 
       <nav class="space-y-1">
-        <!-- SECCIÓN CIENTÍFICA (Menú Completo) -->
-        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1">Suite de Precisión</p>
-        
-        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/dashboard">
-          <span class="material-symbols-outlined text-[18px]">dashboard</span>
-          <span class="text-xs font-medium">Panel de Control</span>
-        </a>
-        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/onboarding/auditor">
-          <span class="material-symbols-outlined text-[18px]">folder_special</span>
-          <span class="text-xs font-medium">Gobernanza (Onboarding)</span>
-        </a>
-        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/data-analysis">
-          <span class="material-symbols-outlined text-[18px]">analytics</span>
-          <span class="text-xs font-medium">Análisis de Datos</span>
-        </a>
-        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/modeling">
-          <span class="material-symbols-outlined text-[18px]">biotech</span>
-          <span class="text-xs font-medium">Modelado Semántico</span>
-        </a>
-        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/finance">
-          <span class="material-symbols-outlined text-[18px]">payments</span>
-          <span class="text-xs font-medium">Finanzas</span>
-        </a>
-        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/reports">
-          <span class="material-symbols-outlined text-[18px]">description</span>
-          <span class="text-xs font-medium">Informes</span>
-        </a>
-        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/compliance">
-          <span class="material-symbols-outlined text-[18px]">verified_user</span>
-          <span class="text-xs font-medium">Cumplimiento</span>
-        </a>
-        
-        <div class="h-px bg-slate-800 my-3"></div>
-
-        <!-- SECCIÓN DE AUDITORÍA Y GOBERNANZA -->
-        <p class="text-[9px] font-bold text-[#84d5c5]/80 uppercase tracking-widest px-3 mb-1">Gobernanza Central</p>
-        
-        <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn active w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-[#1c2e37] transition-all text-left">
-          <span class="material-symbols-outlined text-[18px]">monitoring</span>
-          <span class="text-xs font-bold">Monitoreo Operativo</span>
+        <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn active w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-[#1c2e37] transition-all text-left">
+          <span class="material-symbols-outlined text-[20px]">monitoring</span>
+          <span class="text-xs uppercase tracking-wider font-bold">Monitoreo Operativo</span>
         </button>
         
-        <button onclick="switchTab('history')" id="btn-history" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-[#1c2e37] transition-all text-left">
-          <span class="material-symbols-outlined text-[18px]">history_toggle_off</span>
-          <span class="text-xs font-bold">Historial de Auditoría</span>
+        <button onclick="switchTab('history')" id="btn-history" class="nav-btn w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-[#1c2e37] transition-all text-left">
+          <span class="material-symbols-outlined text-[20px]">history_toggle_off</span>
+          <span class="text-xs uppercase tracking-wider font-bold">Historial de Auditoría</span>
         </button>
-
-        <button onclick="switchTab('reports')" id="btn-reports" class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-[#1c2e37] transition-all text-left">
-          <span class="material-symbols-outlined text-[18px]">verified</span>
-          <span class="text-xs font-bold">Actas y Reportes</span>
+ 
+        <button onclick="switchTab('reports')" id="btn-reports" class="nav-btn w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-[#1c2e37] transition-all text-left">
+          <span class="material-symbols-outlined text-[20px]">verified</span>
+          <span class="text-xs uppercase tracking-wider font-bold">Actas y Reportes</span>
         </button>
-
-        <a href="/admin/manual" target="_blank" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[#f59e0b] hover:bg-[#78350f]/20 border border-[#d97706]/20 transition-all mt-2">
-          <span class="material-symbols-outlined text-[18px]">lock</span>
-          <span class="text-xs font-bold">Manual Confidencial</span>
+ 
+        <div class="h-px bg-slate-800 my-4"></div>
+        
+        <a href="/dashboard" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-slate-900 transition-all mb-2">
+          <span class="material-symbols-outlined text-[20px]">science</span>
+          <span class="text-xs uppercase tracking-wider font-bold">Ir a Suite Científica</span>
+        </a>
+ 
+        <a href="/onboarding/auditor" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[#10b981] hover:bg-[#84d5c5]/10 border border-[#10b981]/20 transition-all mb-2">
+          <span class="material-symbols-outlined text-[20px]">supervised_user_circle</span>
+          <span class="text-xs uppercase tracking-wider font-bold">Ir a Módulo Auditoría</span>
+        </a>
+ 
+        <a href="/admin/manual" target="_blank" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[#f59e0b] hover:bg-[#78350f]/20 border border-[#d97706]/20 transition-all">
+          <span class="material-symbols-outlined text-[20px]">lock</span>
+          <span class="text-xs uppercase tracking-wider font-bold">Manual Confidencial</span>
         </a>
       </nav>
     </div>

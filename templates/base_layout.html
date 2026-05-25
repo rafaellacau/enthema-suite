@@ -287,17 +287,6 @@
         <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
         <span class="font-label-md text-label-md">Panel de Control</span>
       </a>
-      {% if profile and profile.user_role in ['admin', 'auditor'] %}
-      <a class="flex items-center justify-between px-3 py-3 rounded-lg transition-colors duration-200" href="/onboarding/auditor">
-        <div class="flex items-center gap-3">
-          <span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
-          <span class="font-label-md text-label-md">Gobernanza (Onboarding)</span>
-        </div>
-        <span class="px-1.5 py-0.5 bg-success/10 text-success rounded text-[9px] font-bold uppercase tracking-wider flex items-center gap-0.5 border border-success/20 shrink-0">
-          <span class="material-symbols-outlined text-[10px]" style="font-variation-settings: 'FILL' 1;">check</span> Listo
-        </span>
-      </a>
-      {% else %}
       <a class="flex items-center justify-between px-3 py-3 rounded-lg transition-colors duration-200" href="/investigador/profile-builder">
         <div class="flex items-center gap-3">
           <span class="material-symbols-outlined" data-icon="folder_special">folder_special</span>
@@ -307,7 +296,6 @@
           <span class="material-symbols-outlined text-[10px]" style="font-variation-settings: 'FILL' 1;">check</span> Listo
         </span>
       </a>
-      {% endif %}
       <a class="flex items-center gap-3 px-3 py-3 rounded-lg transition-colors duration-200" href="/data-analysis">
         <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
         <span class="font-label-md text-label-md">Análisis de Datos</span>
