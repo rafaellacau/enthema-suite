@@ -62,7 +62,7 @@ app = FastAPI(
     title="Enthema Suite Precision Intelligence",
     description="Motor científico y financiero de precisión con interfaz de diseño Stitch (Tailwind CSS/HTML5)",
     version="4.0.0-SOVEREIGN"
-)
+)  # Release trigger comment for Render automated deployment v4.0.0-SOVEREIGN
 
 import traceback
 @app.middleware("http")
