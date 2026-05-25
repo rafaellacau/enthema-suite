@@ -31,7 +31,7 @@
 
   <!-- Left Sidebar Navigator (Navy Theme) -->
   <aside class="w-64 bg-[#111d23] flex flex-col justify-between py-6 px-4 shrink-0 shadow-xl text-slate-300">
-    <div class="space-y-8">
+    <div class="space-y-6">
       <div class="flex items-center gap-3 px-2">
         <img alt="Logo Enthema" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
         <div>
@@ -39,23 +39,48 @@
           <p class="text-[9px] text-[#10b981] font-mono mt-1 uppercase tracking-wider">Audit Module</p>
         </div>
       </div>
-
+ 
       <nav class="space-y-1">
-        <a href="/onboarding/auditor" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg bg-[#005f54] text-white font-bold transition-all text-left">
-          <span class="material-symbols-outlined text-[20px]">supervised_user_circle</span>
-          <span class="text-xs uppercase tracking-wider">Módulo Auditoría</span>
+        <!-- SECCIÓN CIENTÍFICA (Menú Completo) -->
+        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest px-3 mb-1">Suite de Precisión</p>
+        
+        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/dashboard">
+          <span class="material-symbols-outlined text-[18px]">dashboard</span>
+          <span class="text-xs font-medium">Panel de Control</span>
+        </a>
+        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg bg-[#005f54] text-white font-bold transition-all text-left" href="/onboarding/auditor">
+          <span class="material-symbols-outlined text-[18px]">folder_special</span>
+          <span class="text-xs">Gobernanza (Onboarding)</span>
+        </a>
+        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/data-analysis">
+          <span class="material-symbols-outlined text-[18px]">analytics</span>
+          <span class="text-xs font-medium">Análisis de Datos</span>
+        </a>
+        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/modeling">
+          <span class="material-symbols-outlined text-[18px]">biotech</span>
+          <span class="text-xs font-medium">Modelado Semántico</span>
+        </a>
+        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/finance">
+          <span class="material-symbols-outlined text-[18px]">payments</span>
+          <span class="text-xs font-medium">Finanzas</span>
+        </a>
+        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/reports">
+          <span class="material-symbols-outlined text-[18px]">description</span>
+          <span class="text-xs font-medium">Informes</span>
+        </a>
+        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/compliance">
+          <span class="material-symbols-outlined text-[18px]">verified_user</span>
+          <span class="text-xs font-medium">Cumplimiento</span>
         </a>
         
-        <a href="/admin" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[#84d5c5] hover:bg-teal-950/20 border border-teal-500/20 transition-all text-left mb-2">
-          <span class="material-symbols-outlined text-[20px]">shield</span>
-          <span class="text-xs uppercase tracking-wider font-bold">Consola Gobernanza</span>
-        </a>
+        <div class="h-px bg-slate-800 my-3"></div>
 
-        <div class="h-px bg-slate-800 my-4"></div>
-
-        <a href="/dashboard" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-all text-left">
-          <span class="material-symbols-outlined text-[20px]">science</span>
-          <span class="text-xs uppercase tracking-wider font-bold">Ir a Suite Científica</span>
+        <!-- SECCIÓN DE AUDITORÍA Y GOBERNANZA -->
+        <p class="text-[9px] font-bold text-[#84d5c5]/80 uppercase tracking-widest px-3 mb-1">Gobernanza Central</p>
+        
+        <a class="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-[#1c2e37] hover:text-slate-200 transition-colors" href="/admin">
+          <span class="material-symbols-outlined text-[18px]">shield</span>
+          <span class="text-xs font-bold">Consola Gobernanza</span>
         </a>
       </nav>
     </div>
