@@ -806,6 +806,53 @@ Comentario de Bioquímico de Campo:
     state.update_draft_section("finance", water_finance, "green")
     state.update_draft_section("compliance", water_compliance, "green")
 
+class TokenTransaction(BaseModel):
+    timestamp: str
+    user_id: str
+    project_code: str
+    action_type: str  # e.g., "Socratic Coach AI", "Winsorize Dataset", "Newton-Raphson Solver"
+    tokens_spent: int
+    ip_address: str
+    description: str
+
+token_ledger: List[TokenTransaction] = []
+
+# Cargar transacciones previas si existe el archivo
+if os.path.exists("token_ledger.jsonl"):
+    try:
+        with open("token_ledger.jsonl", "r") as f:
+            for line in f:
+                if line.strip():
+                    token_ledger.append(TokenTransaction.model_validate_json(line))
+    except Exception as e:
+        print(f"Error cargando token_ledger.jsonl: {e}")
+
+def spend_tokens_state(state: AppState, action_type: str, tokens: int, description: str, ip: str = "127.0.0.1"):
+    """Deduce tokens del perfil de usuario y registra la transacción en el ledger."""
+    # Incrementar tokens consumidos
+    state.profile.tokens_used += tokens
+    
+    # Crear transacción
+    tx = TokenTransaction(
+        timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        user_id=state.profile.id,
+        project_code=state.profile.orcid or "PRJ-FONDOCYT-001",
+        action_type=action_type,
+        tokens_spent=tokens,
+        ip_address=ip,
+        description=description
+    )
+    token_ledger.append(tx)
+    
+    # Persistencia local (JSONL)
+    try:
+        with open("token_ledger.jsonl", "a") as f:
+            f.write(tx.model_dump_json() + "\n")
+    except Exception as e:
+        print(f"Error escribiendo en token_ledger.jsonl: {e}")
+    
+    return tx
+
 sessions: Dict[str, AppState] = {}
 active_connections: Dict[str, dict] = {}
 
@@ -1577,7 +1624,38 @@ async def api_admin_list_connections(request: Request):
     if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
         raise HTTPException(status_code=403, detail="No autorizado")
     
-    return [{"session_id": sid, **info} for sid, info in active_connections.items()]
+    conns = []
+    for sid, info in active_connections.items():
+        state = sessions.get(sid)
+        if state:
+            conns.append({
+                "session_id": sid,
+                "username": info.get("username"),
+                "name": state.profile.name,
+                "institution": state.profile.institution,
+                "role": info.get("role"),
+                "ip": info.get("ip"),
+                "login_time": info.get("login_time"),
+                "tokens_used": state.profile.tokens_used,
+                "token_quota": state.profile.token_quota,
+                "orcid": state.profile.orcid or "INV-ARIS-001",
+                "researcher_id": state.profile.id
+            })
+        else:
+            conns.append({
+                "session_id": sid,
+                "username": info.get("username"),
+                "name": info.get("name"),
+                "institution": "Consorcio",
+                "role": info.get("role"),
+                "ip": info.get("ip"),
+                "login_time": info.get("login_time"),
+                "tokens_used": 0,
+                "token_quota": 1000000,
+                "orcid": "N/D",
+                "researcher_id": "INV-ARIS-001"
+            })
+    return conns
 
 @app.get("/api/admin/signed-deeds")
 async def api_admin_signed_deeds(request: Request):
@@ -1802,6 +1880,124 @@ async def api_admin_purge_data(data: PurgeDataRequest, request: Request):
 
     return {"status": "success", "message": "Base de datos, actas y llaves de auditoría purgadas con éxito."}
 
+class QuotaRechargeRequest(BaseModel):
+    researcher_id: str
+    amount: int
+
+@app.get("/api/admin/token-ledger")
+async def api_admin_token_ledger(request: Request):
+    """Retorna el historial completo de transacciones de tokens para la auditoría."""
+    session_id = request.cookies.get("session_id")
+    conn_info = active_connections.get(session_id) if session_id else None
+    if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
+        raise HTTPException(status_code=403, detail="No autorizado.")
+    return [{"index": i, **tx.dict()} for i, tx in enumerate(token_ledger)]
+
+@app.post("/api/admin/recharge-quota")
+async def api_admin_recharge_quota(data: QuotaRechargeRequest, request: Request):
+    """Permite al auditor recargar tokens a un investigador mediante su ID."""
+    session_id = request.cookies.get("session_id")
+    conn_info = active_connections.get(session_id) if session_id else None
+    if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
+        raise HTTPException(status_code=403, detail="No autorizado.")
+        
+    target_id = data.researcher_id.strip()
+    amount = data.amount
+    if amount <= 0:
+        raise HTTPException(status_code=400, detail="La cantidad debe ser mayor que cero.")
+        
+    # Buscar en las sesiones activas
+    recharged = False
+    for s_id, state in sessions.items():
+        if state.profile.id == target_id:
+            state.profile.token_quota += amount
+            recharged = True
+            
+    if not recharged:
+        # Si no está logueado pero es el por defecto, recargar el por defecto
+        for s_id, state in sessions.items():
+            state.profile.token_quota += amount
+            recharged = True
+            break
+            
+    # Registrar la transacción en el ledger (con signo negativo para indicar recarga/ingreso)
+    tx = TokenTransaction(
+        timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        user_id=target_id,
+        project_code="RECHARGE-FONDOCYT",
+        action_type="Quota Recharge",
+        tokens_spent=-amount,
+        ip_address=conn_info.get("ip", "127.0.0.1") if conn_info else "127.0.0.1",
+        description=f"Ampliación presupuestaria formal de +{amount:,} tokens aprobada por auditor."
+    )
+    token_ledger.append(tx)
+    
+    # Persistir en JSONL
+    try:
+        with open("token_ledger.jsonl", "a") as f:
+            f.write(tx.json() + "\n")
+    except Exception as e:
+        logger.error(f"Error escribiendo recarga en ledger: {e}")
+        
+    return {"status": "success", "message": f"Se han recargado exitosamente {amount:,} tokens al perfil {target_id}."}
+
+@app.get("/api/admin/token-export/csv")
+async def api_admin_export_csv(request: Request):
+    """Exporta el historial completo de tokens en formato CSV."""
+    session_id = request.cookies.get("session_id")
+    conn_info = active_connections.get(session_id) if session_id else None
+    if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
+        raise HTTPException(status_code=403, detail="No autorizado.")
+        
+    import csv
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["Timestamp", "Researcher ID", "Project Code", "Action Type", "Tokens Spent", "IP Address", "Description"])
+    
+    for tx in token_ledger:
+        writer.writerow([tx.timestamp, tx.user_id, tx.project_code, tx.action_type, tx.tokens_spent, tx.ip_address, tx.description])
+        
+    csv_data = output.getvalue()
+    return HTMLResponse(
+        content=csv_data,
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename=ENTHEMA_TOKEN_LEDGER_{datetime.now().strftime('%Y-%m-%d')}.csv"}
+    )
+
+@app.get("/api/admin/token-export/xml")
+async def api_admin_export_xml(request: Request):
+    """Genera un reporte de auditoría XML de tokens del FONDOCYT/MESCyT."""
+    session_id = request.cookies.get("session_id")
+    conn_info = active_connections.get(session_id) if session_id else None
+    if not conn_info or conn_info["role"] not in ["admin", "auditor"]:
+        raise HTTPException(status_code=403, detail="No autorizado.")
+        
+    xml_data = f'<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml_data += f'<fondocyt_token_audit generated_at="{datetime.now().isoformat()}">\n'
+    xml_data += '  <authority>CONACYT / MESCyT República Dominicana</authority>\n'
+    xml_data += f'  <transactions_count>{len(token_ledger)}</transactions_count>\n'
+    xml_data += '  <ledger>\n'
+    
+    for tx in token_ledger:
+        xml_data += f'    <transaction>\n'
+        xml_data += f'      <timestamp>{tx.timestamp}</timestamp>\n'
+        xml_data += f'      <researcher_id>{tx.user_id}</researcher_id>\n'
+        xml_data += f'      <project_code>{tx.project_code}</project_code>\n'
+        xml_data += f'      <action_type>{tx.action_type}</action_type>\n'
+        xml_data += f'      <tokens_spent>{tx.tokens_spent}</tokens_spent>\n'
+        xml_data += f'      <ip_address>{tx.ip_address}</ip_address>\n'
+        xml_data += f'      <description>{tx.description}</description>\n'
+        xml_data += f'    </transaction>\n'
+        
+    xml_data += '  </ledger>\n'
+    xml_data += '</fondocyt_token_audit>\n'
+    
+    return HTMLResponse(
+        content=xml_data,
+        media_type="application/xml",
+        headers={"Content-Disposition": f"attachment; filename=FONDOCYT_TOKEN_AUDIT_{datetime.now().strftime('%Y-%m-%d')}.xml"}
+    )
+
 # ==========================================
 # ENDPOINTS DE API REST DEL INVESTIGADOR
 # ==========================================
@@ -1947,6 +2143,17 @@ async def generate_synthetic_pilot(request: Request):
     """Genera bases de datos piloto cualitativas y cuantitativas (Ideación Activa)."""
     state = get_api_session(request)
     
+    is_admin = (state and state.profile.user_role in ["admin", "auditor"])
+    if not is_admin and state:
+        if state.profile.tokens_used >= state.profile.token_quota:
+            raise HTTPException(status_code=402, detail="Presupuesto de Cómputo FONDOCYT Agotado. Solicita una recarga formal en la Consola Central.")
+        spend_tokens_state(
+            state=state,
+            action_type="Synthetic Pilot Generation",
+            tokens=1500,
+            description=f"Generación de Proyecto Piloto Sintético"
+        )
+    
     discipline = "STEM"
     if state.profile.user_role == "investment_consultant":
         discipline = "Business"
@@ -1999,6 +2206,12 @@ async def generate_synthetic_pilot(request: Request):
 async def upload_dataset(request: Request, file: UploadFile = File(...)):
     """Carga un dataset CSV para análisis cuantitativo molecular o financiero."""
     state = get_api_session(request)
+    
+    is_admin = (state and state.profile.user_role in ["admin", "auditor"])
+    if not is_admin and state:
+        if state.profile.tokens_used >= state.profile.token_quota:
+            raise HTTPException(status_code=402, detail="Presupuesto de Cómputo FONDOCYT Agotado. Solicita una recarga formal en la Consola Central.")
+
     content = await file.read()
     text = content.decode("utf-8")
     
@@ -2006,6 +2219,17 @@ async def upload_dataset(request: Request, file: UploadFile = File(...)):
         df = pd.read_csv(io.StringIO(text))
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error leyendo el archivo CSV: {str(e)}")
+        
+    if not is_admin and state:
+        rows = len(df)
+        cols = len(df.columns)
+        spent_tokens = max(100, rows * cols * 10)
+        spend_tokens_state(
+            state=state,
+            action_type="Winsorize Dataset",
+            tokens=spent_tokens,
+            description=f"Winsorización de Dataset: {file.filename} ({rows} filas, {cols} columnas)"
+        )
         
     quant_db, df_clean = QuantitativeProfiler.profile_dataframe(
         project_title=f"Carga: {file.filename}",
@@ -2035,6 +2259,17 @@ class FinanceSolveRequest(BaseModel):
 async def solve_financials(data: FinanceSolveRequest, request: Request):
     """Resuelve la viabilidad financiera multiperiodo TIR/VAN con Newton-Raphson y Monte Carlo."""
     state = get_api_session(request)
+    
+    is_admin = (state and state.profile.user_role in ["admin", "auditor"])
+    if not is_admin and state:
+        if state.profile.tokens_used >= state.profile.token_quota:
+            raise HTTPException(status_code=402, detail="Presupuesto de Cómputo FONDOCYT Agotado. Solicita una recarga formal en la Consola Central.")
+        spend_tokens_state(
+            state=state,
+            action_type="Newton-Raphson Solver",
+            tokens=500,
+            description="Ejecución de Solver Financiero (Newton-Raphson TIR/VAN)"
+        )
     
     if not data.cash_flow:
         raise HTTPException(status_code=400, detail="El flujo de caja no puede estar vacío")
@@ -2069,6 +2304,17 @@ class ABMSimulationRequest(BaseModel):
 async def simulate_abm(data: ABMSimulationRequest, request: Request):
     """Ejecuta una simulación del reactor y la proyección de agentes (ABM)."""
     state = get_api_session(request)
+    
+    is_admin = (state and state.profile.user_role in ["admin", "auditor"])
+    if not is_admin and state:
+        if state.profile.tokens_used >= state.profile.token_quota:
+            raise HTTPException(status_code=402, detail="Presupuesto de Cómputo FONDOCYT Agotado. Solicita una recarga formal en la Consola Central.")
+        spend_tokens_state(
+            state=state,
+            action_type="ABM Simulation",
+            tokens=1000,
+            description="Ejecución de Simulación ABM de Reactor Hídrico"
+        )
     
     # Simular cambios dinámicos en telemetría
     state.reactor_temp = round(1240.0 + random.uniform(-10, 10), 2)
@@ -2955,6 +3201,32 @@ async def api_copilot_query(data: CopilotQueryRequest, request: Request):
     # Determinar si es Administrador o Auditor
     is_admin = (conn_info and conn_info["role"] in ["admin", "auditor"]) or (state and state.profile.user_role in ["admin", "auditor"])
     
+    # Bloqueo por presupuesto de tokens agotado para investigadores
+    if not is_admin and state:
+        if state.profile.tokens_used >= state.profile.token_quota:
+            answer = (
+                "**[🚨 AI Coach - Presupuesto FONDOCYT Agotado] [BLOQUEADO]**\n\n"
+                "### ❌ Límite Computacional Alcanzado\n"
+                "Se ha suspendido temporalmente la asistencia del Coach Socrático debido al agotamiento del "
+                "presupuesto de tokens asignado a tu proyecto por FONDOCYT/MESCyT.\n\n"
+                f"* **Tokens Consumidos**: `{state.profile.tokens_used:,}` / `{state.profile.token_quota:,}`\n"
+                "* **Estado del Proyecto**: Suspendido para llamadas de inferencia.\n\n"
+                "### 🗺️ Ruta de Solución\n"
+                "1. **Solicitud de Recarga**: Comunícate con el Auditor asignado a tu institución para solicitar "
+                "una extensión de presupuesto de cómputo formal.\n"
+                "2. **Fiscalización**: Tu auditor puede realizar una recarga en la sección de 'Monitoreo Operativo' "
+                "del Cerebro Central, la cual registrará un acta inmutable de ampliación presupuestaria."
+            )
+            trace = [
+                {"step": 1, "node": "Validador de Presupuesto", "status": "BUDGET_EXHAUSTED", "desc": "Consulta bloqueada debido a que el investigador consumió el 100% de su cuota de tokens."}
+            ]
+            return {
+                "status": "success",
+                "answer": answer,
+                "reasoning_trace": trace,
+                "agent": "Agente de Gobernanza y Compliance (GovernanceAgent)"
+            }
+
     # ==========================================================
     # INTERCEPTORES DE GOBERNANZA Y CONSTITUCIÓN EPISTÉMICA (Fase 5)
     # ==========================================================
@@ -3474,6 +3746,20 @@ async def api_copilot_query(data: CopilotQueryRequest, request: Request):
             state.generated_suggestions[node_name] = []
         if len(answer.strip()) > 30:
             state.generated_suggestions[node_name].append(answer)
+
+    # Contabilizar gasto de tokens
+    if not is_admin and state:
+        input_words = len(user_query.split())
+        output_words = len(answer.split())
+        spent_tokens = int((input_words + output_words) * 1.33)
+        # Asegurar que gaste al menos 10 tokens por consulta
+        spent_tokens = max(10, spent_tokens)
+        spend_tokens_state(
+            state=state,
+            action_type="Socratic Coach AI",
+            tokens=spent_tokens,
+            description=f"Consulta al AI Coach: '{user_query[:30]}...'"
+        )
 
     return {"status": "success", "answer": answer, "reasoning_trace": trace, "agent": agent.name}
 

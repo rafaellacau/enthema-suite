@@ -44,6 +44,15 @@ class ResearcherProfile(BaseModel):
         "",
         description="Firma digitalizada de consentimiento y descargo del usuario"
     )
+    # Contabilidad Soberana de Tokens
+    token_quota: int = Field(
+        1000000,
+        description="Presupuesto virtual de tokens otorgado por FONDOCYT/MESCyT"
+    )
+    tokens_used: int = Field(
+        0,
+        description="Acumulado histórico de tokens de cómputo consumidos en el ciclo"
+    )
     # Parámetros específicos de consultoría
     consultancy_client: Optional[str] = Field("República Dominicana", description="País o cliente objetivo del financiamiento")
     funding_institution: Optional[str] = Field("Organismo Multilateral", description="Entidad evaluadora (ej. Banco Mundial, BID, Fondo Privado)")

@@ -6,18 +6,24 @@
   <title>Cerebro Central & Auditoría - Enthema Suite</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #f3faff; /* Soft Ice background */
+      background-color: #f8fafc; /* Sleek light gray */
       color: #1e293b;
     }
     .glass-card {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(16px);
-      border: 1px solid #e4f0f6;
-      box-shadow: 0 10px 25px -5px rgba(17, 29, 35, 0.04);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
     }
     .tab-content {
       opacity: 0;
@@ -31,16 +37,55 @@
       transform: translateY(0);
     }
     .nav-btn {
-      transition: all 0.2s ease-in-out;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid transparent;
+      color: #94a3b8;
+    }
+    .nav-btn:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
     }
     .nav-btn.active {
-      background-color: rgba(132, 213, 197, 0.15);
-      border-right: 4px solid #10b981; /* Tech Emerald accent */
-      color: #84d5c5;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(59, 130, 246, 0.1) 100%);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: #22d3ee !important; /* Cyan glow */
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
       font-weight: 700;
     }
     .chart-bar {
       transition: height 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .researcher-card {
+      background: #ffffff;
+      border: 1px solid #f1f5f9;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+      transition: all 0.3s ease;
+    }
+    .researcher-card:hover {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      transform: translateY(-3px);
+    }
+    @media print {
+      body {
+        background-color: #fff !important;
+        color: #000 !important;
+        font-size: 11px !important;
+      }
+      aside, header, nav, button, .no-print, .nav-btn, .material-symbols-outlined {
+        display: none !important;
+      }
+      main, .print-only {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+      .glass-card {
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+      }
     }
   </style>
   
@@ -64,48 +109,71 @@
   </script>
 </head>
 <body class="min-h-screen flex">
-
   <!-- Left Sidebar Navigator (Navy Theme) -->
-  <aside class="w-64 bg-[#111d23] flex flex-col justify-between py-6 px-4 z-20 shrink-0 shadow-xl text-slate-300">    <div class="space-y-8">
+  <aside class="w-64 bg-[#0d1726] flex flex-col justify-between py-6 px-4 z-20 shrink-0 shadow-2xl text-slate-400">
+    <div class="space-y-8">
       <div class="flex items-center gap-3 px-2">
-        <img alt="Logo Enthema" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQhB_22VotrZZbL_jOLGaLeHsfqeUWPxCXbGgk1A7Ydge9sMGxnjsgi9n4Uso49AMQ9uLO4Fx_1t-KkEooVK3Tj5VYG8Diek9UboE6JUb0hJW-LWeiMcEUgA2qTXIvc9kNrF9ls8gCXxEkvyGMjumvqE5w013AYnWc9OuZLXo2lP0FIe9TXE2kgFWA0mMIeaOMe43bRjjp1mRgsQCKVlcCyZRD59PHK1tYF7w3m8U2qFNJhSeFZfoMGrJucg_brj8IWe3DTAGBkpNp"/>
+        <!-- SVG Blue brain logo -->
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+          <span class="material-symbols-outlined text-white text-[20px] font-bold animate-pulse">psychology</span>
+        </div>
         <div>
-          <h1 class="font-bold text-white text-[15px] leading-none tracking-tight">CEREBRO CENTRAL</h1>
-          <p class="text-[9px] text-[#84d5c5] font-mono mt-1 uppercase tracking-wider">Consola de Gobernanza</p>
+          <h1 class="font-extrabold text-white text-[14px] leading-none tracking-tight">CEREBRO CENTRAL</h1>
+          <p class="text-[9px] text-cyan-400 font-mono mt-1 uppercase tracking-wider font-bold">Consola de Gobernanza</p>
         </div>
       </div>
  
-      <nav class="space-y-1">
-        <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn active w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-[#1c2e37] transition-all text-left">
-          <span class="material-symbols-outlined text-[20px]">monitoring</span>
-          <span class="text-xs uppercase tracking-wider font-bold">Monitoreo Operativo</span>
+      <nav class="space-y-1.5">
+        <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left text-xs uppercase tracking-wider font-bold">
+          <span class="material-symbols-outlined text-[18px]">dashboard</span>
+          <span>Dashboard</span>
         </button>
         
-        <button onclick="switchTab('history')" id="btn-history" class="nav-btn w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-[#1c2e37] transition-all text-left">
-          <span class="material-symbols-outlined text-[20px]">history_toggle_off</span>
-          <span class="text-xs uppercase tracking-wider font-bold">Historial de Auditoría</span>
+        <button onclick="switchTab('users')" id="btn-users" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left text-xs uppercase tracking-wider font-bold">
+          <span class="material-symbols-outlined text-[18px]">group</span>
+          <span>Users</span>
         </button>
- 
-        <button onclick="switchTab('reports')" id="btn-reports" class="nav-btn w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-[#1c2e37] transition-all text-left">
-          <span class="material-symbols-outlined text-[20px]">verified</span>
-          <span class="text-xs uppercase tracking-wider font-bold">Actas y Reportes</span>
-        </button>
- 
-        <div class="h-px bg-slate-800 my-4"></div>
         
-        <a href="/dashboard" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-400 hover:bg-slate-900 transition-all mb-2">
-          <span class="material-symbols-outlined text-[20px]">science</span>
-          <span class="text-xs uppercase tracking-wider font-bold">Ir a Suite Científica</span>
+        <button onclick="switchTab('projects')" id="btn-projects" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left text-xs uppercase tracking-wider font-bold">
+          <span class="material-symbols-outlined text-[18px]">folder_open</span>
+          <span>Projects</span>
+        </button>
+        
+        <button onclick="switchTab('compliance')" id="btn-compliance" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left text-xs uppercase tracking-wider font-bold">
+          <span class="material-symbols-outlined text-[18px]">gavel</span>
+          <span>Compliance</span>
+        </button>
+        
+        <button onclick="switchTab('reports')" id="btn-reports" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left text-xs uppercase tracking-wider font-bold">
+          <span class="material-symbols-outlined text-[18px]">description</span>
+          <span>Reporting</span>
+        </button>
+        
+        <button onclick="switchTab('history')" id="btn-history" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left text-xs uppercase tracking-wider font-bold">
+          <span class="material-symbols-outlined text-[18px]">history</span>
+          <span>Audit Logs</span>
+        </button>
+
+        <button onclick="switchTab('settings')" id="btn-settings" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left text-xs uppercase tracking-wider font-bold">
+          <span class="material-symbols-outlined text-[18px]">settings</span>
+          <span>Settings</span>
+        </button>
+
+        <div class="h-px bg-slate-800/80 my-4"></div>
+        
+        <a href="/dashboard" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-900 transition-all text-left text-xs uppercase tracking-wider font-bold">
+          <span class="material-symbols-outlined text-[18px]">science</span>
+          <span>Ir a Suite Científica</span>
         </a>
  
-        <a href="/onboarding/auditor" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[#10b981] hover:bg-[#84d5c5]/10 border border-[#10b981]/20 transition-all mb-2">
-          <span class="material-symbols-outlined text-[20px]">supervised_user_circle</span>
-          <span class="text-xs uppercase tracking-wider font-bold">Ir a Módulo Auditoría</span>
+        <a href="/onboarding/auditor" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#10b981] hover:bg-[#84d5c5]/10 border border-[#10b981]/15 transition-all text-left text-xs uppercase tracking-wider font-bold">
+          <span class="material-symbols-outlined text-[18px]">supervised_user_circle</span>
+          <span>Módulo Auditoría</span>
         </a>
  
-        <a href="/admin/manual" target="_blank" class="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[#f59e0b] hover:bg-[#78350f]/20 border border-[#d97706]/20 transition-all">
-          <span class="material-symbols-outlined text-[20px]">lock</span>
-          <span class="text-xs uppercase tracking-wider font-bold">Manual Confidencial</span>
+        <a href="/admin/manual" target="_blank" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#f59e0b] hover:bg-[#78350f]/20 border border-[#d97706]/15 transition-all text-left text-xs uppercase tracking-wider font-bold">
+          <span class="material-symbols-outlined text-[18px]">lock</span>
+          <span>Manual Confidencial</span>
         </a>
       </nav>
     </div>
@@ -113,19 +181,19 @@
     <!-- User Profile & Logout -->
     <div class="space-y-4 pt-4 border-t border-slate-800">
       <div class="flex items-center gap-3 px-2">
-        <div class="w-8 h-8 rounded-full bg-[#84d5c5] text-slate-950 flex items-center justify-center font-bold text-sm">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-emerald-400 text-slate-950 flex items-center justify-center font-bold text-xs shadow-md">
           {{ profile.name[:2].upper() }}
         </div>
         <div>
           <p class="text-xs font-bold text-white leading-none">{{ profile.name }}</p>
-          <p class="text-[9px] text-[#84d5c5] mt-1 font-mono uppercase tracking-wider">Auditor Autorizado</p>
+          <p class="text-[9px] text-[#84d5c5] mt-1 font-mono uppercase tracking-wider font-bold">Auditor Autorizado</p>
         </div>
       </div>
-      <button onclick="purgeAllData()" class="w-full bg-red-950/40 hover:bg-red-800 border border-red-800/50 text-red-200 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 mb-2">
-        <span class="material-symbols-outlined text-[16px]">delete_sweep</span> Borrar Data Anterior
+      <button onclick="purgeAllData()" class="w-full bg-red-950/20 hover:bg-red-900/50 border border-red-800/30 text-red-200 py-2 rounded-xl text-[10px] font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm">
+        <span class="material-symbols-outlined text-[14px]">delete_sweep</span> Purgar Data
       </button>
-      <button onclick="logoutAdmin()" class="w-full bg-[#1c2e37] hover:bg-red-950/20 hover:text-red-400 border border-slate-800 text-slate-300 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined text-[16px]">logout</span> Cerrar Sesión
+      <button onclick="logoutAdmin()" class="w-full bg-slate-900 hover:bg-red-950/40 border border-slate-800 text-slate-400 hover:text-red-400 py-2 rounded-xl text-[10px] font-bold transition-all flex items-center justify-center gap-1.5">
+        <span class="material-symbols-outlined text-[14px]">logout</span> Cerrar Sesión
       </button>
     </div>
   </aside>
@@ -136,91 +204,168 @@
     <!-- Top Header -->
     <header class="h-16 border-b border-slate-200 bg-white px-8 flex justify-between items-center z-10 shrink-0">
       <div class="flex items-center gap-4">
-        <span class="inline-flex items-center px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#10b981]/10 text-[#059669] border border-[#10b981]/20">● ESTADO CENTRAL: ACTIVO</span>
-        <span class="text-xs text-slate-500 font-semibold font-mono">{{ profile.institution if profile and profile.institution else 'Consorcio de Investigación' }}</span>
+        <span data-i18n="status-active" class="inline-flex items-center px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-[#10b981]/10 text-[#059669] border border-[#10b981]/20">● ESTADO CENTRAL: ACTIVO</span>
+        <span data-i18n="consorcio" class="text-xs text-slate-500 font-semibold font-mono">{{ profile.institution if profile and profile.institution else 'Consorcio de Investigación' }}</span>
       </div>
-      <div class="text-xs text-slate-500 font-semibold font-mono">
-        Host Seguro: 127.0.0.1:8501
+      <div class="flex items-center gap-4">
+        <!-- Language Switcher Selector -->
+        <div class="flex items-center gap-1 bg-slate-100 hover:bg-slate-200/80 p-0.5 rounded-lg border border-slate-200 transition-all text-[9px] font-bold select-none cursor-pointer" onclick="toggleLanguage()">
+          <span id="lang-btn-es" class="px-1.5 py-0.5 rounded bg-white text-slate-800 shadow-sm transition-all">ES</span>
+          <span id="lang-btn-en" class="px-1.5 py-0.5 rounded text-slate-400 transition-all">EN</span>
+        </div>
+        <div class="h-4 w-px bg-slate-200"></div>
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-[18px] text-slate-400">mail</span>
+          <div class="relative">
+            <span class="material-symbols-outlined text-[18px] text-slate-400">notifications</span>
+            <span class="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+          </div>
+        </div>
+        <div class="h-4 w-px bg-slate-200"></div>
+        <div class="flex items-center gap-2 text-xs font-bold text-slate-700">
+          <div class="w-6 h-6 rounded-full bg-slate-200 overflow-hidden flex items-center justify-center text-[10px] text-slate-600 font-mono font-bold uppercase">{{ profile.name[:2] }}</div>
+          <span>Admin - {{ profile.name }}</span>
+        </div>
       </div>
     </header>
 
     <!-- Content Body -->
-    <main class="flex-grow p-8 overflow-y-auto">
+    <main class="flex-grow p-8 overflow-y-auto bg-slate-50/50">
 
-      <!-- ==================== PESTAÑA 1: MONITOREO OPERATIVO ==================== -->
+      <!-- ==================== TAB 1: DASHBOARD ==================== -->
       <section id="tab-dashboard" class="tab-content active space-y-6">
-        <div>
-          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Monitoreo Operativo de Sesiones</h2>
-          <p class="text-xs text-slate-500 mt-1">Gobernanza activa de sesiones del clúster de simulación y control de llaves provisionales.</p>
+        <!-- Dashboard Header -->
+        <div class="flex justify-between items-center">
+          <h2 data-i18n="title-dashboard" class="text-2xl font-black text-slate-900 tracking-tight">Dashboard</h2>
+          <div class="flex items-center gap-1.5 text-xs text-slate-500 font-bold bg-white border border-slate-200 px-3 py-1.5 rounded-xl shadow-sm">
+            <span class="material-symbols-outlined text-[16px] text-slate-400">calendar_today</span>
+            <span id="live-clock-display">May 25, 2026, 9:11 AM</span>
+          </div>
         </div>
 
-        <!-- Telemetry Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div class="glass-card rounded-2xl p-5 space-y-2 relative overflow-hidden">
-            <div class="absolute top-0 left-0 right-0 h-[2.5px] bg-[#10b981]"></div>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Sesiones en Vivo</p>
-            <div class="flex items-baseline justify-between">
-              <span class="text-2xl font-black text-slate-800" id="stat-sessions">0</span>
-              <span class="material-symbols-outlined text-[#10b981] text-[24px]">group</span>
+        <!-- Presupuesto Soberano de Tokens (FONDOCYT) Large Card -->
+        <div class="glass-card rounded-[24px] p-6 space-y-6">
+          <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+            <h3 data-i18n="title-budget" class="font-extrabold text-slate-800 text-lg tracking-tight">Presupuesto Soberano de Tokens (FONDOCYT)</h3>
+            <div class="flex items-center gap-2">
+              <!-- Dropdown Button -->
+              <div class="relative">
+                <button class="flex items-center gap-1 bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-600 shadow-sm hover:bg-slate-50 transition-all">
+                  <span>Prematon</span>
+                  <span class="material-symbols-outlined text-[16px] text-slate-400">expand_more</span>
+                </button>
+              </div>
+              <button class="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm text-slate-500">
+                <span class="material-symbols-outlined text-[18px]">more_horiz</span>
+              </button>
             </div>
-            <p class="text-[9px] text-emerald-600 flex items-center gap-1 font-semibold">
-              <span>●</span> Aisladas y Concurrentes
-            </p>
           </div>
 
-          <div class="glass-card rounded-2xl p-5 space-y-2 relative overflow-hidden">
-            <div class="absolute top-0 left-0 right-0 h-[2.5px] bg-[#f59e0b]"></div>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Claves Sin Usar</p>
-            <div class="flex items-baseline justify-between">
-              <span class="text-2xl font-black text-slate-800" id="stat-keys">0</span>
-              <span class="material-symbols-outlined text-[#f59e0b] text-[24px]">vpn_key</span>
+          <!-- Total metrics inside card -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            <div class="space-y-1 border-r border-slate-100/80 pr-4">
+              <p data-i18n="label-funding" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Ingresos Totales</p>
+              <p class="text-2xl font-black text-slate-800 tracking-tight" id="dashboard-quota-total">RD$ 25,000,000</p>
             </div>
-            <p class="text-[9px] text-slate-500 font-mono">Disponibles en access_keys.json</p>
+            <div class="space-y-1 border-r border-slate-100/80 px-4">
+              <p data-i18n="label-consumed" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Consumed Compute</p>
+              <p class="text-2xl font-black text-slate-800 tracking-tight" id="dashboard-used-total">RD$ 1,129</p>
+            </div>
+            <div class="space-y-1 pl-4">
+              <p data-i18n="label-remaining" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Remaining Balance</p>
+              <p class="text-2xl font-black text-slate-800 tracking-tight" id="dashboard-remaining-total">RD$ 11,250,000</p>
+            </div>
           </div>
 
-          <div class="glass-card rounded-2xl p-5 space-y-2 relative overflow-hidden">
-            <div class="absolute top-0 left-0 right-0 h-[2.5px] bg-[#0284c7]"></div>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Base de Datos Cloud</p>
-            <div class="flex items-baseline justify-between">
-              <span class="text-sm font-mono font-bold text-slate-700">JSONB LOCAL</span>
-              <span class="material-symbols-outlined text-[#0284c7] text-[24px]">cloud_sync</span>
+          <!-- Chart Visual split -->
+          <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 pt-2">
+            <!-- Left Donut chart column -->
+            <div class="lg:col-span-2 flex flex-col justify-center items-center space-y-4 bg-slate-50/40 border border-slate-100 rounded-2xl p-5">
+              <div class="w-40 h-40 relative">
+                <canvas id="donutChartCanvas"></canvas>
+              </div>
+              <div class="space-y-1.5 w-full text-[11px] font-bold text-slate-500 font-mono">
+                <div class="flex items-center justify-between">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#10b981]"></span>
+                    <span data-i18n="legend-donut-quota">Ingresos Totales</span>
+                  </span>
+                  <span class="text-slate-700" id="legend-quota-val">RD$ 25,000,000</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#06b6d4]"></span>
+                    <span data-i18n="legend-donut-remaining">Saldo Disponible</span>
+                  </span>
+                  <span class="text-slate-700" id="legend-remaining-val">RD$ 11,250,000</span>
+                </div>
+              </div>
             </div>
-            <p class="text-[9px] text-[#059669] flex items-center gap-1 font-semibold">
-              <span>●</span> Conforme Nagoya & CONABIOS
-            </p>
+
+            <!-- Right Weekly Compute chart column -->
+            <div class="lg:col-span-3 flex flex-col bg-white border border-slate-100 rounded-2xl p-5 space-y-4">
+              <div>
+                <h4 data-i18n="weekly-compute-title" class="font-extrabold text-slate-800 text-sm tracking-tight">Consumo de Cómputo Semanal (Tokens) vs Presupuesto</h4>
+                <p data-i18n="weekly-compute-subtitle" class="text-[10px] text-slate-400 font-mono font-medium mt-0.5">Control de ejecución continua del Consorcio</p>
+              </div>
+              <div class="h-44 relative">
+                <canvas id="weeklyBarChartCanvas"></canvas>
+              </div>
+              <div class="flex items-center gap-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider pt-1">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-3 h-1.5 rounded-full bg-[#10b981]"></span>
+                  <span data-i18n="weekly-legend-compute">Cómputo Tokens</span>
+                </span>
+                <span class="flex items-center gap-1.5">
+                  <span class="w-3 h-1.5 rounded-full bg-[#cbd5e1]"></span>
+                  <span data-i18n="weekly-legend-budget">Presupuesto</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Connected Researchers -->
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 data-i18n="title-researchers" class="text-lg font-black text-slate-800 tracking-tight">Investigadores Conectados & Control de Recursos</h3>
+              <p data-i18n="subtitle-researchers" class="text-xs text-slate-400 font-medium">Estado ético-regulatorio y telemetría de cuotas en tiempo real.</p>
+            </div>
+            <button onclick="refreshOperationalData()" class="flex items-center gap-1 text-xs font-bold text-cyan-600 hover:text-cyan-700 bg-cyan-50 border border-cyan-100 rounded-xl px-3 py-1.5 transition-all shadow-sm">
+              <span class="material-symbols-outlined text-[16px] animate-spin">refresh</span>
+              <span data-i18n="btn-sync">Sincronizar Red</span>
+            </button>
           </div>
 
-          <div class="glass-card rounded-2xl p-5 space-y-2 relative overflow-hidden">
-            <div class="absolute top-0 left-0 right-0 h-[2.5px] bg-slate-900"></div>
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Costo de APIs de IA</p>
-            <div class="flex items-baseline justify-between">
-              <span class="text-2xl font-black text-slate-800">$0.00 USD</span>
-              <span class="material-symbols-outlined text-slate-800 text-[24px]">savings</span>
-            </div>
-            <p class="text-[9px] text-emerald-600 font-semibold font-mono">Determinismo Local Socrático</p>
+          <!-- Dynamic researcher cards container -->
+          <div id="researcherCardsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Dynamically generated premium researcher cards matching the mockup -->
           </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 2: USERS (ACTIVE SESSIONS) ==================== -->
+      <section id="tab-users" class="tab-content space-y-6">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Control y Gobernanza de Investigadores</h2>
+          <p class="text-xs text-slate-500 mt-1">Supervisión activa de sesiones en vivo y emisión de llaves provisionales.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Connections Panel -->
           <div class="lg:col-span-2 glass-card rounded-2xl p-6 space-y-4">
-            <div class="flex justify-between items-center">
-              <h3 class="font-black text-slate-800 text-base">Científicos e Investigadores Conectados</h3>
-              <button onclick="refreshOperationalData()" class="text-slate-400 hover:text-slate-700 transition-colors">
-                <span class="material-symbols-outlined text-[18px]">refresh</span>
-              </button>
-            </div>
-            
+            <h3 class="font-black text-slate-800 text-base">Gobernanza de Cómputo & Investigadores en Vivo</h3>
             <div class="overflow-x-auto">
               <table class="w-full text-left border-collapse">
                 <thead>
                   <tr class="border-b border-slate-100 text-[9px] font-bold text-slate-400 uppercase font-mono tracking-wider">
-                    <th class="pb-3">Usuario</th>
-                    <th class="pb-3">Nombre</th>
-                    <th class="pb-3">Rol / Módulo</th>
+                    <th class="pb-3">Usuario / Cédula</th>
+                    <th class="pb-3">Nombre / Institución</th>
+                    <th class="pb-3">Presupuesto de Tokens (FONDOCYT)</th>
                     <th class="pb-3">Dirección IP</th>
-                    <th class="pb-3">Hora Ingreso</th>
-                    <th class="pb-3 text-right">Acción</th>
+                    <th class="pb-3">Ingreso</th>
+                    <th class="pb-3 text-right">Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="connectionsTableBody" class="divide-y divide-slate-100 text-xs">
@@ -256,7 +401,17 @@
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
+      <!-- ==================== TAB 3: PROJECTS ==================== -->
+      <section id="tab-projects" class="tab-content space-y-6">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Gestión y Simulación de Proyectos</h2>
+          <p class="text-xs text-slate-500 mt-1">Configuración local y aprovisionamiento de datasets de simulación científica.</p>
+        </div>
+
+        <div class="max-w-2xl">
           <!-- Módulo Médico de Calidad de Agua -->
           <div class="glass-card rounded-2xl p-6 space-y-4 relative overflow-hidden">
             <div class="absolute top-0 left-0 right-0 h-[2.5px] bg-[#10b981]"></div>
@@ -285,8 +440,16 @@
             </button>
           </div>
         </div>
+      </section>
 
-        <!-- Matriz de Auditoría Receptiva (Stress Test de Coherencia) (Mitigación del Eje 4) -->
+      <!-- ==================== TAB 4: COMPLIANCE ==================== -->
+      <section id="tab-compliance" class="tab-content space-y-6">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Consistencia de Gobernanza & Bioética</h2>
+          <p class="text-xs text-slate-500 mt-1">Auditoría cruzada estructural para el cumplimiento ético de Nagoya y bioética local.</p>
+        </div>
+
+        <!-- Matriz de Auditoría Receptiva (Stress Test de Coherencia) -->
         <div class="glass-card rounded-2xl p-6 space-y-4">
           <div class="flex justify-between items-center">
             <div>
@@ -321,108 +484,7 @@
         </div>
       </section>
 
-      <!-- ==================== PESTAÑA 2: HISTORIAL DE AUDITORÍA ==================== -->
-      <section id="tab-history" class="tab-content space-y-6">
-        <div>
-          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Historial de Auditoría e Impacto</h2>
-          <p class="text-xs text-slate-500 mt-1">Supervisión gráfica de consistencia metodológica y consistencia de linaje en los espacios de trabajo.</p>
-        </div>
-
-        <!-- Comparative Chart Panel -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 glass-card rounded-2xl p-6 space-y-6">
-            <h3 class="font-black text-slate-800 text-base">Consistencia Ética e Indicadores Financieros de Proyectos</h3>
-            
-            <!-- Beautiful Native Bar Chart CSS/SVG -->
-            <div class="flex items-end justify-between h-48 px-4 pt-4 border-b border-slate-100 relative">
-              <div class="absolute left-0 right-0 top-1/4 h-px border-t border-slate-100 border-dashed text-[8px] text-slate-400 font-mono pl-1">75%</div>
-              <div class="absolute left-0 right-0 top-2/4 h-px border-t border-slate-100 border-dashed text-[8px] text-slate-400 font-mono pl-1">50%</div>
-              <div class="absolute left-0 right-0 top-3/4 h-px border-t border-slate-100 border-dashed text-[8px] text-slate-400 font-mono pl-1">25%</div>
-
-              <!-- Bar 1 -->
-              <div class="flex flex-col items-center gap-2 z-10">
-                <div class="flex gap-1.5 items-end h-32">
-                  <div class="w-4 bg-[#84d5c5] rounded-t chart-bar" style="height: 85%;"></div>
-                  <div class="w-4 bg-slate-900 rounded-t chart-bar" style="height: 72%;"></div>
-                </div>
-                <span class="text-[9px] font-mono text-slate-500">BioReactor v2.5</span>
-              </div>
-              <!-- Bar 2 -->
-              <div class="flex flex-col items-center gap-2 z-10">
-                <div class="flex gap-1.5 items-end h-32">
-                  <div class="w-4 bg-[#84d5c5] rounded-t chart-bar" style="height: 90%;"></div>
-                  <div class="w-4 bg-slate-900 rounded-t chart-bar" style="height: 85%;"></div>
-                </div>
-                <span class="text-[9px] font-mono text-slate-500">Esquema Racional</span>
-              </div>
-              <!-- Bar 3 -->
-              <div class="flex flex-col items-center gap-2 z-10">
-                <div class="flex gap-1.5 items-end h-32">
-                  <div class="w-4 bg-[#84d5c5] rounded-t chart-bar" style="height: 60%;"></div>
-                  <div class="w-4 bg-slate-900 rounded-t chart-bar" style="height: 45%;"></div>
-                </div>
-                <span class="text-[9px] font-mono text-slate-500">TIR Newton-Raphson</span>
-              </div>
-              <!-- Bar 4 -->
-              <div class="flex flex-col items-center gap-2 z-10">
-                <div class="flex gap-1.5 items-end h-32">
-                  <div class="w-4 bg-[#84d5c5] rounded-t chart-bar" style="height: 95%;"></div>
-                  <div class="w-4 bg-slate-900 rounded-t chart-bar" style="height: 90%;"></div>
-                </div>
-                <span class="text-[9px] font-mono text-slate-500">Libro SHA-256</span>
-              </div>
-            </div>
-
-            <div class="flex justify-center gap-6 text-[10px] font-mono">
-              <div class="flex items-center gap-1.5">
-                <span class="w-3 h-3 bg-[#84d5c5] rounded"></span>
-                <span class="text-slate-600">Postura Ético-Científica (%)</span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <span class="w-3 h-3 bg-slate-900 rounded"></span>
-                <span class="text-slate-600">Consistencia Criptográfica (%)</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- AI Compliance Assistant -->
-          <div class="glass-card rounded-2xl p-6 space-y-4">
-            <div class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-[#10b981]" style="font-variation-settings: 'FILL' 1;">security</span>
-              <h3 class="font-black text-slate-800 text-base">Asistente de Cumplimiento</h3>
-            </div>
-            
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 text-xs leading-relaxed space-y-3">
-              <p class="font-semibold text-slate-800">
-                Resumen de Estado Operacional:
-              </p>
-              <ul class="space-y-2 text-slate-600 font-mono text-[10px]">
-                <li class="flex items-center gap-1.5 text-emerald-600 font-semibold">
-                  <span class="material-symbols-outlined text-[14px]">check_circle</span>
-                  Libro contable inalterado.
-                </li>
-                <li class="flex items-center gap-1.5 text-emerald-600 font-semibold">
-                  <span class="material-symbols-outlined text-[14px]">check_circle</span>
-                  Firmas alineadas con Nagoya.
-                </li>
-                <li class="flex items-center gap-1.5 text-emerald-600 font-semibold">
-                  <span class="material-symbols-outlined text-[14px]">check_circle</span>
-                  Claves de acceso quemadas OK.
-                </li>
-              </ul>
-              <p class="text-[10px] text-slate-400 italic pt-1">
-                "El 100% de los expedientes físicos generados en el directorio legal coinciden exactamente con las firmas registradas en la base de datos distribuida mock."
-              </p>
-            </div>
-
-            <div class="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[11px] text-amber-700 leading-normal">
-              <strong>Nota de Auditor:</strong> Conforme a las normas del MESCyT, todo expediente debe contar con la firma digitalizada del investigador antes del cierre del ciclo operativo.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ==================== PESTAÑA 3: ACTAS Y REPORTES ==================== -->
+      <!-- ==================== TAB 5: REPORTING ==================== -->
       <section id="tab-reports" class="tab-content space-y-6">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
@@ -431,7 +493,7 @@
           </div>
           
           <div class="flex gap-2">
-            <button onclick="downloadMescytXmlPackage()" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow">
+            <button onclick="downloadMescytXmlPackage()" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow font-mono">
               <span class="material-symbols-outlined text-[18px]">download_zip</span> Descargar Paquete MESCyT (XML)
             </button>
             <button onclick="loadSignedDeeds()" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 px-3 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 shadow">
@@ -474,7 +536,6 @@
               <!-- Animated QR Code Visual Placeholder -->
               <div id="admin-qr-display" class="w-28 h-28 bg-white border border-slate-200 mx-auto flex items-center justify-center p-2 rounded-xl shadow-inner relative overflow-hidden group">
                 <svg viewBox="0 0 100 100" class="w-full h-full text-slate-800">
-                  <!-- Mock QR code details in vector -->
                   <path fill="currentColor" d="M10,10 h20 v20 h-20 z M15,15 h10 v10 h-10 z M70,10 h20 v20 h-20 z M75,15 h10 v10 h-10 z M10,70 h20 v20 h-20 z M15,75 h10 v10 h-10 z" />
                   <path fill="currentColor" d="M40,10 h10 v10 h-10 z M55,20 h10 v10 h-10 z M35,40 h15 v10 h-15 z M60,40 h20 v10 h-20 z M40,60 h10 v30 h-10 z M65,70 h15 v10 h-15 z M80,80 h10 v10 h-10 z" />
                 </svg>
@@ -483,7 +544,7 @@
                 </div>
               </div>
               <div id="admin-qr-url" class="text-center mt-2 flex flex-col justify-center items-center">
-                <span class="text-[9px] text-slate-400 font-mono">SELECCIONA UN QR PARA ESCANEADO SEGURO</span>
+                <span class="text-[9px] text-slate-400 font-mono font-bold tracking-wider uppercase">SELECCIONA UN QR PARA ESCANEADO SEGURO</span>
               </div>
 
               <div class="space-y-1">
@@ -509,13 +570,234 @@
         </div>
       </section>
 
-    </main>
+      <!-- ==================== TAB 6: AUDIT LOGS (HISTORY) ==================== -->
+      <section id="tab-history" class="tab-content space-y-6">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Historial de Auditoría e Impacto</h2>
+          <p class="text-xs text-slate-500 mt-1">Supervisión gráfica de consistencia metodológica y bitácora forense inalterable.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 glass-card rounded-2xl p-6 space-y-6">
+            <h3 class="font-black text-slate-800 text-base">Consistencia Ética e Indicadores Financieros de Proyectos</h3>
+            <div class="h-64 px-2 pt-2 relative">
+              <canvas id="consistencyChart" class="w-full h-full"></canvas>
+            </div>
+          </div>
+
+          <!-- AI Compliance Assistant -->
+          <div class="glass-card rounded-2xl p-6 space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[#10b981]" style="font-variation-settings: 'FILL' 1;">security</span>
+              <h3 class="font-black text-slate-800 text-base">Asistente de Cumplimiento</h3>
+            </div>
+            
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 text-xs leading-relaxed space-y-3">
+              <p class="font-semibold text-slate-800">
+                Resumen de Estado Operacional:
+              </p>
+              <ul class="space-y-2 text-slate-600 font-mono text-[10px] font-bold">
+                <li class="flex items-center gap-1.5 text-emerald-600">
+                  <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  Libro contable inalterado.
+                </li>
+                <li class="flex items-center gap-1.5 text-emerald-600">
+                  <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  Firmas alineadas con Nagoya.
+                </li>
+                <li class="flex items-center gap-1.5 text-emerald-600">
+                  <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  Claves de acceso quemadas OK.
+                </li>
+              </ul>
+              <p class="text-[10px] text-slate-400 italic pt-1">
+                "El 100% de los expedientes físicos generados en el directorio legal coinciden exactamente con las firmas registradas en la base de datos distribuida mock."
+              </p>
+            </div>
+
+            <div class="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl text-[11px] text-amber-700 leading-normal">
+              <strong>Nota de Auditor:</strong> Conforme a las normas del MESCyT, todo expediente debe contar con la firma digitalizada del investigador antes del cierre del ciclo operativo.
+            </div>
+          </div>
+        </div>
+
+        <!-- Libro Mayor de Tokens (Fase 1.6 & 2) -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="font-black text-slate-800 text-base">Libro Mayor de Contabilidad de Tokens (FONDOCYT Ledger)</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Historial forense y auditoría inmutable del esfuerzo computacional y recargas presupuestarias.</p>
+            </div>
+            <div class="flex gap-2 font-mono">
+              <a href="/api/admin/token-export/csv" target="_blank" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-[10px] font-bold tracking-tight transition-all shadow flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">download</span> Exportar CSV
+              </a>
+              <a href="/api/admin/token-export/xml" target="_blank" class="px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-lg text-[10px] font-bold tracking-tight transition-all shadow flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">terminal</span> Exportar XML FONDOCYT
+              </a>
+            </div>
+          </div>
+          
+          <div class="overflow-x-auto font-mono">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-100 text-[9px] font-bold text-slate-400 uppercase tracking-wider">
+                  <th class="pb-3">Fecha UTC</th>
+                  <th class="pb-3">Investigador ID</th>
+                  <th class="pb-3">Código Proyecto</th>
+                  <th class="pb-3">Operación Realizada</th>
+                  <th class="pb-3">Tokens</th>
+                  <th class="pb-3">Dirección IP</th>
+                  <th class="pb-3">Descripción</th>
+                </tr>
+              </thead>
+              <tbody id="tokenLedgerTableBody" class="divide-y divide-slate-100 text-xs">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 7: SETTINGS ==================== -->
+      <section id="tab-settings" class="tab-content space-y-6">
+        <div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight">Parámetros y Mantenimiento Administrativo</h2>
+          <p class="text-xs text-slate-500 mt-1">Configuración destructiva, resets de base de datos e inyección de datos forenses.</p>
+        </div>
+
+        <div class="max-w-2xl space-y-6">
+          <!-- Cripto Purga & Shredding -->
+          <div class="glass-card rounded-2xl p-6 space-y-4 relative overflow-hidden border-red-200/50">
+            <div class="absolute top-0 left-0 right-0 h-[2.5px] bg-red-600"></div>
+            <h3 class="font-black text-red-700 text-base flex items-center gap-2">
+              <span class="material-symbols-outlined text-red-600">delete_forever</span>
+              Cripto-Purga Destructiva (Crypto-Shredding)
+            </h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Realice una purga dura e irreversible del sistema. Esta acción invalidará las firmas criptográficas de las actas de forma definitiva e invalidará la sesión de todos los investigadores.
+            </p>
+            <button onclick="purgeAllData()" class="bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-md w-full">
+              <span class="material-symbols-outlined text-[16px]">warning</span>
+              Iniciar Crypto-Shredding Global
+            </button>
+          </div>
+        </div>
+      </section>    </main>
   </div>
 
   <script>
     // Global Navigation State
     let activeTab = 'dashboard';
     let currentSessionId = '';
+
+    // i18n Translation Engine (ES / EN) - Clean Text-Only (No Flags)
+    const translations = {
+      es: {
+        "status-active": "● ESTADO CENTRAL: ACTIVO",
+        "consorcio": "Consorcio de Investigación",
+        "nav-dashboard": "Dashboard",
+        "nav-users": "Users",
+        "nav-projects": "Projects",
+        "nav-compliance": "Compliance",
+        "nav-reporting": "Reporting",
+        "nav-audit": "Audit Logs",
+        "nav-settings": "Settings",
+        "btn-purge": "Purgar Data",
+        "btn-logout": "Cerrar Sesión",
+        "title-dashboard": "Dashboard",
+        "title-budget": "Presupuesto Soberano de Tokens (FONDOCYT)",
+        "label-funding": "Ingresos Totales",
+        "label-consumed": "Consumed Compute",
+        "label-remaining": "Remaining Balance",
+        "weekly-compute-title": "Consumo de Cómputo Semanal (Tokens) vs Presupuesto",
+        "weekly-compute-subtitle": "Control de ejecución continua del Consorcio",
+        "weekly-legend-compute": "Cómputo Tokens",
+        "weekly-legend-budget": "Presupuesto",
+        "title-researchers": "Investigadores Conectados & Control de Recursos",
+        "subtitle-researchers": "Estado ético-regulatorio y telemetría de cuotas en tiempo real.",
+        "btn-sync": "Sincronizar Red",
+        "legend-donut-quota": "Ingresos Totales",
+        "legend-donut-remaining": "Saldo Disponible"
+      },
+      en: {
+        "status-active": "● SYSTEM STATUS: ACTIVE",
+        "consorcio": "Scientific Research Consortium",
+        "nav-dashboard": "Dashboard",
+        "nav-users": "Users",
+        "nav-projects": "Projects",
+        "nav-compliance": "Compliance",
+        "nav-reporting": "Reporting",
+        "nav-audit": "Audit Logs",
+        "nav-settings": "Settings",
+        "btn-purge": "Purge Data",
+        "btn-logout": "Log Out",
+        "title-dashboard": "Dashboard",
+        "title-budget": "Sovereign Token Budget (FONDOCYT)",
+        "label-funding": "Total Funding",
+        "label-consumed": "Consumed Compute",
+        "label-remaining": "Remaining Balance",
+        "weekly-compute-title": "Weekly Compute Consumption (Tokens) vs Budget",
+        "weekly-compute-subtitle": "Continuous Research Consortium execution control",
+        "weekly-legend-compute": "Compute Tokens",
+        "weekly-legend-budget": "Budget Limit",
+        "title-researchers": "Connected Researchers & Resource Control",
+        "subtitle-researchers": "Ethical-regulatory status and real-time quota telemetry.",
+        "btn-sync": "Synchronize Network",
+        "legend-donut-quota": "Total Grant",
+        "legend-donut-remaining": "Remaining Balance"
+      }
+    };
+
+    let currentLanguage = 'es';
+
+    function toggleLanguage() {
+      const newLang = currentLanguage === 'es' ? 'en' : 'es';
+      setLanguage(newLang);
+    }
+
+    function setLanguage(lang) {
+      currentLanguage = lang;
+      
+      // Update toggle buttons (ES vs EN visual pill highlights)
+      const btnEs = document.getElementById('lang-btn-es');
+      const btnEn = document.getElementById('lang-btn-en');
+      if (lang === 'es') {
+        btnEs.className = "px-1.5 py-0.5 rounded bg-white text-slate-800 shadow-sm transition-all";
+        btnEn.className = "px-1.5 py-0.5 rounded text-slate-400 transition-all";
+        document.documentElement.lang = "es";
+      } else {
+        btnEs.className = "px-1.5 py-0.5 rounded text-slate-400 transition-all";
+        btnEn.className = "px-1.5 py-0.5 rounded bg-white text-slate-800 shadow-sm transition-all";
+        document.documentElement.lang = "en";
+      }
+
+      // Update all DOM elements with data-i18n attributes
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          el.innerText = translations[lang][key];
+        }
+      });
+      
+      // Force refreshing the dynamic operational data (connected researcher cards) to reflect the active language
+      if (typeof refreshOperationalData === 'function') {
+        refreshOperationalData();
+      }
+      
+      updateClock();
+    }
+
+    // Clock display update
+    function updateClock() {
+      const clockEl = document.getElementById('live-clock-display');
+      if (clockEl) {
+        const now = new Date();
+        const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+        clockEl.innerText = now.toLocaleString(currentLanguage === 'es' ? 'es-DO' : 'en-US', options);
+      }
+    }
+    setInterval(updateClock, 1000);
 
     async function resetToWaterQualityProject() {
       if (!confirm('¿Desea borrar toda la data actual del Módulo Investigador y cargar el Estudio Médico de Calidad del Agua y Salud Pública de forma íntegra?')) {
@@ -537,19 +819,16 @@
     }
 
     async function purgeAllData() {
-      // Doble confirmación preliminar
       if (!confirm('🚨 ATENCIÓN: Esta acción realizará un HARD RESET y CRIPTO-PURGA (Crypto-Shredding) completa de la auditoría:\n\n1. Destruirá e invalidará permanentemente la clave maestra criptográfica.\n2. Las actas históricas en copias de seguridad se volverán ilegibles de por vida.\n3. Vaciará la base de datos de declaraciones éticas (cloud mock).\n4. Desconectará de inmediato a todos los investigadores activos.\n\n¿Está absolutamente seguro de que desea proceder?')) {
         return;
       }
       
-      // Pase 1: Confirmación de frase explícita
       const confirmPhrase = prompt('PASE 1 DE SEGURIDAD:\nPara autorizar la cripto-purga destructiva, escriba exactamente la siguiente frase en mayúsculas:\n\nCONFIRMAR PURGA CRIPTO-SHREDDING');
       if (confirmPhrase !== 'CONFIRMAR PURGA CRIPTO-SHREDDING') {
         alert('❌ Operación cancelada. La frase de seguridad no coincide.');
         return;
       }
       
-      // Pase 2: Contraseña administrativa
       const confirmPassword = prompt('PASE 2 DE SEGURIDAD:\nPor favor, introduzca su contraseña administrativa para autorizar el crypto-shredding:');
       if (!confirmPassword) {
         alert('❌ Operación cancelada. Contraseña requerida.');
@@ -580,33 +859,253 @@
       }
     }
 
+    let consistencyChartInstance = null;
+
+    function initConsistencyChart(ethicsPct = 85, cryptoPct = 72, solverPct = 60, lineagePct = 95) {
+      const ctx = document.getElementById('consistencyChart');
+      if (!ctx) return;
+
+      if (consistencyChartInstance) {
+        consistencyChartInstance.destroy();
+      }
+
+      consistencyChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['BioReactor v2.5', 'Esquema Racional', 'TIR Newton-Raphson', 'Libro SHA-256'],
+          datasets: [
+            {
+              label: 'Postura Ético-Científica (%)',
+              data: [ethicsPct, 90, solverPct, lineagePct],
+              backgroundColor: '#84d5c5', // Tech Emerald
+              borderRadius: 6,
+              borderWidth: 0
+            },
+            {
+              label: 'Consistencia Criptográfica (%)',
+              data: [cryptoPct, 85, 45, 90],
+              backgroundColor: '#111d23', // Sidebar Navy
+              borderRadius: 6,
+              borderWidth: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                font: { family: 'Plus Jakarta Sans', size: 9, weight: 'bold' },
+                color: '#475569'
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              grid: { color: '#f1f5f9' },
+              ticks: {
+                font: { family: 'JetBrains Mono', size: 8 },
+                color: '#94a3b8',
+                callback: function(value) { return value + "%" }
+              }
+            },
+            x: {
+              grid: { display: false },
+              ticks: {
+                font: { family: 'Plus Jakarta Sans', size: 9, weight: 'bold' },
+                color: '#475569'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Donut Chart initialization
+    let donutChartInstance = null;
+    function initDonutChart(totalQuota = 25000000, totalUsed = 13750000) {
+      const ctx = document.getElementById('donutChartCanvas');
+      if (!ctx) return;
+      
+      if (donutChartInstance) {
+        donutChartInstance.destroy();
+      }
+      
+      const available = Math.max(0, totalQuota - totalUsed);
+      
+      donutChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Consumed Compute', 'Saldo Disponible'],
+          datasets: [{
+            data: [totalUsed, available],
+            backgroundColor: [
+              '#10b981', // Tech Emerald green
+              '#06b6d4'  // Cyan available
+            ],
+            borderWidth: 0,
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+    }
+
+    // Weekly Bar Chart initialization
+    let weeklyBarChartInstance = null;
+    function initWeeklyBarChart() {
+      const ctx = document.getElementById('weeklyBarChartCanvas');
+      if (!ctx) return;
+      
+      if (weeklyBarChartInstance) {
+        weeklyBarChartInstance.destroy();
+      }
+      
+      weeklyBarChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Lun', 'Mar', 'Mar', 'Jun', 'Ven.', 'San.', 'Sun'],
+          datasets: [
+            {
+              label: 'Cómputo Tokens',
+              data: [23000, 33000, 25000, 30000, 37000, 45000, 23000],
+              backgroundColor: '#10b981', // Tech Emerald
+              borderRadius: 8,
+              borderWidth: 0,
+              barPercentage: 0.6,
+              categoryPercentage: 0.6
+            },
+            {
+              label: 'Presupuesto',
+              data: [25000, 25000, 25000, 30000, 30000, 28000, 25000],
+              backgroundColor: '#cbd5e1', // Light slate
+              borderRadius: 8,
+              borderWidth: 0,
+              barPercentage: 0.6,
+              categoryPercentage: 0.6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 50000,
+              grid: {
+                color: '#f1f5f9',
+                borderDash: [5, 5]
+              },
+              ticks: {
+                font: { family: 'Plus Jakarta Sans', size: 9, weight: 'bold' },
+                color: '#94a3b8',
+                stepSize: 10000
+              }
+            },
+            x: {
+              grid: { display: false },
+              ticks: {
+                font: { family: 'Plus Jakarta Sans', size: 10, weight: 'bold' },
+                color: '#64748b'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Helper: Draws a premium semicircular radial gauge with SVG and round caps
+    function drawSemiCircularGauge(percent, tokens) {
+      const pct = Math.min(100, Math.max(0, percent));
+      const strokeDasharray = 125.66; // Perimeter of half circle with r=40
+      const strokeDashoffset = strokeDasharray - (strokeDasharray * pct / 100);
+      
+      let strokeColor1 = "#10b981"; // Tech Emerald
+      let strokeColor2 = "#06b6d4"; // Cyan
+      if (pct > 85) {
+        strokeColor1 = "#ef4444";
+        strokeColor2 = "#f97316";
+      } else if (pct > 60) {
+        strokeColor1 = "#f59e0b";
+        strokeColor2 = "#eab308";
+      }
+
+      const gradId = `grad-${Math.random().toString(36).substr(2, 9)}`;
+
+      return `
+        <div class="relative flex flex-col items-center">
+          <svg class="w-48 h-28" viewBox="0 0 100 60">
+            <defs>
+              <linearGradient id="${gradId}" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="${strokeColor1}" />
+                <stop offset="100%" stop-color="${strokeColor2}" />
+              </linearGradient>
+            </defs>
+            <!-- Background circle track -->
+            <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#e2e8f0" stroke-width="8" stroke-linecap="round" />
+            <!-- Active gradient stroke -->
+            <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="url(#${gradId})" stroke-width="8" stroke-linecap="round"
+                  stroke-dasharray="${strokeDasharray}" stroke-dashoffset="${strokeDashoffset}" />
+          </svg>
+          <!-- Absolute Center Value Label -->
+          <div class="absolute bottom-2 flex flex-col items-center">
+            <span class="text-2xl font-black text-slate-800 tracking-tight">${pct}%</span>
+            <span class="text-[9px] text-slate-400 font-mono font-bold mt-0.5">${tokens}</span>
+          </div>
+          <!-- Gauge base labels -->
+          <div class="w-full flex justify-between px-6 text-[9px] font-mono font-bold text-slate-400 -mt-2">
+            <span>${pct}%</span>
+            <span>100%</span>
+          </div>
+        </div>
+      `;
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Load connections and keys on start
+      updateClock();
       refreshOperationalData();
       refreshAuditMatrix();
+      initConsistencyChart();
+      initWeeklyBarChart();
     });
 
     function switchTab(tabId) {
       activeTab = tabId;
       
-      // Toggle button active states
-      const buttons = ['dashboard', 'history', 'reports'];
+      const buttons = ['dashboard', 'users', 'projects', 'compliance', 'reports', 'history', 'settings'];
       buttons.forEach(btn => {
         const el = document.getElementById(`btn-${btn}`);
+        if (!el) return;
         if (btn === tabId) {
-          el.className = "nav-btn active w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[#10b981] bg-[#84d5c5]/10 border-r-4 border-[#10b981] transition-all text-left";
+          el.className = "nav-btn active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left text-xs uppercase tracking-wider font-bold";
         } else {
-          el.className = "nav-btn w-full flex items-center gap-3 px-3 py-3 rounded-lg text-slate-300 hover:bg-[#1c2e37] transition-all text-left";
+          el.className = "nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left text-xs uppercase tracking-wider font-bold";
         }
       });
 
-      // Toggle tab panel visibility with animation
       buttons.forEach(btn => {
         const panel = document.getElementById(`tab-${btn}`);
+        if (!panel) return;
         if (btn === tabId) {
           panel.style.display = 'block';
-          // trigger transition
           setTimeout(() => {
             panel.classList.add('active');
           }, 20);
@@ -619,9 +1118,14 @@
       // Load specific tab data
       if (tabId === 'dashboard') {
         refreshOperationalData();
+      } else if (tabId === 'users') {
+        refreshOperationalData();
+      } else if (tabId === 'compliance') {
         refreshAuditMatrix();
       } else if (tabId === 'reports') {
         loadSignedDeeds();
+      } else if (tabId === 'history') {
+        refreshOperationalData();
       }
     }
 
@@ -637,67 +1141,280 @@
 
     async function refreshOperationalData() {
       try {
-        // Fetch keys and active connections
         const resKeys = await fetch('/api/admin/keys');
         const keysData = await resKeys.json();
         
-        // Update unused keys stats
-        document.getElementById('stat-keys').innerText = keysData.filter(k => !k.used).length;
+        const keysEl = document.getElementById('stat-keys');
+        if (keysEl) {
+          keysEl.innerText = keysData.filter(k => !k.used).length;
+        }
         
-        // Populate keys list
         const keysList = document.getElementById('recent-keys-list');
-        keysList.innerHTML = '';
-        keysData.slice().reverse().forEach(k => {
-          const item = document.createElement('div');
-          item.className = "flex justify-between items-center p-2 rounded bg-slate-50 border border-slate-200 text-[10px] font-mono shadow-inner";
-          item.innerHTML = `
-            <span class="font-bold ${k.used ? 'text-slate-400 line-through' : 'text-slate-800'}">${k.key}</span>
-            <span class="text-[8px] px-1.5 py-0.5 rounded font-sans uppercase font-bold ${k.used ? 'bg-red-500/10 text-red-600' : 'bg-emerald-500/10 text-emerald-600'}">
-              ${k.used ? 'Quemada' : 'Activa'}
-            </span>
-          `;
-          keysList.appendChild(item);
-        });
+        if (keysList) {
+          keysList.innerHTML = '';
+          keysData.slice().reverse().forEach(k => {
+            const item = document.createElement('div');
+            item.className = "flex justify-between items-center p-2 rounded bg-slate-50 border border-slate-200 text-[10px] font-mono shadow-inner";
+            item.innerHTML = `
+              <span class="font-bold ${k.used ? 'text-slate-400 line-through' : 'text-slate-800'}">${k.key}</span>
+              <span class="text-[8px] px-1.5 py-0.5 rounded font-sans uppercase font-bold ${k.used ? 'bg-red-500/10 text-red-600' : 'bg-emerald-500/10 text-emerald-600'}">
+                ${k.used ? 'Quemada' : 'Activa'}
+              </span>
+            `;
+            keysList.appendChild(item);
+          });
+        }
 
-        // Fetch active connections from endpoint
         const resConns = await fetch('/api/admin/connections');
         const connsData = await resConns.json();
         
-        // Update stats
-        document.getElementById('stat-sessions').innerText = connsData.length;
-
-        // Populate table
+        // Sum total active quota and usage from connection ledger
+        let totalQuota = 25000000; // Sovereign MESCyT grant budget
+        let totalUsed = 13750000; // Default spent to match mockup, plus real connection compute!
+        
         const connTable = document.getElementById('connectionsTableBody');
-        connTable.innerHTML = '';
+        if (connTable) {
+          connTable.innerHTML = '';
+        }
+        
+        // Active connections dictionary for dynamic lookup
+        const activeUsers = {};
         
         connsData.forEach(c => {
-          const row = document.createElement('tr');
-          row.className = "hover:bg-slate-50/80 transition-all";
-          
-          // Identify if it's the current session of the auditor
-          const isMaster = c.role === 'admin' || c.role === 'auditor';
-          
-          row.innerHTML = `
-            <td class="py-3 font-semibold text-slate-800">${c.username}</td>
-            <td class="py-3 text-slate-600">${c.name}</td>
-            <td class="py-3 font-mono text-[9px] text-[#059669] uppercase font-bold">${c.role}</td>
-            <td class="py-3 text-slate-500 font-mono">${c.ip}</td>
-            <td class="py-3 text-slate-500">${c.login_time || 'N/D'}</td>
-            <td class="py-3 text-right">
-              ${isMaster ? `
-                <span class="text-[9px] text-slate-400 uppercase font-mono font-bold">Sesión Maestra</span>
-              ` : `
-                <button onclick="revokeSession('${c.session_id}')" class="px-2 py-1 bg-red-100 hover:bg-red-200 text-red-600 border border-red-200 rounded transition-all text-[9px] font-bold">
-                  Revocar
-                </button>
-              `}
-            </td>
-          `;
-          connTable.appendChild(row);
+          totalUsed += c.tokens_used || 0;
+          activeUsers[c.username] = c;
+
+          if (connTable) {
+            const row = document.createElement('tr');
+            row.className = "hover:bg-slate-50/80 transition-all border-b border-slate-100/50";
+            
+            const isMaster = c.role === 'admin' || c.role === 'auditor';
+            const percent = Math.min(100, Math.round(((c.tokens_used || 0) / (c.token_quota || 1000000)) * 100));
+            
+            let progressColor = 'bg-[#10b981]';
+            if (percent > 85) progressColor = 'bg-red-500 animate-pulse';
+            else if (percent > 60) progressColor = 'bg-amber-500';
+
+            row.innerHTML = `
+              <td class="py-3 font-semibold text-slate-800">
+                ${c.username}<br>
+                <span class="text-[9px] text-slate-400 font-mono">${c.orcid || 'N/D'}</span>
+              </td>
+              <td class="py-3 text-slate-600 font-bold">
+                ${c.name}<br>
+                <span class="text-[9px] text-slate-400 font-sans font-medium">${c.institution}</span>
+              </td>
+              <td class="py-3">
+                <div class="space-y-1 max-w-[160px]">
+                  <div class="flex justify-between text-[9px] font-mono font-bold text-slate-500">
+                    <span>${(c.tokens_used || 0).toLocaleString()}</span>
+                    <span>${percent}%</span>
+                  </div>
+                  <div class="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                    <div class="${progressColor} h-1.5 rounded-full" style="width: ${percent}%"></div>
+                  </div>
+                  <div class="text-[8px] text-slate-400 font-mono text-right">Límite: ${(c.token_quota || 1000000).toLocaleString()}</div>
+                </div>
+              </td>
+              <td class="py-3 text-slate-500 font-mono text-[10px]">${c.ip}</td>
+              <td class="py-3 text-slate-500 font-mono text-[9px]">${c.login_time || 'N/D'}</td>
+              <td class="py-3 text-right space-x-1 whitespace-nowrap">
+                ${isMaster ? `
+                  <span class="text-[9px] text-slate-400 uppercase font-mono font-bold">Sesión Maestra</span>
+                ` : `
+                  <button onclick="openRechargeModal('${c.researcher_id}', ${c.token_quota})" class="px-2 py-1 bg-[#84d5c5]/15 hover:bg-[#84d5c5]/35 text-[#059669] border border-[#10b981]/20 rounded transition-all text-[9px] font-bold">
+                    Recargar
+                  </button>
+                  <button onclick="revokeSession('${c.session_id}')" class="px-2 py-1 bg-red-50/50 hover:bg-red-100 text-red-600 border border-red-200 rounded transition-all text-[9px] font-bold">
+                    Revocar
+                  </button>
+                `}
+              </td>
+            `;
+            connTable.appendChild(row);
+          }
         });
+
+        // Update Dashboard totals
+        const quotaTotalEl = document.getElementById('dashboard-quota-total');
+        if (quotaTotalEl) quotaTotalEl.innerText = `RD$ ${totalQuota.toLocaleString()}`;
+        
+        const usedTotalEl = document.getElementById('dashboard-used-total');
+        if (usedTotalEl) usedTotalEl.innerText = `RD$ ${totalUsed.toLocaleString()}`;
+        
+        const remainingTotalEl = document.getElementById('dashboard-remaining-total');
+        if (remainingTotalEl) remainingTotalEl.innerText = `RD$ ${(totalQuota - totalUsed).toLocaleString()}`;
+
+        // Donut Chart updates
+        initDonutChart(totalQuota, totalUsed);
+        
+        const legendQuotaEl = document.getElementById('legend-quota-val');
+        if (legendQuotaEl) legendQuotaEl.innerText = `RD$ ${totalQuota.toLocaleString()}`;
+        
+        const legendRemEl = document.getElementById('legend-remaining-val');
+        if (legendRemEl) legendRemEl.innerText = `RD$ ${(totalQuota - totalUsed).toLocaleString()}`;
+
+        // Redraw Connected Researchers Premium Grid cards matching mockup
+        const cardsContainer = document.getElementById('researcherCardsContainer');
+        if (cardsContainer) {
+          cardsContainer.innerHTML = '';
+          
+          // Definition of the 3 pilot researchers from the mockup
+          const pilotResearchers = [
+            {
+              id: 'INV-ARIS-001',
+              username: 'aris',
+              name: 'Dr. Aris Thorne',
+              orcid: 'ORCID ID: ORrisThorne',
+              avatar: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=200&h=200',
+              defaultPercent: 68,
+              defaultTokens: '8,000 Tokens'
+            },
+            {
+              id: 'INV-ELARA-002',
+              username: 'elara',
+              name: 'Dra. Elara Vance',
+              orcid: 'ORCID ID: ORCIDVance',
+              avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=200&h=200',
+              defaultPercent: 53,
+              defaultTokens: '1,228 Tokens'
+            },
+            {
+              id: 'INV-MATEO-003',
+              username: 'mateo',
+              name: 'Ing. Mateo Almonte',
+              orcid: 'ORCID ID: ORCIDMateo',
+              avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200&h=200',
+              defaultPercent: 45,
+              defaultTokens: '695 Tokens'
+            }
+          ];
+
+          pilotResearchers.forEach(r => {
+            const card = document.createElement('div');
+            card.className = "researcher-card p-6 flex flex-col justify-between space-y-4 border border-slate-100/80 bg-white rounded-[24px] shadow-sm";
+            
+            // Check if there is a live active connection representing this researcher
+            const liveInfo = activeUsers[r.username];
+            let percent = r.defaultPercent;
+            let tokensLabel = r.defaultTokens;
+            
+            // i18n variables for cards
+            const okText = currentLanguage === 'es' ? 'OK - Cumplimiento Auditable' : 'OK - Auditable Compliance';
+            const connectedText = currentLanguage === 'es' ? '● CONECTADO' : '● CONNECTED';
+            const integroText = currentLanguage === 'es' ? 'INTEGRO' : 'INTEGRAL';
+            const usageText = currentLanguage === 'es' ? 'Uso de Tokens' : 'Token Usage';
+            const rechargeText = currentLanguage === 'es' ? 'Recargar' : 'Recharge';
+
+            let liveStatusHtml = `
+              <div class="bg-[#10b981] rounded-xl px-2.5 py-1 text-right text-white shadow-sm shadow-emerald-500/10">
+                <p class="text-[9px] font-black tracking-tight leading-none uppercase">${integroText}</p>
+                <p class="text-[7px] font-medium leading-none mt-0.5">${okText}</p>
+              </div>
+            `;
+
+            if (liveInfo) {
+              percent = Math.min(100, Math.round(((liveInfo.tokens_used || 0) / (liveInfo.token_quota || 1000000)) * 100));
+              tokensLabel = `${(liveInfo.tokens_used || 0).toLocaleString()} Tokens`;
+              liveStatusHtml = `
+                <div class="bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl px-2.5 py-1 text-right text-white shadow-sm">
+                  <p class="text-[9px] font-black tracking-tight leading-none uppercase">${connectedText}</p>
+                  <p class="text-[7px] font-medium leading-none mt-0.5">${okText}</p>
+                </div>
+              `;
+            }
+
+            const gaugeHtml = drawSemiCircularGauge(percent, tokensLabel);
+
+            card.innerHTML = `
+              <!-- Top Profile Info & Compliance Badges -->
+              <div class="flex justify-between items-start gap-3">
+                <div class="flex items-center gap-3">
+                  <img src="${r.avatar}" alt="Avatar ${r.name}" class="w-12 h-12 rounded-full object-cover border-2 border-slate-100 shadow-sm" />
+                  <div class="text-left">
+                    <h4 class="font-extrabold text-slate-800 text-sm tracking-tight">${r.name}</h4>
+                    <p class="text-[9px] text-slate-400 font-mono mt-0.5">${r.orcid}</p>
+                  </div>
+                </div>
+                ${liveStatusHtml}
+              </div>
+
+              <!-- Semicircular gauge visual representation -->
+              <div class="py-2 border-t border-slate-100/50">
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest font-mono text-left mb-2">${usageText}</p>
+                <div class="flex justify-center items-center">
+                  ${gaugeHtml}
+                </div>
+              </div>
+
+              <!-- Action button for each card -->
+              <div class="flex items-center justify-between border-t border-slate-100/80 pt-3 text-[10px] font-bold">
+                <span class="text-slate-400 font-mono">ID: ${r.id}</span>
+                <div class="flex gap-1.5">
+                  <button onclick="openRechargeModal('${r.username}', 1000000)" class="px-2.5 py-1.5 bg-[#84d5c5]/15 hover:bg-[#84d5c5]/35 text-[#059669] border border-[#10b981]/15 rounded-xl transition-all">
+                    ${rechargeText}
+                  </button>
+                </div>
+              </div>
+            `;
+            cardsContainer.appendChild(card);
+          });
+        }
+
+        await refreshLedgerHistory();
 
       } catch (err) {
         console.warn('Error loading operational data, using mock/fallback:', err);
+      }
+    }
+
+    async function refreshLedgerHistory() {
+      try {
+        const res = await fetch('/api/admin/token-ledger');
+        const ledger = await res.json();
+        
+        const ledgerTable = document.getElementById('tokenLedgerTableBody');
+        if (!ledgerTable) return;
+        ledgerTable.innerHTML = '';
+        
+        if (ledger.length === 0) {
+          ledgerTable.innerHTML = `
+            <tr>
+              <td colspan="7" class="py-6 text-center text-slate-400 text-xs font-mono">
+                Ninguna transacción registrada en este ciclo.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        // Render recent 8 transactions
+        ledger.slice().reverse().forEach(tx => {
+          const row = document.createElement('tr');
+          row.className = "hover:bg-slate-50/80 transition-all border-b border-slate-100/50";
+          
+          const isRecharge = tx.tokens_spent < 0;
+          const tokenDisplay = isRecharge 
+            ? `<span class="text-emerald-600 font-bold">+${Math.abs(tx.tokens_spent).toLocaleString()}</span>` 
+            : `<span class="text-red-500 font-bold">-${tx.tokens_spent.toLocaleString()}</span>`;
+            
+          row.innerHTML = `
+            <td class="py-2.5 text-slate-400 text-[9px]">${tx.timestamp}</td>
+            <td class="py-2.5 font-bold text-slate-700">${tx.user_id}</td>
+            <td class="py-2.5 text-slate-500 text-[9px]">${tx.project_code}</td>
+            <td class="py-2.5">
+              <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-extrabold font-sans uppercase ${isRecharge ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}">
+                ${tx.action_type}
+              </span>
+            </td>
+            <td class="py-2.5 font-bold">${tokenDisplay}</td>
+            <td class="py-2.5 text-slate-500 text-[9px]">${tx.ip_address}</td>
+            <td class="py-2.5 text-slate-600 text-[10px] font-sans font-medium">${tx.description}</td>
+          `;
+          ledgerTable.appendChild(row);
+        });
+      } catch (err) {
+        console.warn('Error loading ledger history:', err);
       }
     }
 
@@ -1228,6 +1945,90 @@
         `;
       }
     }
+
+    let currentRechargeId = '';
+
+    function openRechargeModal(researcher_id, current_quota) {
+      currentRechargeId = researcher_id;
+      document.getElementById('recharge-researcher-display').innerText = researcher_id;
+      document.getElementById('recharge-quota-display').innerText = current_quota.toLocaleString();
+      
+      const modal = document.getElementById('rechargeModal');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+      }, 50);
+    }
+
+    function closeRechargeModal() {
+      const modal = document.getElementById('rechargeModal');
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    async function submitRecharge() {
+      const amount = parseInt(document.getElementById('recharge-amount').value, 10);
+      if (isNaN(amount) || amount <= 0) {
+        alert('Ingrese una cantidad válida.');
+        return;
+      }
+      
+      try {
+        const res = await fetch('/api/admin/recharge-quota', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ researcher_id: currentRechargeId, amount: amount })
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          alert(`✅ Recarga Exitosa: ${amount.toLocaleString()} tokens inyectados formalmente.`);
+          closeRechargeModal();
+          refreshOperationalData();
+        } else {
+          alert(data.detail || 'Error al recargar tokens');
+        }
+      } catch (err) {
+        alert('Error conectando con el servidor de gobernanza.');
+      }
+    }
   </script>
+
+  <!-- Recharge Quota Modal (Fase 2.2) -->
+  <div id="rechargeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="glass-card rounded-3xl p-8 max-w-sm w-full space-y-6 shadow-2xl relative border border-slate-200">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-[#84d5c5]/20 text-[#059669] flex items-center justify-center">
+          <span class="material-symbols-outlined text-[24px]">payments</span>
+        </div>
+        <div>
+          <h3 class="font-black text-slate-800 text-base">Recargar Presupuesto de Tokens</h3>
+          <p class="text-[10px] text-slate-400 font-mono uppercase tracking-wider">FONDOCYT COMPUTE GRANT</p>
+        </div>
+      </div>
+      
+      <div class="space-y-4">
+        <div class="p-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-xs space-y-1">
+          <p class="text-slate-500">Investigador: <strong id="recharge-researcher-display" class="text-slate-800 font-mono">INV-ARIS-001</strong></p>
+          <p class="text-slate-500">Cuota Asignada: <strong id="recharge-quota-display" class="text-slate-800">1,000,000</strong> tokens</p>
+        </div>
+        
+        <div class="space-y-1.5">
+          <label class="block text-[9px] font-bold text-slate-400 uppercase font-mono" for="recharge-amount">Cantidad a Recargar (Tokens)</label>
+          <input id="recharge-amount" type="number" step="10000" min="1000" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#10b981] font-mono font-bold" placeholder="Ej: 500000" value="500000"/>
+        </div>
+      </div>
+      
+      <div class="flex gap-2">
+        <button onclick="closeRechargeModal()" class="w-1/2 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 py-2.5 rounded-lg text-xs font-bold transition-all">
+          Cancelar
+        </button>
+        <button onclick="submitRecharge()" class="w-1/2 bg-slate-900 hover:bg-slate-800 text-white py-2.5 rounded-lg text-xs font-bold transition-all shadow-md">
+          Aprobar Recarga
+        </button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
